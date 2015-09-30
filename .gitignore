@@ -29,8 +29,10 @@
 
 game
 CMakeCache.txt
+*CMakeCache.txt
 CMakeFiles/*
-CMakeFiles
-cmake_install.cmake
+*CMakeFiles
+*CMakeFiles*
+*cmake_install.cmake
 Makefile
 *~
