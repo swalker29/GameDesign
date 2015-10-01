@@ -1,6 +1,5 @@
 #include "Level.hpp"
 
-#include <cstdlib>
 #include <stdlib.h>
 #include <string.h>
 
@@ -10,18 +9,18 @@ Level::Level() {
 
 // default destructor
 
-void Level::loadLevel(char* levelFilePath) {
+bool Level::loadLevel(char* levelFilePath) {
 	FILE* levelFile = fopen(levelFilePath, "r");
 	
 	if (NULL == levelFile) {
-        printf("Could not load levelFile\n");
-        std::exit(-1);
+        return false;
     }
     
 	parseLevel(levelFile);
 	
-	
 	fclose(levelFile);
+	
+	return true;
 }
 
 void Level::parseLevel(FILE* levelFile) {
@@ -44,12 +43,19 @@ void Level::parseLevel(FILE* levelFile) {
 			break;
 			// 'u', uses tile definition
 			case 'u': 
+			    fscanf(levelFile, "%d", &intBuf[0]);
 				fgets(buf, sizeof(buf), levelFile);
     			
     			buf[strlen(buf) - 1] = '\0';
-				// read the tile file somehow, maybe pass in a vector<Tile>
-				// the string starts at buf + 1 (due to the space)
-				// tileVector[tile.resourceNum] = tile;
+    			
+    			/*
+    			 * unsure if this is how we want to do this
+    			 {
+    			    Tile tile(intBuf[0]);
+    			    tile.loadTile(buf + 1);
+    			    tileVector[tile.resourceNum] = tile;
+    			 }
+    			 */
 			break;
 			// 'w', width, number of tiles in the X direction
 			case 'w':
@@ -81,7 +87,7 @@ void Level::parseLevel(FILE* levelFile) {
 				tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
 				tiles[intBuf[0]][intBuf[1]].rotation = tempFloat;
 			break;
-			// something else, ignore itintBuf[2]
+			// something else, ignore it
 			default:
 				fgets(buf, sizeof(buf), levelFile);
 			break;
