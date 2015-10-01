@@ -27,11 +27,15 @@ class GameController {
         sf::Font font;
         SquareView playerView;
         SquareView playerAim;  
+		SquareView enemyView;
         
         // Controls
         bool useController;
         
         void draw();
+		void drawPlayer(float ratio);
+		void drawAim(float ratio);
+		void drawEnemies(float ratio);
         
         // Input methods
         void getInput();
