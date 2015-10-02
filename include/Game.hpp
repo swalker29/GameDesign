@@ -1,12 +1,13 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include <stdint.h>
-#include <memory>
 #include <list>
+#include <memory>
+#include <stdint.h>
+
+#include "Enemy.hpp"
 #include "InputData.hpp"
 #include "Player.hpp"
-#include "Enemy.hpp"
 
 class Game {
     public:
@@ -16,7 +17,9 @@ class Game {
         static constexpr float MIN_Y = 0.0f;
         
         Player player;
-		std::list<std::unique_ptr<Enemy>> enemies;
+        std::list<std::unique_ptr<Enemy>> enemies;
+        
+        Level level;
         
         Game();
         

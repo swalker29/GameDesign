@@ -83,28 +83,28 @@ void GameController::draw() {
     float ratio = getViewRatio();
     window->clear(sf::Color::Black);
 
-	drawPlayer(ratio);
-	drawAim(ratio);
-	drawEnemies(ratio);
+    drawPlayer(ratio);
+    drawAim(ratio);
+    drawEnemies(ratio);
     
     window->display();
 }
 
 void GameController::drawPlayer(float ratio) {
     playerView.position = ratio * game.player.position;
-	playerView.draw(window);
+    playerView.draw(window);
 }
 
 void GameController::drawAim(float ratio) {
     playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
-	playerAim.draw(window);
+    playerAim.draw(window);
 }
 
 void GameController::drawEnemies(float ratio) {
-	for (auto& enemy : game.enemies) {
-		enemyView.position = ratio * enemy->position;
-		enemyView.draw(window);
-	}
+    for (auto& enemy : game.enemies) {
+        enemyView.position = ratio * enemy->position;
+        enemyView.draw(window);
+    }
 }
 
 void GameController::getInput() {
@@ -226,7 +226,7 @@ void GameController::initViews() {
     }
     
     playerView.length = 15.0f;
-	enemyView.length = 10.0f;
+    enemyView.length = 10.0f;
     playerAim.length = 5.0f;   
 }
 
