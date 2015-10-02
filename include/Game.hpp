@@ -7,6 +7,7 @@
 
 #include "Enemy.hpp"
 #include "InputData.hpp"
+#include "Level.hpp"
 #include "Player.hpp"
 
 class Game {

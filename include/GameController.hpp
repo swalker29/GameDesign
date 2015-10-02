@@ -33,9 +33,10 @@ class GameController {
         bool useController;
         
         void draw();
-        void drawPlayer(float ratio);
-        void drawAim(float ratio);
-        void drawEnemies(float ratio);
+        void drawPlayer();
+        void drawAim();
+        void drawEnemies();
+        void drawLevel();
         
         // Input methods
         void getInput();
