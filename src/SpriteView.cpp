@@ -1,13 +1,25 @@
 #include "SpriteView.hpp"
 
-SpriteView::SpriteView() : length(0.0f), position(), rectangle() {
-    rectangle.setFillColor(sf::Color::White);
+SpriteView::SpriteView(std::string &spriteSheetPath, int newSpriteWidth, int newSpriteHeight) : position(), spriteWidth(), spriteHeight() {
+    
+    spritesheet.loadFromFile(spriteSheetPath);
+    spriteWidth = newSpriteWidth;
+    spriteHeight = newSpriteHeight;
+}
+
+
+
+
+//This is called by the animation controller, who has knowledge of where each frame is.
+void SpriteView::updateSprite(int frame) {
+    //Assumes a sprite map width of 10.
+    texture.loadFromImage(spritesheet, sf::IntRect((frame % 10)*spriteWidth, (frame / 10)*spriteHeight, spriteWidth,   spriteHeight));
+    sprite.setTexture(texture);
 }
 
 // Default destructor
 
 void SpriteView::draw(sf::RenderWindow* window) {
-    rectangle.setSize(sf::Vector2f(length, length));
-    rectangle.setPosition(position);
-    window->draw(rectangle);
+    sprite.setPosition(position);
+    window->draw(sprite);
 }

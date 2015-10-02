@@ -24,7 +24,7 @@ GameController::~GameController() {
 void GameController::run() {    
     sf::Time elapsed;
     sf::Clock clock;
-    
+
     // controls
     // loadControlConfig();
     
@@ -227,6 +227,8 @@ void GameController::initViews() {
     playerView.length = 15.0f;
     enemyView.length = 10.0f;
     playerAim.length = 5.0f;   
+
+    
 }
 
 // This method will be heavily modified. In the future it will contain our model to view ratio.
