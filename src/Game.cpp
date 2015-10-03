@@ -31,4 +31,3 @@ void Game::update(const float timeElapsed, InputData& input) {
         enemy->position.y += enemySpeed;
     }
 }
-
