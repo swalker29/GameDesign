@@ -5,10 +5,9 @@
 #include "Utils.hpp"
 
 #define FPS 60
-#define ASPECT_X 4
-#define ASPECT_Y 3
+#define TILE_PIXEL_SIZE 256.0f
 
-static const std::string FONT_FILENAME = "DroidSans.ttf";
+static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 
 GameController::GameController(int argc, char** argv) {
 
@@ -105,6 +104,13 @@ void GameController::drawEnemies() {
         enemyView.position = ratio * enemy->position;
         enemyView.draw(window);
     }
+}
+
+void GameController::drawLevel() {
+    sf::Vector2i playerTile = game.getPlayerTile();
+    
+    
+    
 }
 
 void GameController::getInput() {
@@ -231,8 +237,8 @@ void GameController::initViews() {
     
 }
 
-// This method will be heavily modified. In the future it will contain our model to view ratio.
 float GameController::getViewRatio() {
-    sf::Vector2f size = window->getView().getSize();
-    return size.x / ASPECT_X;
+    //sf::Vector2f size = window->getView().getSize();
+    
+    return TILE_PIXEL_SIZE / Game::TILE_SIZE;
 }
