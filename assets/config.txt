@@ -1,3 +1,10 @@
+# valid inputs: 0-9, numpad1-numpad9, a-z, lcontrol, rcontrol, lshift, rshift, lalt, ralt,
+# tab, space, LMB, RMB, MMBup, MMBdown
+#
+#use controller (t/f)
+f
+#use mousewheel to switch weapons (t/f)
+t
 #up
 w
 #down
@@ -8,11 +15,15 @@ a
 d
 #fireGun
 LMB
-#deadZoneMin
+#access previous weapon
+1
+#access next weapon
+2
+#deadZoneMin (controller only)
 10
-#deadZoneMax
+#deadZoneMax (controller only)
 100
-#deadZoneMinValue
+#deadZoneMinValue (controller only)
 0
-#mouseSensitivity
+#mouseSensitivity (mouse only)
 100
