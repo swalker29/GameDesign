@@ -5,10 +5,9 @@
 #include "Utils.hpp"
 
 #define FPS 60
-#define ASPECT_X 4
-#define ASPECT_Y 3
+#define TILE_PIXEL_SIZE 256.0f
 
-static const std::string FONT_FILENAME = "DroidSans.ttf";
+static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 
 GameController::GameController(int argc, char** argv) {
 
@@ -24,7 +23,7 @@ GameController::~GameController() {
 void GameController::run() {    
     sf::Time elapsed;
     sf::Clock clock;
-    
+
     // controls
     // loadControlConfig();
     
@@ -67,12 +66,9 @@ void GameController::run() {
         
         elapsed = clock.restart();
         
-        getInput();
-        
         game.update(elapsed.asSeconds(), input);
         
         // display logic
-        updateViews();
         
         draw();
     }
@@ -82,15 +78,42 @@ void GameController::run() {
 
 void GameController::draw() {
     window->clear(sf::Color::Black);
-    
-    playerView.draw(window);
-    playerAim.draw(window);
+
+    drawPlayer();
+    drawAim();
+    drawEnemies();
     
     window->display();
 }
 
-void GameController::getInput() {
+void GameController::drawPlayer() {
+    float ratio = getViewRatio();
+    playerView.position = ratio * game.player.position;
+    playerView.draw(window);
+}
+
+void GameController::drawAim() {
+    float ratio = getViewRatio();
+    playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
+    playerAim.draw(window);
+}
+
+void GameController::drawEnemies() {
+    float ratio = getViewRatio();
+    for (auto& enemy : game.enemies) {
+        enemyView.position = ratio * enemy->position;
+        enemyView.draw(window);
+    }
+}
+
+void GameController::drawLevel() {
+    sf::Vector2i playerTile = game.getPlayerTile();
     
+    
+    
+}
+
+void GameController::getInput() {
     if (useController) {
         getControllerInput();
     }
@@ -131,7 +154,7 @@ void GameController::getControllerInput() {
     sf::Vector2f moveVector(0.0f, 0.0f);
     
     if (factor > 0.0f) {
-        // if the factor is larger than 1, scale back to make vector unit length
+        // if the factor is larger than 1, scale back to make moveVector unit length
         if (factor > 1.0f) {
             factor = 1.0f / factor;
         }
@@ -208,17 +231,14 @@ void GameController::initViews() {
     }
     
     playerView.length = 15.0f;
+    enemyView.length = 10.0f;
     playerAim.length = 5.0f;   
-}
 
-void GameController::updateViews() {
-    float ratio = getViewRatio();
     
-    playerView.position = ratio * game.player.position;
-    playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
 }
 
 float GameController::getViewRatio() {
-    sf::Vector2f size = window->getView().getSize();
-    return size.x / ASPECT_X;
+    //sf::Vector2f size = window->getView().getSize();
+    
+    return TILE_PIXEL_SIZE / Game::TILE_SIZE;
 }

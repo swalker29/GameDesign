@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "InputData.hpp"
 #include "SquareView.hpp"
+#include "SpriteView.hpp"
 
 class GameController {
     public:
@@ -27,11 +28,17 @@ class GameController {
         sf::Font font;
         SquareView playerView;
         SquareView playerAim;  
+        SquareView enemyView;
         
         // Controls
         bool useController;
         
         void draw();
+        void drawPlayer();
+        void drawAim();
+        void drawEnemies();
+        void drawAnimations();
+        void drawLevel();
         
         // Input methods
         void getInput();
