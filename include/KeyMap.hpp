@@ -1,17 +1,18 @@
 #ifndef KEYMAP_HPP
 #define KEYMAP_HPP
 #include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <map>
 
-class KeyMap::KeyMap(){
+class KeyMap {
     private:
-        std::map<char[], int> map;
+        std::map <std::string, int> map;
 
     public:
-        int getKeyValue(char[] input);
+        int getKeyValue(std::string input);
         KeyMap();
         void createMap();
-}
+};
 
 
 #endif

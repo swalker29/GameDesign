@@ -10,7 +10,7 @@ ControlsConfig::ControlsConfig() {
 
 // default destructor
 
-bool Level::loadControlsConfig(char* controlsFilePath) {
+bool ControlsConfig::loadControlsConfig(char* controlsFilePath) {
     FILE* controlsFile = fopen(controlsFilePath, "r");
 	
     if (NULL == controlsFile) {
@@ -29,7 +29,7 @@ bool Level::loadControlsConfig(char* controlsFilePath) {
 * Otherwise, read in the line. Lines are hardcoded to their respective function, e.g.
 * first line determines Up key, second line determines Down key, etc.
 */
-void Level::parseControlsConfig(FILE* controlsFile) {
+void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     char buf[256];
     int intBuf[3];
     float tempFloat;
@@ -42,7 +42,7 @@ void Level::parseControlsConfig(FILE* controlsFile) {
     bool useMouseWheelWeaponSwap = false;
     bool useController = false;
 	
-    //keybindings we're interested in
+    //keybindings we"re interested in
     int up = -1;
     int down = -1;
     int left = -1;
@@ -51,7 +51,7 @@ void Level::parseControlsConfig(FILE* controlsFile) {
     int prevWeapon = -1;
     int nextWeapon = -1;
 	
-	//settings we're interested in
+	//settings we"re interested in
 	float deadZoneMin = 0;
 	float deadZoneMax = 100;
 	float deadZoneMinValue = 0;
@@ -68,20 +68,20 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
 
         /*
-        * check to see if we're using the controller
+        * check to see if we"re using the controller
         */
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if(buf == 't'){
+        if(strcmp(buf, "t") == 0){
             useController = true;
         } //otherwise default false.
 
         /*
-        * check to see if we're using mouse wheel to change weapons
+        * check to see if we"re using mouse wheel to change weapons
         */
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if(buf == 't'){
+        if(strcmp(buf, "t") == 0){
             useMouseWheelWeaponSwap = true;
         } //otherwise default false.
 
@@ -92,9 +92,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                up = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                up = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -108,9 +108,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                down = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                down = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -124,9 +124,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                left = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                left = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -140,9 +140,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                right = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                right = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -156,9 +156,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                fireGun = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                fireGun = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -172,9 +172,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                up = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                up = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -188,9 +188,9 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= 'a') && (buf <= 'z')) {
-            //make sure it's a letter
-                up = buf - 'a';
+            if ((buf >= "a") && (buf <= "z")) {
+            //make sure it"s a letter
+                up = buf - "a";
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -203,18 +203,21 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
         sscanf(buf, "%d", &deadZoneMin);
+
 		/*
 		* get the deadZoneMax
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
         sscanf(buf, "%d", &deadZoneMax);
+
 		/*
 		* get the deadZoneMinValue
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
         sscanf(buf, "%d", &deadZoneMinValue);
+
 		/*
 		* get the mouseSensitivity
 		*/
@@ -223,4 +226,3 @@ void Level::parseControlsConfig(FILE* controlsFile) {
         sscanf(buf, "%d", &mouseSensitivity);
         }
     }
-}
