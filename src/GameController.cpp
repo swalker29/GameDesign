@@ -8,6 +8,7 @@
 #define TILE_PIXEL_SIZE 256.0f
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
+static char* CONTROL_CONFIG_FILENAME = (char *)"assets/config.txt"; //not sure why I can't make this a const
 
 GameController::GameController(int argc, char** argv) {
 
@@ -25,7 +26,8 @@ void GameController::run() {
     sf::Clock clock;
 
     // controls
-    // loadControlConfig();
+    ControlsConfig controlsConfig = ControlsConfig();
+    controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
     
     // no resize
     window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game", sf::Style::Titlebar | sf::Style::Close);
@@ -109,8 +111,6 @@ void GameController::drawEnemies() {
 void GameController::drawLevel() {
     sf::Vector2i playerTile = game.getPlayerTile();
     
-    
-    
 }
 
 void GameController::getInput() {
@@ -128,9 +128,9 @@ void GameController::getControllerInput() {
     sf::Joystick::Axis verticalAimAxis = sf::Joystick::V;
     sf::Joystick::Axis horizontalAimAxis = sf::Joystick::U;
     
-    float deadZoneRadius = 25.0f;
-    float maxRadius = 100.0f;
-    float aimDeadZoneRadius = 50.0f;
+    float deadZoneRadius = 25.f;
+    float maxRadius = 100.f;
+    float aimDeadZoneRadius = 50.f;
     
     // sanity check
     if (sf::Joystick::isConnected(0)) {
@@ -184,8 +184,12 @@ void GameController::getControllerInput() {
     input.aim = aimVector;
 }
 
-void GameController::getMouseAndKeyboardInput() {    
-    sf::Keyboard::Key moveUp = sf::Keyboard::Up;
+void GameController::getMouseAndKeyboardInput() {
+    //should eventually be replaced by, for example:
+    //sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
+    //currently this doesn't work - think it's some pointer mishaps, since ControlsConfig
+    //works.
+    sf::Keyboard::Key moveUp = sf::Keyboard::Key::Up;
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
     sf::Keyboard::Key moveLeft = sf::Keyboard::Left;

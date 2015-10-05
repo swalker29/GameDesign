@@ -1,29 +1,29 @@
 # valid inputs: 0-9, numpad1-numpad9, a-z, lcontrol, rcontrol, lshift, rshift, lalt, ralt,
-# tab, space, LMB, RMB, MMBup, MMBdown
+# tab, space, LMB, RMB, MMBup, MMBdown, joystick1-32
 #
 #use controller (t/f)
 f
 #use mousewheel to switch weapons (t/f)
 t
-#up
-w
-#down
-s
-#left
+#up (keyboard only, defaults to vertical axis up for controller)
 a
-#right
+#down (keyboard only, defaults to vertical axis down for controller)
+s
+#left (keyboard only, defaults to horizontal axis left for controller)
+a
+#right (keyboard only, defaults to horizontal axis right for controller)
 d
-#fireGun
+#fireGun (controller only, defaults to LMB for mouse/keyboard)
 LMB
 #access previous weapon
 1
 #access next weapon
 2
 #deadZoneMin (controller only)
-10
+25
 #deadZoneMax (controller only)
 100
 #deadZoneMinValue (controller only)
-0
+50
 #mouseSensitivity (mouse only)
 100

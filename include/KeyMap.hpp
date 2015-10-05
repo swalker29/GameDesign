@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 
+
 class KeyMap {
     private:
         std::map <std::string, int> map;

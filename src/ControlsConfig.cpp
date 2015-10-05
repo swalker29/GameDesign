@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
 #include <KeyMap.hpp>
 
 ControlsConfig::ControlsConfig() {
@@ -25,14 +26,15 @@ bool ControlsConfig::loadControlsConfig(char* controlsFilePath) {
 }
 
 /*
-* The general idea here: if the first character in a line is "#" we ignore that as a comment.
-* Otherwise, read in the line. Lines are hardcoded to their respective function, e.g.
-* first line determines Up key, second line determines Down key, etc.
+* The general idea here: read lines of config file. Lines are hardcoded to respective function.
+* Map the string input to the correct int value associated with SFML enums.
+*
 */
 void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     char buf[256];
     int intBuf[3];
     float tempFloat;
+    std::string tempInputStr;
 
     //helper to convert char array input into relevant int to be processed by SFML enums
     KeyMap kMap = KeyMap();
@@ -42,7 +44,7 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     bool useMouseWheelWeaponSwap = false;
     bool useController = false;
 	
-    //keybindings we"re interested in
+    //keybindings we're interested in
     int up = -1;
     int down = -1;
     int left = -1;
@@ -51,24 +53,24 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     int prevWeapon = -1;
     int nextWeapon = -1;
 	
-	//settings we"re interested in
-	float deadZoneMin = 0;
+	//settings we're interested in, defaults
+	float deadZoneMin = 25;
 	float deadZoneMax = 100;
-	float deadZoneMinValue = 0;
-	float mouseSensitivity = 10;
+	float deadZoneMinValue = 50;
+	float mouseSensitivity = 100;
 	
 	// while we have not reached the end of the controlsFile, read the next token
 	while(fscanf(controlsFile, "%s", buf) != EOF) {
 
         /*
-        * move past explanatory lines
+        * move past explanatory lines in config file
         */
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
 
         /*
-        * check to see if we"re using the controller
+        * check to see if we're using the controller
         */
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
@@ -77,7 +79,7 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         } //otherwise default false.
 
         /*
-        * check to see if we"re using mouse wheel to change weapons
+        * check to see if we're using mouse wheel to change weapons
         */
         fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
@@ -90,15 +92,17 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
+        if (strlen(buf) == 1){ //actually the length of buf when buf = a will be 2 due to closing char
         //means our input is a letter or number
             if ((buf >= "a") && (buf <= "z")) {
             //make sure it"s a letter
-                up = buf - "a";
+                up = buf - "a"; //doesn't work yet
             }
         } else {
 		//means our input is a special key - we have to map it.
-            up = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            up = kMap.getKeyValue(tempInputStr); //yields correct value of up
         }
 
 		/*
@@ -114,7 +118,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            down = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            down = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -130,7 +136,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            left = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            left = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -146,7 +154,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            right = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            right = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -162,7 +172,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            fireGun = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            fireGun = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -178,7 +190,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            prevWeapon = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            prevWeapon = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -194,7 +208,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
             }
         } else {
 		//means our input is a special key - we have to map it.
-            nextWeapon = kMap.getKeyValue(buf);
+            tempInputStr = std::string(buf);
+            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+            nextWeapon = kMap.getKeyValue(tempInputStr);
         }
 
 		/*
@@ -202,27 +218,27 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%d", &deadZoneMin);
+        sscanf(buf, "%f", &deadZoneMin);
 
 		/*
 		* get the deadZoneMax
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%d", &deadZoneMax);
+        sscanf(buf, "%f", &deadZoneMax);
 
 		/*
 		* get the deadZoneMinValue
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%d", &deadZoneMinValue);
+        sscanf(buf, "%f", &deadZoneMinValue);
 
 		/*
 		* get the mouseSensitivity
 		*/
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%d", &mouseSensitivity);
+        sscanf(buf, "%f", &mouseSensitivity);
         }
     }

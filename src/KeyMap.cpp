@@ -1,5 +1,7 @@
 #include <KeyMap.hpp>
-
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Graphics.hpp>
 KeyMap::KeyMap(){
 
 }
@@ -9,15 +11,23 @@ void KeyMap::createMap(){
     map = { {"0", 26}, {"1", 27}, {"2", 28}, {"3", 29}, {"4", 30}, {"5", 31}, {"6", 32},
             {"7", 33}, {"8", 34}, {"9", 35}, {"escape", 36}, {"lcontrol", 37}, {"lshift", 38}, 
             {"lalt", 39}, {"rcontrol", 41}, {"rshift", 42}, {"ralt", 43}, {"left", 71}, 
-            {"right", 72}, {"up", 73}, {"down", 74}, {"numpad1", 75}, {"numpad2", 76},
+            {"right", 72}, {"up", sf::Keyboard::Key::Up}, {"down", 74}, {"numpad1", 75}, {"numpad2", 76},
             {"numpad3", 77}, {"numpad4", 78}, {"numpad5", 79}, {"numpad6", 80},
-            {"numpad7", 81}, {"numpad8", 82}, {"numpad9", 83}, {"tab", 60}, {"space", 57} };
+            {"numpad7", 81}, {"numpad8", 82}, {"numpad9", 83}, {"tab", 60}, {"space", 57},
+            {"joystick1", 1}, {"joystick2", 2}, {"joystick3", 3}, {"joystick4", 4}, 
+            {"joystick5", 5}, {"joystick6", 6}, {"joystick7", 7}, {"joystick8", 8}, 
+            {"joystick9", 9}, {"joystick10", 10}, {"joystick11", 11}, {"joystick12", 12}, 
+            {"joystick13", 13}, {"joystick14", 14}, {"joystick15", 15}, {"joystick16", 16}, 
+            {"joystick17", 17}, {"joystick18", 18}, {"joystick19", 19}, {"joystick20", 20}, 
+            {"joystick21", 21}, {"joystick22", 22}, {"joystick23", 23}, {"joystick24", 24},
+            {"joystick25", 25}, {"joystick26", 26}, {"joystick27", 27}, {"joystick28", 28}, 
+            {"joystick29", 29}, {"joystick30", 30}, {"joystick31", 31}, {"joystick32", 32},   };
 
 }
 
 int KeyMap::getKeyValue(std::string input){
     int kValue = map[input];
-    return kValue;
+    return map[input];
 }
 
 

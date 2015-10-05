@@ -9,6 +9,8 @@
 #include "SquareView.hpp"
 #include "SpriteView.hpp"
 
+#include "ControlsConfig.hpp"
+
 class GameController {
     public:
         GameController(int argc, char** argv);
@@ -32,6 +34,7 @@ class GameController {
         
         // Controls
         bool useController;
+        ControlsConfig controlsConfig;
         
         void draw();
         void drawPlayer();
