@@ -26,7 +26,6 @@ void GameController::run() {
     sf::Clock clock;
 
     // controls
-    ControlsConfig controlsConfig = ControlsConfig();
     controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
     
     // no resize
@@ -189,6 +188,8 @@ void GameController::getMouseAndKeyboardInput() {
     //sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
     //currently this doesn't work - think it's some pointer mishaps, since ControlsConfig
     //works.
+    //
+    // *** I don't even know if that will be necessary. This logic should eventually be placed in some controls controller. -Steve
     sf::Keyboard::Key moveUp = sf::Keyboard::Key::Up;
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
