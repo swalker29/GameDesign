@@ -16,7 +16,11 @@ class TextView : public View {
         unsigned int size;
         std::string textString;
         
-        TextView(const sf::Font& font);
+        // Default constructor
+        
+        // Default destructor
+        
+        bool init(const sf::Font& font);
         
         void draw(sf::RenderWindow* window);
         
