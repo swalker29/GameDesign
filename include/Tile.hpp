@@ -3,16 +3,22 @@
 
 #include <stdio.h>
 
+#include <SFML/Graphics/Rect.hpp>
+
 class Tile {
     public:
     
         int resourceNum;
         
+        sf::IntRect spriteBounds;
+        
         // Box2D stuff
         
-        Tile(int resourceNum);
+        // Default constructor
         
-        bool loadTile(char* tileFilePath);
+        // Default descructor
+        
+        bool loadTile(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds);
         
     private:
     
