@@ -1,15 +1,13 @@
 #include "ImageView.hpp"
 
-ImageView::ImageView(std::string &spriteSheetPath, int newSpriteWidth, int newSpriteHeight) : position(), spriteWidth(), spriteHeight() {    
-    spriteWidth = newSpriteWidth;
-    spriteHeight = newSpriteHeight;
-    texture.loadFromFile(spriteSheetPath, sf::IntRect(0, 0, spriteWidth, spriteHeight));
-    spritesheet.loadFromFile(spriteSheetPath);
-    sprite.setTexture(texture);
-}
-
+// Default constructor
 
 // Default destructor
+
+bool ImageView::init(std::string& imagePath) {
+    texture.loadFromFile(imagePath);
+    sprite.setTexture(texture);
+}
 
 void ImageView::draw(sf::RenderWindow* window) {
     sprite.setPosition(position);

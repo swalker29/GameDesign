@@ -8,25 +8,27 @@
 #include <string>
 #include "View.hpp"
 
-// Sprite View class, used for any animated images. Requires a
-// spritesheet 10 sprites wide.
+// Sprite View class, used for any animated images. Requires a rectangular spritesheet.
 class SpriteView : public View {
     public:
-        //Any public variables also go here.
-        sf::Image spritesheet;
-        sf::Sprite sprite;
-        sf::Texture texture;
         sf::Vector2f position;
-
-        int spriteWidth;
-        int spriteHeight;
         
-        SpriteView(std::string &spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
+        // Default constructor
+        
+        // Default destructor
+        
+        bool init(std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
+        
         void updateSprite(int frame);
 
         void draw(sf::RenderWindow* window);
 
     private:
+        sf::Sprite sprite;
+        sf::Texture texture;
         
+        int spriteWidth;
+        int spriteHeight;
+        int spritesPerRow;
 };
 #endif

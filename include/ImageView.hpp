@@ -8,24 +8,21 @@
 #include <string>
 #include "View.hpp"
 
-// Image View class, used for any non-animated images. Spritesheet should be a single image, or the image used 
-// should be in top left. Size of sprite should be hardcoded at this point.
+// Image View class, used for any non-animated images. The entire texture is displayed when drawn.
 class ImageView : public View {
-    public:
-        //Any public variables also go here.
-        sf::Image spritesheet;
-        sf::Sprite sprite;
-        sf::Texture texture;
+    public:     
         sf::Vector2f position;
-
-        int spriteWidth;
-        int spriteHeight;
         
-        ImageView(std::string &spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
+        // Default constructor
+        
+        // Default destructor
+        
+        bool init(std::string& imagePath);
 
         void draw(sf::RenderWindow* window);
 
     private:
-        
+        sf::Sprite sprite;
+        sf::Texture texture;
 };
 #endif

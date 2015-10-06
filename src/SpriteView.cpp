@@ -1,23 +1,28 @@
 #include "SpriteView.hpp"
 
-SpriteView::SpriteView(std::string &spriteSheetPath, int newSpriteWidth, int newSpriteHeight) : position(), spriteWidth(), spriteHeight() {
+// Default constructor
+
+// Default destructor
+
+bool SpriteView::init(std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight) {
+    // try to load the texture
+    bool result = texture.loadFromFile(spriteSheetPath);
     
-    spritesheet.loadFromFile(spriteSheetPath);
-    spriteWidth = newSpriteWidth;
-    spriteHeight = newSpriteHeight;
+    if (result == true) {
+        sprite.setTexture(texture);
+        sprite.setTextureRect(sf::IntRect(0, 0, spriteWidth, spriteHeight));
+        spritesPerRow = texture.getSize().x / newSpriteWidth;
+        spriteWidth = newSpriteWidth;
+        spriteHeight = newSpriteHeight;
+    }
+        
+    return result;
 }
-
-
-
 
 //This is called by the animation controller, who has knowledge of where each frame is.
 void SpriteView::updateSprite(int frame) {
-    //Assumes a sprite map width of 10.
-    texture.loadFromImage(spritesheet, sf::IntRect((frame % 10)*spriteWidth, (frame / 10)*spriteHeight, spriteWidth,   spriteHeight));
-    sprite.setTexture(texture);
+    sprite.setTextureRect(sf::IntRect((frame % spritesPerRow) * spriteWidth, (frame / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight));
 }
-
-// Default destructor
 
 void SpriteView::draw(sf::RenderWindow* window) {
     sprite.setPosition(position);
