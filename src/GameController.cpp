@@ -52,13 +52,13 @@ void GameController::run() {
         
         // Leave this here instead of in getInput() because if the controller gets disconnected we should pause.
         sf::Joystick::update();
-        useController = sf::Joystick::isConnected(0);
+        useController = sf::Joystick::isConnected(0); //call this inside ControlsConfig
         
-        getInput();
+        controlsConfig.getInput(useController, window);
         
         elapsed = clock.restart();
         
-        game.update(elapsed.asSeconds(), input);
+        game.update(elapsed.asSeconds(), controlsConfig.input);
         
         // display logic
         
@@ -78,9 +78,12 @@ void GameController::init() {
     initViews();
     
     
-    // controls
-    // TODO: This should return a bool and be checked similar to the game
-    controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
+    // control configuration initialization
+    if (!controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME)) {
+        printf("Error initializing control configuration. Program exiting.\n"); //TODO: print to stderr
+        fflush(stdout);
+        std::exit(-1);
+    }
     
     // no resize
     window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game", sf::Style::Titlebar | sf::Style::Close);
@@ -180,7 +183,8 @@ void GameController::getMouseAndKeyboardInput() {
     //works.
     //
     // TODO: Move all logic into Controls controller
-    sf::Keyboard::Key moveUp = sf::Keyboard::Key::Up;
+    sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
+    printf("%d", controlsConfig.up);
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
     sf::Keyboard::Key moveLeft = sf::Keyboard::Left;

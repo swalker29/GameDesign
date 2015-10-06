@@ -6,7 +6,7 @@ f
 #use mousewheel to switch weapons (t/f)
 t
 #up (keyboard only, defaults to vertical axis up for controller)
-a
+w
 #down (keyboard only, defaults to vertical axis down for controller)
 s
 #left (keyboard only, defaults to horizontal axis left for controller)

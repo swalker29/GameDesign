@@ -1,9 +1,10 @@
 #include "ControlsConfig.hpp"
 
 #include <stdlib.h>
-#include <string.h>
 #include <iostream>
+#include <string.h>
 #include <KeyMap.hpp>
+#include "Utils.hpp"
 
 ControlsConfig::ControlsConfig() {
 
@@ -23,6 +24,13 @@ bool ControlsConfig::loadControlsConfig(char* controlsFilePath) {
 	fclose(controlsFile);
 	
 	return true;
+}
+
+std::string ControlsConfig::parseInputIntoString(char* input){
+    std::string returnString;
+    returnString = std::string(input);
+    returnString = returnString.substr(0, returnString.size()-1); //need to remove terminating character from string
+    return returnString;
 }
 
 /*
@@ -60,7 +68,7 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 	float mouseSensitivity = 100;
 	
 	// while we have not reached the end of the controlsFile, read the next token
-	while(fscanf(controlsFile, "%s", buf) != EOF) {
+    while(fscanf(controlsFile, "%s", buf) != EOF) {
 
         /*
         * move past explanatory lines in config file
@@ -92,126 +100,49 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){ //actually the length of buf when buf = a will be 2 due to closing char
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                up = buf - "a"; //doesn't work yet
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            up = kMap.getKeyValue(tempInputStr); //yields correct value of up
-        }
+        up = kMap.getKeyValue(parseInputIntoString(buf)); //yields correct value of up
 
 		/*
 		* get the down key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                down = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            down = kMap.getKeyValue(tempInputStr);
-        }
+        down = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the left key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                left = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            left = kMap.getKeyValue(tempInputStr);
-        }
+        left = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the right key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                right = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            right = kMap.getKeyValue(tempInputStr);
-        }
+        right = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the fireGun key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                fireGun = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            fireGun = kMap.getKeyValue(tempInputStr);
-        }
+        fireGun = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the previousWeapon key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                up = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            prevWeapon = kMap.getKeyValue(tempInputStr);
-        }
+        prevWeapon = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the nextWeapon key
 		*/
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        if (strlen(buf) == 1){
-        //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
-            //make sure it"s a letter
-                up = buf - "a";
-            }
-        } else {
-		//means our input is a special key - we have to map it.
-            tempInputStr = std::string(buf);
-            tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-            nextWeapon = kMap.getKeyValue(tempInputStr);
-        }
+        nextWeapon = kMap.getKeyValue(parseInputIntoString(buf));
 
 		/*
 		* get the deadZoneMin
@@ -240,5 +171,124 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
 		fgets(buf, sizeof(buf), controlsFile);
         sscanf(buf, "%f", &mouseSensitivity);
+    }
+}
+
+void ControlsConfig::getInput(bool useController, sf::RenderWindow* windowPointer) {
+    if (useController) {
+        getControllerInput();
+    }
+    else {
+        getMouseAndKeyboardInput();
+    }
+    window = windowPointer;
+}
+
+void ControlsConfig::getControllerInput() {
+    sf::Joystick::Axis verticalMoveAxis = sf::Joystick::Y;
+    sf::Joystick::Axis horizontalMoveAxis = sf::Joystick::X;
+    sf::Joystick::Axis verticalAimAxis = sf::Joystick::V;
+    sf::Joystick::Axis horizontalAimAxis = sf::Joystick::U;
+    
+    float deadZoneRadius = 25.f;
+    float maxRadius = 100.f;
+    float aimDeadZoneRadius = 50.f;
+    
+    // sanity check
+    if (sf::Joystick::isConnected(0)) {
+        
+        unsigned int buttonCount = sf::Joystick::getButtonCount(0);
+        
+        for (int x = 0; x < buttonCount; x++) {
+            if (sf::Joystick::isButtonPressed(0, x)) {
+                //printf("Button %d is pressed\n", x);
+            }
         }
     }
+
+    // get movement vector (left thumbstick on xbox controller)
+    float moveY = sf::Joystick::getAxisPosition(0, verticalMoveAxis);
+    float moveX = sf::Joystick::getAxisPosition(0, horizontalMoveAxis);
+    
+    float length = sqrt(moveX*moveX + moveY*moveY);
+    float factor = (length - deadZoneRadius) / (maxRadius - deadZoneRadius);
+    
+    sf::Vector2f moveVector(0.0f, 0.0f);
+    
+    if (factor > 0.0f) {
+        // if the factor is larger than 1, scale back to make moveVector unit length
+        if (factor > 1.0f) {
+            factor = 1.0f / factor;
+        }
+        
+        moveVector.x =  factor * moveX / maxRadius;
+        moveVector.y = factor * moveY / maxRadius;
+    }
+    
+    // get aim vector (right thumbstick on xbox controller)
+    float aimY = sf::Joystick::getAxisPosition(0, verticalAimAxis);
+    float aimX = sf::Joystick::getAxisPosition(0, horizontalAimAxis);
+    
+    length = sqrt(aimX*aimX + aimY*aimY);
+    
+    sf::Vector2f aimVector(0.0f, 0.0f);
+    
+    if (length > aimDeadZoneRadius) {
+        aimVector.x = aimX;
+        aimVector.y = aimY;
+        
+        normalizeVector2f(aimVector);
+    }
+    
+    // set values in input
+    //input.fireWeapon = sf::Joystick::getAxisPosition(fireAxis) > fireAxisThreshold;
+    input.movement = moveVector;
+    input.aim = aimVector;
+}
+
+void ControlsConfig::getMouseAndKeyboardInput() {
+    //should eventually be replaced by, for example:
+    //sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
+    //currently this doesn't work - think it's some pointer mishaps, since ControlsConfig
+    //works.
+    //
+    // TODO: Move all logic into Controls controller
+    sf::Keyboard::Key moveUp = sf::Keyboard::Up;
+    sf::Keyboard::Key moveDown = sf::Keyboard::Down;
+    sf::Keyboard::Key moveRight = sf::Keyboard::Right;
+    sf::Keyboard::Key moveLeft = sf::Keyboard::Left;
+    sf::Mouse::Button fireGun = sf::Mouse::Left;
+    
+    // get movement vector from keyboard
+    sf::Vector2f moveVector(0.0f, 0.0f);
+    
+    if (sf::Keyboard::isKeyPressed(moveDown)) {
+        moveVector.y += 1.0f;
+    }
+    if (sf::Keyboard::isKeyPressed(moveUp)) {
+        moveVector.y -= 1.0f;
+    }
+    if (sf::Keyboard::isKeyPressed(moveRight)) {
+        moveVector.x += 1.0f;
+    }
+    if (sf::Keyboard::isKeyPressed(moveLeft)) {
+        moveVector.x -= 1.0f;
+    }
+    
+    // get aim vector from mouse
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+    sf::Vector2u windowSize = window->getSize();
+    
+    sf::Vector2f aimVector(mousePosition.x - (windowSize.x / 2.0f), mousePosition.y - (windowSize.y / 2.0f));
+    
+    normalizeVector2f(aimVector);
+    normalizeVector2f(moveVector);
+    
+    // set values in input
+    input.fireWeapon = sf::Mouse::isButtonPressed(fireGun);
+    input.movement = moveVector;
+    input.aim = aimVector;
+}
+
+
+
