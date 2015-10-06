@@ -23,7 +23,11 @@ class Game {
         
         Level level;
         
-        Game();
+        // Default constructor
+
+        // Default destructor
+        
+        bool init();
         
         //void pause();
         
@@ -31,11 +35,12 @@ class Game {
         
         void update(const float timeElapsed, InputData& input);
         
-        inline sf::Vector2i getPlayerTile() {
+        
+        inline sf::Vector2i getPlayerTile() const {
             return sf::Vector2i(int(player.position.x / TILE_SIZE), int(player.position.y / TILE_SIZE)); 
         };
 
-        inline sf::Vector2f getTilePosition(int x, int y) {
+        inline sf::Vector2f getTilePosition(int x, int y) const {
             return sf::Vector2f(TILE_SIZE * x, TILE_SIZE * y);
         };
         

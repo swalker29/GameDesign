@@ -2,7 +2,11 @@
 
 #include <stdio.h>
 
-Game::Game() {
+// Default constructor
+
+// Default destructor
+
+bool Game::init() {
     
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
@@ -13,9 +17,9 @@ Game::Game() {
 
         this->enemies.push_back(std::move(enemy));
     }
+    
+    return true;
 }
-
-// default destructor
 
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input

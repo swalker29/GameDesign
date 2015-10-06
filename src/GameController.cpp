@@ -25,16 +25,7 @@ void GameController::run() {
     sf::Time elapsed;
     sf::Clock clock;
 
-    // controls
-    controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
-    
-    // no resize
-    window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game", sf::Style::Titlebar | sf::Style::Close);
-    //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
-    
-    window->setFramerateLimit(60);
-    
-    initViews();
+    init();
 
     // start main loop
     while(window->isOpen()) {
@@ -77,39 +68,38 @@ void GameController::run() {
     return;
 }
 
-void GameController::draw() {
-    window->clear(sf::Color::Black);
-
-    drawPlayer();
-    drawAim();
-    drawEnemies();
-    
-    window->display();
-}
-
-void GameController::drawPlayer() {
-    float ratio = getViewRatio();
-    playerView.position = ratio * game.player.position;
-    playerView.draw(window);
-}
-
-void GameController::drawAim() {
-    float ratio = getViewRatio();
-    playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
-    playerAim.draw(window);
-}
-
-void GameController::drawEnemies() {
-    float ratio = getViewRatio();
-    for (auto& enemy : game.enemies) {
-        enemyView.position = ratio * enemy->position;
-        enemyView.draw(window);
+void GameController::init() {
+    if (!game.init()) {
+        printf("Error initializing game. Program exiting.\n"); // TODO: print to stderr
+        fflush(stdout);
+        std::exit(-1);
     }
+    
+    initViews();
+    
+    
+    // controls
+    // TODO: This should return a bool and be checked similar to the game
+    controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
+    
+    // no resize
+    window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game", sf::Style::Titlebar | sf::Style::Close);
+    //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
+    
+    window->setFramerateLimit(60);
 }
 
-void GameController::drawLevel() {
-    sf::Vector2i playerTile = game.getPlayerTile();
+void GameController::initViews() {
+    float ratio = getViewRatio();
     
+    if (!font.loadFromFile(FONT_FILENAME)) {
+        printf("Error: Unable to load font. Program exiting"); // TODO: print to stderr
+        std::exit(-1);
+    }
+    
+    playerView.length = 15.0f;
+    enemyView.length = 10.0f;
+    playerAim.length = 5.0f;     
 }
 
 void GameController::getInput() {
@@ -189,7 +179,7 @@ void GameController::getMouseAndKeyboardInput() {
     //currently this doesn't work - think it's some pointer mishaps, since ControlsConfig
     //works.
     //
-    // *** I don't even know if that will be necessary. This logic should eventually be placed in some controls controller. -Steve
+    // TODO: Move all logic into Controls controller
     sf::Keyboard::Key moveUp = sf::Keyboard::Key::Up;
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
@@ -227,27 +217,49 @@ void GameController::getMouseAndKeyboardInput() {
     input.aim = aimVector;
 }
 
-void GameController::initViews() {
-    float ratio = getViewRatio();
-    
-    if (!font.loadFromFile(FONT_FILENAME)) {
-        printf("Error: Unable to load font. Program exiting");
-        std::exit(-1);
-    }
-    
-    playerView.length = 15.0f;
-    enemyView.length = 10.0f;
-    playerAim.length = 5.0f;   
+void GameController::draw() {
+    window->clear(sf::Color::Black);
 
+    drawPlayer();
+    drawAim();
+    drawEnemies();
+    
+    window->display();
+}
+
+void GameController::drawPlayer() {
+    float ratio = getViewRatio();
+    playerView.position = ratio * game.player.position;
+    playerView.draw(window);
+}
+
+void GameController::drawAim() {
+    float ratio = getViewRatio();
+    playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
+    playerAim.draw(window);
+}
+
+void GameController::drawEnemies() {
+    float ratio = getViewRatio();
+    for (auto& enemy : game.enemies) {
+        enemyView.position = ratio * enemy->position;
+        enemyView.draw(window);
+    }
+}
+
+void GameController::drawLevel() {
+    sf::Vector2i playerTile = game.getPlayerTile();
     
 }
 
-float GameController::getViewRatio() const {    
+inline float GameController::getViewRatio() const {    
     return TILE_PIXEL_SIZE / Game::TILE_SIZE;
 }
 
 sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoords) const {
-    sf::Vector2f windowSize = window->getView().getSize();
-    return windowSize;
-    //sf::Vector2f offset = gameCoords - game.player.
+    sf::Vector2f centerScreen = window->getView().getSize() / 2.0f;     
+    sf::Vector2f offset = gameCoords - game.player.position;
+    offset *= getViewRatio();
+    
+    return centerScreen + offset;
 }

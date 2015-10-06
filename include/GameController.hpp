@@ -23,7 +23,11 @@ class GameController {
         // Model
         Game game;
         
-        InputData input;        
+        InputData input; // TODO: move into Controls controller
+        
+        // Controls
+        bool useController;
+        ControlsConfig controlsConfig;       
         
         // Views
         sf::RenderWindow* window;
@@ -32,26 +36,24 @@ class GameController {
         SquareView playerAim;  
         SquareView enemyView;
         
-        // Controls
-        bool useController;
-        ControlsConfig controlsConfig;
-        
-        void draw();
-        void drawPlayer();
-        void drawAim();
-        void drawEnemies();
-        void drawAnimations();
-        void drawLevel();
+        // Initialization logic
+        void init();
+        void initViews();
         
         // Input methods
         void getInput();
         void getControllerInput();
         void getMouseAndKeyboardInput();
         
-        // View methods
-        void initViews();
+        // Drawing logic
+        void draw();
+        void drawPlayer();
+        void drawAim();
+        void drawEnemies();
+        void drawAnimations();
+        void drawLevel();
         void updateViews();
-        float getViewRatio() const;
-        sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;
+        inline float getViewRatio() const;
+        sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;        
 };
 #endif
