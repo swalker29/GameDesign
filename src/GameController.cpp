@@ -242,8 +242,12 @@ void GameController::initViews() {
     
 }
 
-float GameController::getViewRatio() {
-    //sf::Vector2f size = window->getView().getSize();
-    
+float GameController::getViewRatio() const {    
     return TILE_PIXEL_SIZE / Game::TILE_SIZE;
+}
+
+sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoords) const {
+    sf::Vector2f windowSize = window->getView().getSize();
+    return windowSize;
+    //sf::Vector2f offset = gameCoords - game.player.
 }
