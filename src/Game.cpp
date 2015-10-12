@@ -1,5 +1,6 @@
 #include "Game.hpp"
 
+#include "LinearEnemyTrackBehavior.hpp"
 #include <stdio.h>
 
 // Default constructor
@@ -13,8 +14,8 @@ bool Game::init() {
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy(new Enemy());
         enemy->position = start;
+        enemy->setTrackBehavior(enemy->linearTrackBehavior);
         start.x += 0.15;
-
         this->enemies.push_back(std::move(enemy));
     }
     
@@ -30,8 +31,7 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
     
     // all the real game logic starts here
-    float enemySpeed = 0.01f;
     for (auto& enemy : this->enemies) {
-        enemy->position.y += enemySpeed;
+        enemy->track(player.position);
     }
 }
