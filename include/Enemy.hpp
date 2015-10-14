@@ -2,12 +2,11 @@
 #define ENEMY_HPP
 
 #include <SFML/System/Vector2.hpp>
-#include "LinearEnemyTrackBehavior.hpp"
+class EnemyTrackBehavior;
 class Enemy {
     private:
         EnemyTrackBehavior* trackBehavior;
     public:
-        static LinearEnemyTrackBehavior linearTrackBehavior;
         sf::Vector2f position;
         sf::Vector2f direction;    
         float speed;
