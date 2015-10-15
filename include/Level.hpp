@@ -13,18 +13,17 @@ class Level {
         std::vector<std::vector<TileElement>> tiles;
         std::vector<Tile> tileVector;
         
-        int width, height;
-        
-        // float tileSize; // Tile size in game coordinates
+        int width;
+        int height;
     
-        Level();
+        // Default constructor
+        
+        // Default destructor
         
         bool loadLevel(char* levelFilePath);
     
-        //~Level();
-
     private:
      
-        void parseLevel(FILE* levelFile);
+        bool parseLevel(FILE* levelFile);
 };
 #endif
