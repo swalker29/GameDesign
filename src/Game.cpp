@@ -1,6 +1,6 @@
 #include "Game.hpp"
-
 #include <stdio.h>
+#include "TrackingEnemyFactory.hpp"
 
 // Default constructor
 
@@ -10,11 +10,14 @@ bool Game::init() {
     
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
-    for (int i=0; i < nEnemies; i++) {
-        std::unique_ptr<Enemy> enemy(new Enemy());
-        enemy->position = start;
-        start.x += 0.15;
+    sf::Vector2f direction(0,1);
+    float speed = 0.01;
 
+    TrackingEnemyFactory linearEF(TrackingEnemyFactory::linearTrackBehavior);
+
+    for (int i=0; i < nEnemies; i++) {
+        std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
+        start.x += 0.15;
         this->enemies.push_back(std::move(enemy));
     }
     
@@ -30,8 +33,7 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
     
     // all the real game logic starts here
-    float enemySpeed = 0.01f;
     for (auto& enemy : this->enemies) {
-        enemy->position.y += enemySpeed;
+        enemy->track(player.position);
     }
 }
