@@ -17,6 +17,7 @@ class AnimationController {
         AnimationController();
         void update();
         void addSprite(SpriteView *newSprite, int animLength, int startFrame);
+        void removeSprite(SpriteView *newSprite);
         
     private:
         struct node {
@@ -28,6 +29,7 @@ class AnimationController {
         };
         node *root;
         node *conductor;
+        //node *remover;
         
 };
 #endif
