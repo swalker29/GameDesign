@@ -90,7 +90,7 @@ bool Level::parseLevel(FILE* levelFile) {
                 }
                 
                 // the tile resource num should be between 0 and numTiles - 1
-                if (intBuf[0] < 0 || intBuf >= numTiles) {
+                if (intBuf[0] < 0 || intBuf[0] >= numTiles) {
                     return false;
                 }
                 
@@ -110,7 +110,7 @@ bool Level::parseLevel(FILE* levelFile) {
                 }
                 
                 // the x and y values need to be between 0 and width/height
-                if (x < 0 || y < 0 || x >= width || y >= height) {
+                if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= width || intBuf[1] >= height) {
                     return false;
                 }
                 
