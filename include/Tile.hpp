@@ -14,6 +14,8 @@ class Tile {
         
         // Box2D stuff
         
+        // pathfinding stuff
+        
         // Default constructor
         
         // Default descructor
@@ -22,6 +24,6 @@ class Tile {
         
     private:
     
-        void parseTile(FILE* tileFile);
+        bool parseTile(FILE* tileFile, int tileLength);
 };
 #endif

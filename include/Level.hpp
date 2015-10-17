@@ -15,6 +15,7 @@ class Level {
         
         int width;
         int height;
+        int tileLength; // in pixels
     
         // Default constructor
         

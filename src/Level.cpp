@@ -14,15 +14,15 @@ bool Level::loadLevel(char* levelFilePath) {
         return false;
     }
     
-    bool retval = parseLevel(levelFile);
+    bool parseSuccess = parseLevel(levelFile);
     
     fclose(levelFile);
     
-    return retval;
+    return parseSuccess;
 }
 
 
-// TODO: print to sys.err the exact cause of each failure
+// TODO: print to stderr/cerr the exact cause of each failure
 bool Level::parseLevel(FILE* levelFile) {
     char buf[256];
     int intBuf[3];
@@ -30,8 +30,7 @@ bool Level::parseLevel(FILE* levelFile) {
     
     width = -1;
     height = -1;
-    int tileWidth = -1;
-    int tileHeight = -1;
+    tileLength = -1;
     int numTiles = -1;
     
     // while we have not reached the end of the levelFile, read the next token
@@ -49,12 +48,12 @@ bool Level::parseLevel(FILE* levelFile) {
                 
                 tileVector.resize(intBuf[0]);
             break;
-            // 's', size of tile, in pixels
+            // 's', size of tile, in pixels, assumes a square tile
             case 's':
-                fscanf(levelFile, "%d %d", &tileWidth, &tileHeight);
+                fscanf(levelFile, "%d", &tileLength);
                 
-                // tiles need to be at least one pixel wide and tall
-                if (tileWidth < 1 || tileHeight < 1) {
+                // tile length needs to be at least one pixel
+                if (tileLength < 1) {
                     return false;
                 }
             break;
@@ -85,7 +84,7 @@ bool Level::parseLevel(FILE* levelFile) {
                 }
                 
                 // we must have seen the the 's' line as well
-                if (tileWidth < 1 || tileHeight < 1) {
+                if (tileLength < 1) {
                     return false;
                 }
                 
@@ -96,7 +95,7 @@ bool Level::parseLevel(FILE* levelFile) {
                 
                 {
                     Tile tile;
-                    tile.loadTile(buf, intBuf[0], sf::IntRect(intBuf[1], intBuf[2], tileWidth, tileHeight));
+                    tile.loadTile(buf, intBuf[0], sf::IntRect(intBuf[1], intBuf[2], tileLength, tileLength));
                     tileVector[tile.resourceNum] = tile;
                 }
             break;
