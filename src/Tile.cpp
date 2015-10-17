@@ -7,7 +7,7 @@
         
 // Default descructor
 
-bool Tile::loadTile(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds) {
+bool Tile::init(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds) {
     resourceNum = newResourceNum;
     spriteBounds = newSpriteBounds;
     

@@ -35,12 +35,14 @@ class GameController {
         SquareView playerView;
         SquareView playerAim;  
         SquareView enemyView;
+        SpriteView levelView;
         
         // Initialization logic
         void init();
         void initViews();
         
         // Input methods
+        // TODO: move these into Controls controller
         void getInput();
         void getControllerInput();
         void getMouseAndKeyboardInput();
@@ -54,6 +56,6 @@ class GameController {
         void drawLevel();
         void updateViews();
         inline float getViewRatio() const;
-        sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;        
+        //sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;        
 };
 #endif

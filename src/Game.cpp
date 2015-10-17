@@ -2,11 +2,17 @@
 #include <stdio.h>
 #include "TrackingEnemyFactory.hpp"
 
+static constexpr char* LEVEL_FILE = "assets/map.level";
+
 // Default constructor
 
 // Default destructor
 
 bool Game::init() {
+    
+    if (!level.init(LEVEL_FILE)) {
+        return false;
+    }
     
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);

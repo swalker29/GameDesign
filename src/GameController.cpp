@@ -5,10 +5,10 @@
 #include "Utils.hpp"
 
 #define FPS 60
-#define TILE_PIXEL_SIZE 256.0f
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
-static char* CONTROL_CONFIG_FILENAME = (char *)"assets/config.txt"; //not sure why I can't make this a const
+static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
+static constexpr char* CONTROL_CONFIG_FILENAME = "assets/config.txt";
 
 GameController::GameController(int argc, char** argv) {
 
@@ -253,9 +253,11 @@ void GameController::drawLevel() {
 }
 
 inline float GameController::getViewRatio() const {    
-    return TILE_PIXEL_SIZE / Game::TILE_SIZE;
+    return game.level.tileVector[0].spriteBounds.width / Game::TILE_SIZE;
 }
 
+/*
+ * This method might no longer be needed.
 sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoords) const {
     sf::Vector2f centerScreen = window->getView().getSize() / 2.0f;     
     sf::Vector2f offset = gameCoords - game.player.position;
@@ -263,3 +265,4 @@ sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoord
     
     return centerScreen + offset;
 }
+*/

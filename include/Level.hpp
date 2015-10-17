@@ -21,7 +21,7 @@ class Level {
         
         // Default destructor
         
-        bool loadLevel(char* levelFilePath);
+        bool init(char* levelFilePath);
     
     private:
      

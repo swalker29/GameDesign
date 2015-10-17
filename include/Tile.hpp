@@ -20,7 +20,7 @@ class Tile {
         
         // Default descructor
         
-        bool loadTile(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds);
+        bool init(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds);
         
     private:
     

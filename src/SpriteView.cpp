@@ -24,6 +24,11 @@ void SpriteView::updateSprite(int frame) {
     sprite.setTextureRect(sf::IntRect((frame % spritesPerRow) * spriteWidth, (frame / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight));
 }
 
+// If the controller knows the bounds of each sprite, it can draw them manually though this
+void SpriteView::updateSprite(sf::IntRect rect) {
+    sprite.setTextureRect(rect);
+}
+
 void SpriteView::draw(sf::RenderWindow* window) {
     sprite.setPosition(position);
     window->draw(sprite);

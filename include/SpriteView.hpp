@@ -20,6 +20,7 @@ class SpriteView : public View {
         bool init(std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
         
         void updateSprite(int frame);
+        void updateSprite(sf::IntRect rect);
 
         void draw(sf::RenderWindow* window);
 
