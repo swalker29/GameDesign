@@ -17,7 +17,7 @@ class SpriteView : public View {
         
         // Default destructor
         
-        bool init(std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
+        bool init(const std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight);
         
         void updateSprite(int frame);
 

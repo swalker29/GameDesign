@@ -1,12 +1,19 @@
 #include "Game.hpp"
-#include <stdio.h>
+#include <string>
+#include <cstdio>
 #include "TrackingEnemyFactory.hpp"
+
+static const std::string LEVEL_FILE = "assets/map.level";
 
 // Default constructor
 
 // Default destructor
 
 bool Game::init() {
+    
+    if (!level.init(LEVEL_FILE)) {
+        return false;
+    }
     
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
@@ -26,7 +33,7 @@ bool Game::init() {
 
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
-    player.position += 0.03f * input.movement;
+    player.position += 0.13f * input.movement;
     
     if (input.aim.x != 0 || input.aim.y != 0) {
         player.direction = input.aim;

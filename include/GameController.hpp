@@ -20,6 +20,9 @@ class GameController {
         void run();
         
     private:
+        static constexpr unsigned int WINDOW_WIDTH = 800;
+        static constexpr unsigned int WINDOW_HEIGHT = 600;
+        
         // Model
         Game game;
         
@@ -31,16 +34,19 @@ class GameController {
         
         // Views
         sf::RenderWindow* window;
+        sf::View view;
         sf::Font font;
         SquareView playerView;
         SquareView playerAim;  
         SquareView enemyView;
+        SpriteView levelView;
         
         // Initialization logic
         void init();
         void initViews();
         
         // Input methods
+        // TODO: move these into Controls controller
         void getInput();
         void getControllerInput();
         void getMouseAndKeyboardInput();
@@ -52,8 +58,8 @@ class GameController {
         void drawEnemies();
         void drawAnimations();
         void drawLevel();
+        void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;
-        sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;        
 };
 #endif

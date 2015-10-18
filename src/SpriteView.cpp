@@ -4,7 +4,7 @@
 
 // Default destructor
 
-bool SpriteView::init(std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight) {
+bool SpriteView::init(const std::string& spriteSheetPath, int newSpriteWidth, int newSpriteHeight) {
     // try to load the texture
     bool result = texture.loadFromFile(spriteSheetPath);
     

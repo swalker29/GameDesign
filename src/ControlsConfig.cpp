@@ -12,7 +12,7 @@ ControlsConfig::ControlsConfig() {
 
 // default destructor
 
-bool ControlsConfig::loadControlsConfig(char* controlsFilePath) {
+bool ControlsConfig::loadControlsConfig(const char* controlsFilePath) {
     FILE* controlsFile = fopen(controlsFilePath, "r");
 	
     if (NULL == controlsFile) {
@@ -68,7 +68,6 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 	float mouseSensitivity = 100;
 	
 	// while we have not reached the end of the controlsFile, read the next token
-    while(fscanf(controlsFile, "%s", buf) != EOF) {
 
         /*
         * move past explanatory lines in config file
@@ -98,58 +97,69 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 		/*
 		* get the up key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
+	fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        up = kMap.getKeyValue(parseInputIntoString(buf)); //yields correct value of up
-        printf("%d", up);
-
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+         up = kMap.getKeyValue(tempInputStr); //yields correct value of up
 		/*
 		* get the down key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
+	fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        down = kMap.getKeyValue(parseInputIntoString(buf));
-
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        down = kMap.getKeyValue(tempInputStr);
+        
 		/*
 		* get the left key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
+	fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        left = kMap.getKeyValue(parseInputIntoString(buf));
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        left = kMap.getKeyValue(tempInputStr);
 
 		/*
 		* get the right key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        right = kMap.getKeyValue(parseInputIntoString(buf));
+        fgets(buf, sizeof(buf), controlsFile);
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        right = kMap.getKeyValue(tempInputStr);
 
 		/*
 		* get the fireGun key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        fireGun = kMap.getKeyValue(parseInputIntoString(buf));
+        fgets(buf, sizeof(buf), controlsFile);
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        fireGun = kMap.getKeyValue(tempInputStr);
 
 		/*
 		* get the previousWeapon key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
+	fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        prevWeapon = kMap.getKeyValue(parseInputIntoString(buf));
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        prevWeapon = kMap.getKeyValue(tempInputStr);
 
 		/*
 		* get the nextWeapon key
 		*/
-	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
-        nextWeapon = kMap.getKeyValue(parseInputIntoString(buf));
+        fgets(buf, sizeof(buf), controlsFile);
+        tempInputStr = std::string(buf);
+        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+        nextWeapon = kMap.getKeyValue(tempInputStr);
 
 		/*
 		* get the deadZoneMin
 		*/
         fgets(buf, sizeof(buf), controlsFile);
-		fgets(buf, sizeof(buf), controlsFile);
+	fgets(buf, sizeof(buf), controlsFile);
         sscanf(buf, "%f", &deadZoneMin);
 
 		/*
