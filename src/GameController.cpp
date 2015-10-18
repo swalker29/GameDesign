@@ -8,7 +8,11 @@
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
+<<<<<<< HEAD
 static const char* CONTROL_CONFIG_FILENAME = "assets/config.txt";
+=======
+static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
+>>>>>>> 3b5c63a2f44cc8e8f6b09a8d42647846ca2eb8c6
 
 GameController::GameController(int argc, char** argv) {
 
@@ -83,6 +87,7 @@ void GameController::init() {
     controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
     
     // no resize
+    view.setSize(GameController::WINDOW_WIDTH, GameController::WINDOW_HEIGHT);
     window = new sf::RenderWindow(sf::VideoMode(GameController::WINDOW_WIDTH, GameController::WINDOW_HEIGHT, 32), "Game", sf::Style::Titlebar | sf::Style::Close);
     //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
     
@@ -90,7 +95,6 @@ void GameController::init() {
 }
 
 void GameController::initViews() {
-    float ratio = getViewRatio();
     
     if (!font.loadFromFile(FONT_FILENAME)) {
         fprintf(stderr, "Error: Unable to load font. Program exiting\n");
@@ -225,24 +229,25 @@ void GameController::draw() {
     window->clear(sf::Color::Black);
 
     setViewForDrawing();
+    
     drawLevel();
     drawPlayer();
     drawAim();
     drawEnemies();
     
-    window->setView(view);
     window->display();
 }
 
 void GameController::drawPlayer() {
     float ratio = getViewRatio();
+    // TODO: when we switch the player to use SpriteView, draw player centered at game.player.position, currently we use that as the top-left.
     playerView.position = ratio * game.player.position;
     playerView.draw(window);
 }
 
 void GameController::drawAim() {
     float ratio = getViewRatio();
-    playerAim.position = ratio * (game.player.position + 3.5f * game.player.direction);  
+    playerAim.position = ratio * (game.player.position + 2.0f * game.player.direction);  
     playerAim.draw(window);
 }
 
@@ -275,19 +280,9 @@ void GameController::drawLevel() {
 
 void GameController::setViewForDrawing() {
     view.setCenter(game.player.position * getViewRatio());
+    window->setView(view);
 }
 
 inline float GameController::getViewRatio() const {    
     return game.level.tileLength / Game::TILE_SIZE;
 }
-
-/*
- * This method might no longer be needed.
-sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoords) const {
-    sf::Vector2f centerScreen = window->getView().getSize() / 2.0f;     
-    sf::Vector2f offset = gameCoords - game.player.position;
-    offset *= getViewRatio();
-    
-    return centerScreen + offset;
-}
-*/

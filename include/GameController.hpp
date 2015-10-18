@@ -61,6 +61,5 @@ class GameController {
         void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;
-        //sf::Vector2f gameToViewCoordinates(const sf::Vector2f& gameCoords) const;        
 };
 #endif
