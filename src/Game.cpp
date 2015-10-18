@@ -33,7 +33,7 @@ bool Game::init() {
 
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
-    player.position += 0.03f * input.movement;
+    player.position += 0.13f * input.movement;
     
     if (input.aim.x != 0 || input.aim.y != 0) {
         player.direction = input.aim;

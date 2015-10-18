@@ -8,7 +8,7 @@
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
-static constexpr char* CONTROL_CONFIG_FILENAME = "assets/config.txt";
+static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
 GameController::GameController(int argc, char** argv) {
 
@@ -225,25 +225,25 @@ void GameController::draw() {
     window->clear(sf::Color::Black);
 
     setViewForDrawing();
+    
     drawLevel();
     drawPlayer();
     drawAim();
     drawEnemies();
     
-    window->setView(view);
     window->display();
 }
 
 void GameController::drawPlayer() {
     float ratio = getViewRatio();
+    // TODO: when we switch the player to use SpriteView, draw player centered at game.player.position, currently we use that as the top-left.
     playerView.position = ratio * game.player.position;
-    //printf("drawPlayer: %.2f %.2f\n", playerView.position.x, playerView.position.y);
     playerView.draw(window);
 }
 
 void GameController::drawAim() {
     float ratio = getViewRatio();
-    playerAim.position = ratio * (game.player.position + 3.5f * game.player.direction);  
+    playerAim.position = ratio * (game.player.position + 2.0f * game.player.direction);  
     playerAim.draw(window);
 }
 
@@ -276,20 +276,9 @@ void GameController::drawLevel() {
 
 void GameController::setViewForDrawing() {
     view.setCenter(game.player.position * getViewRatio());
-    //printf("Center: %.2f %.2f\n", view.getCenter().x, view.getCenter().y);
+    window->setView(view);
 }
 
 inline float GameController::getViewRatio() const {    
     return game.level.tileLength / Game::TILE_SIZE;
 }
-
-/*
- * This method might no longer be needed.
-sf::Vector2f GameController::gameToViewCoordinates(const sf::Vector2f& gameCoords) const {
-    sf::Vector2f centerScreen = window->getView().getSize() / 2.0f;     
-    sf::Vector2f offset = gameCoords - game.player.position;
-    offset *= getViewRatio();
-    
-    return centerScreen + offset;
-}
-*/
