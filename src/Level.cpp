@@ -1,7 +1,7 @@
 #include "Level.hpp"
 
-#include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <cstdio>
 
 // Default constructor
 

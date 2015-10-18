@@ -1,5 +1,6 @@
 #include "Game.hpp"
-#include <stdio.h>
+#include <string>
+#include <cstdio>
 #include "TrackingEnemyFactory.hpp"
 
 static const std::string LEVEL_FILE = "assets/map.level";
