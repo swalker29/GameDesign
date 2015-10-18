@@ -6,6 +6,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <InputData.hpp>
+#include "Game.hpp"
+#include "InputData.hpp"
+#include "SquareView.hpp"
+#include "SpriteView.hpp"
 //add an include for the mapping
 
 class ControlsConfig {
@@ -22,9 +26,9 @@ class ControlsConfig {
         bool loadControlsConfig(char* controlsFilePath);
 
         void getInput(bool useController, sf::RenderWindow* windowPointer);
-        sf::RenderWindow* window;
     
     private:
+        sf::RenderWindow* window;
         void parseControlsConfig(FILE* controlsFile);
         std::string parseInputIntoString(char* input);
         void getControllerInput();

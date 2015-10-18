@@ -101,6 +101,7 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 	    fgets(buf, sizeof(buf), controlsFile);
         fgets(buf, sizeof(buf), controlsFile);
         up = kMap.getKeyValue(parseInputIntoString(buf)); //yields correct value of up
+        printf("%d", up);
 
 		/*
 		* get the down key
@@ -175,13 +176,13 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 }
 
 void ControlsConfig::getInput(bool useController, sf::RenderWindow* windowPointer) {
+    window = windowPointer;
     if (useController) {
         getControllerInput();
     }
     else {
         getMouseAndKeyboardInput();
     }
-    window = windowPointer;
 }
 
 void ControlsConfig::getControllerInput() {
@@ -253,7 +254,8 @@ void ControlsConfig::getMouseAndKeyboardInput() {
     //works.
     //
     // TODO: Move all logic into Controls controller
-    sf::Keyboard::Key moveUp = sf::Keyboard::Up;
+    sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(up);
+    printf("%d \n", moveUp);
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
     sf::Keyboard::Key moveLeft = sf::Keyboard::Left;
@@ -280,7 +282,7 @@ void ControlsConfig::getMouseAndKeyboardInput() {
     sf::Vector2u windowSize = window->getSize();
     
     sf::Vector2f aimVector(mousePosition.x - (windowSize.x / 2.0f), mousePosition.y - (windowSize.y / 2.0f));
-    
+
     normalizeVector2f(aimVector);
     normalizeVector2f(moveVector);
     

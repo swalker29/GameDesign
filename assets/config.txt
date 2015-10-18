@@ -6,13 +6,13 @@ f
 #use mousewheel to switch weapons (t/f)
 t
 #up (keyboard only, defaults to vertical axis up for controller)
-w
+up
 #down (keyboard only, defaults to vertical axis down for controller)
-s
+down
 #left (keyboard only, defaults to horizontal axis left for controller)
-a
+left
 #right (keyboard only, defaults to horizontal axis right for controller)
-d
+right
 #fireGun (controller only, defaults to LMB for mouse/keyboard)
 LMB
 #access previous weapon
