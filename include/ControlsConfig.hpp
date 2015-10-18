@@ -26,9 +26,9 @@ class ControlsConfig {
         bool loadControlsConfig(char* controlsFilePath);
 
         void getInput(bool useController, sf::RenderWindow* windowPointer);
-=======
+
         bool loadControlsConfig(const char* controlsFilePath);
->>>>>>> 9d0e2bc6473e1145260e38039a96d81b1776dad8
+
     
     private:
         sf::RenderWindow* window;

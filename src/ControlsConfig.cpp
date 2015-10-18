@@ -26,6 +26,20 @@ bool ControlsConfig::loadControlsConfig(const char* controlsFilePath) {
 	return true;
 }
 
+bool ControlsConfig::loadControlsConfig(char* controlsFilePath){
+    FILE* controlsFile = fopen(controlsFilePath, "r");
+	
+    if (NULL == controlsFile) {
+        return false;
+    }
+    
+	parseControlsConfig(controlsFile);
+	
+	fclose(controlsFile);
+	
+	return true;
+}
+
 std::string ControlsConfig::parseInputIntoString(char* input){
     std::string returnString;
     returnString = std::string(input);
@@ -69,120 +83,120 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
 	
 	// while we have not reached the end of the controlsFile, read the next token
 
-        /*
-        * move past explanatory lines in config file
-        */
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
+    /*
+    * move past explanatory lines in config file
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
 
-        /*
-        * check to see if we're using the controller
-        */
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        if(strcmp(buf, "t") == 0){
-            useController = true;
-        } //otherwise default false.
+    /*
+    * check to see if we're using the controller
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    if(strcmp(buf, "t") == 0){
+        useController = true;
+    } //otherwise default false.
 
-        /*
-        * check to see if we're using mouse wheel to change weapons
-        */
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        if(strcmp(buf, "t") == 0){
-            useMouseWheelWeaponSwap = true;
-        } //otherwise default false.
+    /*
+    * check to see if we're using mouse wheel to change weapons
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    if(strcmp(buf, "t") == 0){
+        useMouseWheelWeaponSwap = true;
+    } //otherwise default false.
 
-		/*
-		* get the up key
-		*/
+    /*
+    * get the up key
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    up = kMap.getKeyValue(tempInputStr); //yields correct value of up
+
+    /*
+    * get the down key
+    */
 	fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-         up = kMap.getKeyValue(tempInputStr); //yields correct value of up
-		/*
-		* get the down key
-		*/
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    down = kMap.getKeyValue(tempInputStr);
+       
+    /*
+    * get the left key
+    */
 	fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        down = kMap.getKeyValue(tempInputStr);
-        
-		/*
-		* get the left key
-		*/
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    left = kMap.getKeyValue(tempInputStr);
+
+    /*
+    * get the right key
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    right = kMap.getKeyValue(tempInputStr);
+
+    /*
+    * get the fireGun key
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    fireGun = kMap.getKeyValue(tempInputStr);
+
+    /*
+    * get the previousWeapon key
+    */
 	fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        left = kMap.getKeyValue(tempInputStr);
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    prevWeapon = kMap.getKeyValue(tempInputStr);
 
-		/*
-		* get the right key
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        right = kMap.getKeyValue(tempInputStr);
-
-		/*
-		* get the fireGun key
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        fireGun = kMap.getKeyValue(tempInputStr);
-
-		/*
-		* get the previousWeapon key
-		*/
+    /*
+    * get the nextWeapon key
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
+    tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
+    nextWeapon = kMap.getKeyValue(tempInputStr);
+  
+    /*
+    * get the deadZoneMin
+    */
+    fgets(buf, sizeof(buf), controlsFile);
 	fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        prevWeapon = kMap.getKeyValue(tempInputStr);
+    sscanf(buf, "%f", &deadZoneMin);
 
-		/*
-		* get the nextWeapon key
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-        fgets(buf, sizeof(buf), controlsFile);
-        tempInputStr = std::string(buf);
-        tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
-        nextWeapon = kMap.getKeyValue(tempInputStr);
+    /*
+    * get the deadZoneMax
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    sscanf(buf, "%f", &deadZoneMax);
 
-		/*
-		* get the deadZoneMin
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-	fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%f", &deadZoneMin);
+    /*
+    * get the deadZoneMinValue
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    sscanf(buf, "%f", &deadZoneMinValue);
 
-		/*
-		* get the deadZoneMax
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%f", &deadZoneMax);
-
-		/*
-		* get the deadZoneMinValue
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%f", &deadZoneMinValue);
-
-		/*
-		* get the mouseSensitivity
-		*/
-        fgets(buf, sizeof(buf), controlsFile);
-		fgets(buf, sizeof(buf), controlsFile);
-        sscanf(buf, "%f", &mouseSensitivity);
-    }
+    /*
+    * get the mouseSensitivity
+    */
+    fgets(buf, sizeof(buf), controlsFile);
+    fgets(buf, sizeof(buf), controlsFile);
+    sscanf(buf, "%f", &mouseSensitivity);
 }
 
 void ControlsConfig::getInput(bool useController, sf::RenderWindow* windowPointer) {
@@ -260,12 +274,8 @@ void ControlsConfig::getControllerInput() {
 void ControlsConfig::getMouseAndKeyboardInput() {
     //should eventually be replaced by, for example:
     //sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
-    //currently this doesn't work - think it's some pointer mishaps, since ControlsConfig
-    //works.
     //
-    // TODO: Move all logic into Controls controller
-    sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(up);
-    printf("%d \n", moveUp);
+    sf::Keyboard::Key moveUp = sf::Keyboard::Up;
     sf::Keyboard::Key moveDown = sf::Keyboard::Down;
     sf::Keyboard::Key moveRight = sf::Keyboard::Right;
     sf::Keyboard::Key moveLeft = sf::Keyboard::Left;
