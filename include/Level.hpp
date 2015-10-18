@@ -21,7 +21,7 @@ class Level {
         
         // Default destructor
         
-        bool init(char* levelFilePath);
+        bool init(const std::string& levelFilePath);
     
     private:
      

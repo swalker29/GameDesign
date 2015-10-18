@@ -70,7 +70,7 @@ void GameController::run() {
 
 void GameController::init() {
     if (!game.init()) {
-        printf("Error initializing game. Program exiting.\n"); // TODO: print to stderr
+        fprintf(stderr, "Error initializing game. Program exiting.\n");
         fflush(stdout);
         std::exit(-1);
     }
@@ -83,7 +83,7 @@ void GameController::init() {
     controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
     
     // no resize
-    window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game", sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(GameController::WINDOW_WIDTH, GameController::WINDOW_HEIGHT, 32), "Game", sf::Style::Titlebar | sf::Style::Close);
     //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
     
     window->setFramerateLimit(60);
@@ -93,13 +93,17 @@ void GameController::initViews() {
     float ratio = getViewRatio();
     
     if (!font.loadFromFile(FONT_FILENAME)) {
-        printf("Error: Unable to load font. Program exiting"); // TODO: print to stderr
+        fprintf(stderr, "Error: Unable to load font. Program exiting\n");
+        std::exit(-1);
+    }
+    if (!levelView.init(LEVEL_TILE_SHEET_FILENAME, game.level.tileLength, game.level.tileLength)) {
+        fprintf(stderr, "Error: Unable to load level tile sheet. Program exiting\n");
         std::exit(-1);
     }
     
-    playerView.length = 15.0f;
-    enemyView.length = 10.0f;
-    playerAim.length = 5.0f;     
+    playerView.length = 35.0f;
+    enemyView.length = 25.0f;
+    playerAim.length = 15.0f;     
 }
 
 void GameController::getInput() {
@@ -220,10 +224,13 @@ void GameController::getMouseAndKeyboardInput() {
 void GameController::draw() {
     window->clear(sf::Color::Black);
 
+    setViewForDrawing();
+    drawLevel();
     drawPlayer();
     drawAim();
     drawEnemies();
     
+    window->setView(view);
     window->display();
 }
 
@@ -235,7 +242,7 @@ void GameController::drawPlayer() {
 
 void GameController::drawAim() {
     float ratio = getViewRatio();
-    playerAim.position = ratio * (game.player.position + 0.5f * game.player.direction);  
+    playerAim.position = ratio * (game.player.position + 3.5f * game.player.direction);  
     playerAim.draw(window);
 }
 
@@ -249,11 +256,29 @@ void GameController::drawEnemies() {
 
 void GameController::drawLevel() {
     sf::Vector2i playerTile = game.getPlayerTile();
+    float viewRatio = getViewRatio();
     
+    // TODO: get a better number than 5 for what to draw around the player based on tile size and game window
+    int xLow = std::max(0, playerTile.x - 5) ;
+    int xHigh = std::min(game.level.width - 1, playerTile.x + 5);
+    int yLow = std::max(0, playerTile.y - 5);
+    int yHigh = std::min(game.level.height - 1, playerTile.y + 5);
+    
+    for (int x = xLow; x <= xHigh; x++) {
+        for (int y = yLow; y <= yHigh; y++) {
+            levelView.updateSprite(game.level.tileVector[game.level.tiles[x][y].resource].tileMapPosition);
+            levelView.position = game.getTilePosition(x, y) * viewRatio;
+            levelView.draw(window);
+        }
+    }    
+}
+
+void GameController::setViewForDrawing() {
+    view.setCenter(game.player.position * getViewRatio());
 }
 
 inline float GameController::getViewRatio() const {    
-    return game.level.tileVector[0].spriteBounds.width / Game::TILE_SIZE;
+    return game.level.tileLength / Game::TILE_SIZE;
 }
 
 /*

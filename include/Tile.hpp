@@ -7,11 +7,7 @@
 
 class Tile {
     public:
-    
-        int resourceNum;
-        
-        sf::IntRect spriteBounds;
-        
+        int tileMapPosition;
         // Box2D stuff
         
         // pathfinding stuff
@@ -20,7 +16,7 @@ class Tile {
         
         // Default descructor
         
-        bool init(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds);
+        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength);
         
     private:
     

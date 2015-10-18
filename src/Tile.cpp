@@ -7,38 +7,37 @@
         
 // Default descructor
 
-bool Tile::init(char* tileFilePath, int newResourceNum, sf::IntRect newSpriteBounds) {
-    resourceNum = newResourceNum;
-    spriteBounds = newSpriteBounds;
+bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength) {
+    tileMapPosition = newTileMapPosition;
     
-    FILE* tileFile = fopen(tileFilePath, "r");
+    std::FILE* tileFile = std::fopen(tileFilePath, "r");
 	
-	if (NULL == tileFile) {
+	if (nullptr == tileFile) {
         return false;
     }
     
-	bool parseSuccess = parseTile(tileFile, spriteBounds.width);
+	bool parseSuccess = parseTile(tileFile, tileLength);
 	
-	fclose(tileFile);
+	std::fclose(tileFile);
 	
 	return parseSuccess;
 
 }
 
 // TODO: print to stderr/cerr the exact cause of each failure
-bool Tile::parseTile(FILE* tileFile, int tileLength) {
+bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
 	char buf[256];
 	int intBuf[2];
 	
 	// initialize Box2D rigid body here
 	
 	// while we have not reached the end of the tileFile, read the next token
-    while(fscanf(tileFile, "%s", buf) != EOF) {
+    while(std::fscanf(tileFile, "%s", buf) != EOF) {
         // switch on the first character of the line read
         switch(buf[0]) {
             // 'h', point on the collision convex hull
             case 'h': 
-                fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
                 
                 // the points should be within the bounds of the sprite
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= tileLength || intBuf[1] >= tileLength) {
@@ -49,7 +48,7 @@ bool Tile::parseTile(FILE* tileFile, int tileLength) {
             break;
             // 'v', vertex for pathfinding
             case 'v':
-                fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
                 
                 // the points should be within the bounds of the sprite
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= tileLength || intBuf[1] >= tileLength) {
@@ -60,7 +59,7 @@ bool Tile::parseTile(FILE* tileFile, int tileLength) {
             break;
             // 'e', edge for pathfinding
             case 'e':
-                fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
                 
                 // the vertex values should be valid
                 if (intBuf[0] < 0 || intBuf[1] < 0) { // || intBuf[0] >= vertexVector.size() || intBuf[1] >= vertexVector.size()
@@ -79,7 +78,7 @@ bool Tile::parseTile(FILE* tileFile, int tileLength) {
             break;
             // something else, ignore it
             default:
-                fgets(buf, sizeof(buf), tileFile);
+                std::fgets(buf, sizeof(buf), tileFile);
             break;
         }
     }

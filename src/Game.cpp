@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "TrackingEnemyFactory.hpp"
 
-static constexpr char* LEVEL_FILE = "assets/map.level";
+static const std::string LEVEL_FILE = "assets/map.level";
 
 // Default constructor
 

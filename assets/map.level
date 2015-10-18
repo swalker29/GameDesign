@@ -9,10 +9,10 @@ m 5 5
 
 # tile files used
 # TODO: use different tile files
-u 0 0 0 testTile.tile
-u 1 128 0 testTile.tile
-u 2 0 128 testTile.tile
-u 3 128 128 testTile.tile
+u 0 0 testTile.tile
+u 1 1 testTile.tile
+u 2 2 testTile.tile
+u 3 3 testTile.tile
 
 # tiles on the map
 t 0 0 0 0.0
