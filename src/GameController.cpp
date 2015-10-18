@@ -8,11 +8,7 @@
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
-<<<<<<< HEAD
-static const char* CONTROL_CONFIG_FILENAME = "assets/config.txt";
-=======
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
->>>>>>> 3b5c63a2f44cc8e8f6b09a8d42647846ca2eb8c6
 
 GameController::GameController(int argc, char** argv) {
 
