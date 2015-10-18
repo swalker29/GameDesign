@@ -11,7 +11,7 @@ ControlsConfig::ControlsConfig() {
 
 // default destructor
 
-bool ControlsConfig::loadControlsConfig(char* controlsFilePath) {
+bool ControlsConfig::loadControlsConfig(const char* controlsFilePath) {
     FILE* controlsFile = fopen(controlsFilePath, "r");
 	
     if (NULL == controlsFile) {
@@ -94,9 +94,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){ //actually the length of buf when buf = a will be 2 due to closing char
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                up = buf - "a"; //doesn't work yet
+                up = *buf - 'a'; //doesn't work yet
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -112,9 +112,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                down = buf - "a";
+                down = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -130,9 +130,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                left = buf - "a";
+                left = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -148,9 +148,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                right = buf - "a";
+                right = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -166,9 +166,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                fireGun = buf - "a";
+                fireGun = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -184,9 +184,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                up = buf - "a";
+                up = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.
@@ -202,9 +202,9 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
         fgets(buf, sizeof(buf), controlsFile);
         if (strlen(buf) == 1){
         //means our input is a letter or number
-            if ((buf >= "a") && (buf <= "z")) {
+            if ((*buf >= 'a') && (*buf <= 'z')) {
             //make sure it"s a letter
-                up = buf - "a";
+                up = *buf - 'a';
             }
         } else {
 		//means our input is a special key - we have to map it.

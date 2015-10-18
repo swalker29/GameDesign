@@ -13,7 +13,7 @@ class ControlsConfig {
     
         ControlsConfig();
         
-        bool loadControlsConfig(char* controlsFilePath);
+        bool loadControlsConfig(const char* controlsFilePath);
     
     private:
      
