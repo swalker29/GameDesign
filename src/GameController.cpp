@@ -83,6 +83,7 @@ void GameController::init() {
     controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME);
     
     // no resize
+    view.setSize(GameController::WINDOW_WIDTH, GameController::WINDOW_HEIGHT);
     window = new sf::RenderWindow(sf::VideoMode(GameController::WINDOW_WIDTH, GameController::WINDOW_HEIGHT, 32), "Game", sf::Style::Titlebar | sf::Style::Close);
     //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
     
@@ -90,7 +91,6 @@ void GameController::init() {
 }
 
 void GameController::initViews() {
-    float ratio = getViewRatio();
     
     if (!font.loadFromFile(FONT_FILENAME)) {
         fprintf(stderr, "Error: Unable to load font. Program exiting\n");
@@ -237,6 +237,7 @@ void GameController::draw() {
 void GameController::drawPlayer() {
     float ratio = getViewRatio();
     playerView.position = ratio * game.player.position;
+    //printf("drawPlayer: %.2f %.2f\n", playerView.position.x, playerView.position.y);
     playerView.draw(window);
 }
 
@@ -275,6 +276,7 @@ void GameController::drawLevel() {
 
 void GameController::setViewForDrawing() {
     view.setCenter(game.player.position * getViewRatio());
+    //printf("Center: %.2f %.2f\n", view.getCenter().x, view.getCenter().y);
 }
 
 inline float GameController::getViewRatio() const {    
