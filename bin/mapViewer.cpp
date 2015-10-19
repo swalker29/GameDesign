@@ -14,10 +14,9 @@ int main(int argc, char** argv) {
     sf::Vector2f position;
     
     sf::View view;
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32), "Game", sf::Style::Titlebar | sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32), "MapViewer", sf::Style::Titlebar | sf::Style::Close);
     view.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     window.setFramerateLimit(60);
-    window.setVerticalSyncEnabled(true);
     
     SpriteView levelView;
     Level level;
