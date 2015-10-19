@@ -10,8 +10,11 @@ ControlsConfig::ControlsConfig() {
 
 }
 
-// default destructor
-
+/*
+* Loads the configuration file where user-specific control configuration resides.
+* Returns false if it fails. Otherwise, it parses the file to store the data in
+* usable form and closes the file, then returns true.
+*/
 bool ControlsConfig::loadControlsConfig(const char* controlsFilePath) {
     FILE* controlsFile = fopen(controlsFilePath, "r");
 	
@@ -26,6 +29,11 @@ bool ControlsConfig::loadControlsConfig(const char* controlsFilePath) {
 	return true;
 }
 
+/*
+* Loads the configuration file where user-specific control configuration resides.
+* Returns false if it fails. Otherwise, it parses the file to store the data in
+* usable form and closes the file, then returns true.
+*/
 bool ControlsConfig::loadControlsConfig(char* controlsFilePath){
     FILE* controlsFile = fopen(controlsFilePath, "r");
 	
@@ -40,6 +48,11 @@ bool ControlsConfig::loadControlsConfig(char* controlsFilePath){
 	return true;
 }
 
+/*
+* Turns char input into string output, which will later be compared.
+*
+*
+*/
 std::string ControlsConfig::parseInputIntoString(char* input){
     std::string returnString;
     returnString = std::string(input);
@@ -67,19 +80,19 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     bool useController = false;
 	
     //keybindings we're interested in
-    int up = -1;
-    int down = -1;
-    int left = -1;
-    int right = -1;
-    int fireGun = -1;
-    int prevWeapon = -1;
-    int nextWeapon = -1;
+    up = -1;
+    down = -1;
+    left = -1;
+    right = -1;
+    fireGun = -1;
+    prevWeapon = -1;
+    nextWeapon = -1;
 	
 	//settings we're interested in, defaults
-	float deadZoneMin = 25;
-	float deadZoneMax = 100;
-	float deadZoneMinValue = 50;
-	float mouseSensitivity = 100;
+	deadZoneMin = 25;
+	deadZoneMax = 100;
+	deadZoneMinValue = 50;
+	mouseSensitivity = 100;
 	
 	// while we have not reached the end of the controlsFile, read the next token
 
@@ -122,6 +135,7 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     */
 	fgets(buf, sizeof(buf), controlsFile);
     fgets(buf, sizeof(buf), controlsFile);
+    tempInputStr = std::string(buf);
     tempInputStr = tempInputStr.substr(0, tempInputStr.size()-1); //need to remove terminating character from string
     down = kMap.getKeyValue(tempInputStr);
        
@@ -199,6 +213,11 @@ void ControlsConfig::parseControlsConfig(FILE* controlsFile) {
     sscanf(buf, "%f", &mouseSensitivity);
 }
 
+/*
+* General function which splits input into two cases.
+* If a controller is detected, we getControllerInput.
+* Otherwise, we getMouseAndKeyboardInput.
+*/
 void ControlsConfig::getInput(bool useController, sf::RenderWindow* windowPointer) {
     window = windowPointer;
     if (useController) {
@@ -209,15 +228,21 @@ void ControlsConfig::getInput(bool useController, sf::RenderWindow* windowPointe
     }
 }
 
+/*
+* Gets input from the controller and stores it in the input class data structure.
+*
+*
+*/
 void ControlsConfig::getControllerInput() {
     sf::Joystick::Axis verticalMoveAxis = sf::Joystick::Y;
     sf::Joystick::Axis horizontalMoveAxis = sf::Joystick::X;
     sf::Joystick::Axis verticalAimAxis = sf::Joystick::V;
     sf::Joystick::Axis horizontalAimAxis = sf::Joystick::U;
     
-    float deadZoneRadius = 25.f;
-    float maxRadius = 100.f;
-    float aimDeadZoneRadius = 50.f;
+    // Need to test that these values are read properly
+    float deadZoneRadius = deadZoneMin;
+    float maxRadius = deadZoneMax;
+    float aimDeadZoneRadius = deadZoneMinValue;
     
     // sanity check
     if (sf::Joystick::isConnected(0)) {
@@ -271,14 +296,16 @@ void ControlsConfig::getControllerInput() {
     input.aim = aimVector;
 }
 
+/*
+* Gets input from the mouse and keyboard and stores it in input data structure.
+*
+*
+*/
 void ControlsConfig::getMouseAndKeyboardInput() {
-    //should eventually be replaced by, for example:
-    //sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(controlsConfig.up);
-    //
-    sf::Keyboard::Key moveUp = sf::Keyboard::Up;
-    sf::Keyboard::Key moveDown = sf::Keyboard::Down;
-    sf::Keyboard::Key moveRight = sf::Keyboard::Right;
-    sf::Keyboard::Key moveLeft = sf::Keyboard::Left;
+    sf::Keyboard::Key moveUp = static_cast<sf::Keyboard::Key>(up);
+    sf::Keyboard::Key moveDown = static_cast<sf::Keyboard::Key>(down);
+    sf::Keyboard::Key moveRight = static_cast<sf::Keyboard::Key>(right);
+    sf::Keyboard::Key moveLeft = static_cast<sf::Keyboard::Key>(left);
     sf::Mouse::Button fireGun = sf::Mouse::Left;
     
     // get movement vector from keyboard
