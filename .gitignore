@@ -28,6 +28,7 @@
 *.app
 
 game
+mapEditor
 *CMakeCache*
 *CMakeFiles*
 *cmake*
