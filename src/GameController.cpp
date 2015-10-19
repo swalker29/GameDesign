@@ -91,6 +91,7 @@ void GameController::init() {
     //window = new sf::RenderWindow(sf::VideoMode(800,600,32), "Game");
     
     window->setFramerateLimit(60);
+    window.setVerticalSyncEnabled(true);
 }
 
 void GameController::initViews() {
