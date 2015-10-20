@@ -2,6 +2,7 @@
 #define ANIMATIONCONTROLLER_HPP
 
 #include <SFML/Graphics/Rect.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
 #include "SpriteView.hpp"
@@ -18,6 +19,7 @@ class AnimationController {
         void update();
         void addSprite(SpriteView *newSprite, int animLength, int startFrame);
         void removeSprite(SpriteView *newSprite);
+        void drawAll(sf::RenderWindow* window);
         
     private:
         struct node {

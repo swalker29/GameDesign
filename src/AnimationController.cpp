@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 
 #include "AnimationController.hpp"
 
@@ -55,5 +55,13 @@ void AnimationController::removeSprite(SpriteView *deadSprite) {
             //does this require special removal to avoid mem leaks?        
         }
 
+    }
+}
+
+void AnimationController::drawAll(sf::RenderWindow* window) {
+    conductor = root;
+    while (conductor->anim != NULL) {
+        conductor->anim->draw(window);
+        conductor = conductor->next;
     }
 }
