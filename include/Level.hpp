@@ -21,10 +21,9 @@ class Level {
         
         // Default destructor
         
-        bool init(const std::string& levelFilePath);
+        bool init(const std::string& levelFilePath, std::list<sf::Vector2f>* meshPoints);
     
     private:
-     
-        bool parseLevel(FILE* levelFile);
+        bool parseLevel(FILE* levelFile, std::list<sf::Vector2f>* meshPoints);
 };
 #endif

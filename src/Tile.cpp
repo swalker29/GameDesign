@@ -7,7 +7,7 @@
         
 // Default descructor
 
-bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength) {
+bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength, std::list<sf::Vector2f>* meshPoints) {
     tileMapPosition = newTileMapPosition;
     
     std::FILE* tileFile = std::fopen(tileFilePath, "r");
@@ -16,16 +16,22 @@ bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength
         return false;
     }
     
-	bool parseSuccess = parseTile(tileFile, tileLength);
+	bool parseSuccess = parseTile(tileFile, newTileMapPosition, tileLength);
 	
 	std::fclose(tileFile);
+
+    sf::Vector2f centerStub(0,0);
+    meshPoints->push_back(centerStub);
+
+
 	
 	return parseSuccess;
 
 }
 
+
 // TODO: print to stderr/cerr the exact cause of each failure
-bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
+bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength) {
 	char buf[256];
 	int intBuf[2];
 	

@@ -11,7 +11,7 @@ static const std::string LEVEL_FILE = "assets/map.level";
 
 bool Game::init() {
     
-    if (!level.init(LEVEL_FILE)) {
+    if (!level.init(LEVEL_FILE, &this->meshPoints)) {
         return false;
     }
     
@@ -41,6 +41,10 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // all the real game logic starts here
     for (auto& enemy : this->enemies) {
-        enemy->track(player.position);
+        sf::Vector2i playerTile = this->getPlayerTile();
+        sf::Vector2f tilePos = this->getTilePosition(playerTile.x, playerTile.y);
+        sf::Vector2f tileCenter = sf::Vector2f(tilePos.x + TILE_SIZE/2, tilePos.y + TILE_SIZE/2);
+        enemy->track(tileCenter);
+        //enemy->track(player.position);
     }
 }

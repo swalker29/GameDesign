@@ -21,6 +21,7 @@ class Game {
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
         
+        std::list<sf::Vector2f> meshPoints;
         Level level;
         
         // Default constructor

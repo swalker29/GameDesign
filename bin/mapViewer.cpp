@@ -12,6 +12,7 @@ int main(int argc, char** argv) {
     std::string LEVEL_FILE = "assets/map.level";
     
     sf::Vector2f position;
+    std::list<sf::Vector2f> meshPoints;
     
     sf::View view;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32), "MapViewer", sf::Style::Titlebar | sf::Style::Close);
@@ -21,7 +22,7 @@ int main(int argc, char** argv) {
     SpriteView levelView;
     Level level;
     
-    if (!level.init(LEVEL_FILE)) {
+    if (!level.init(LEVEL_FILE, &meshPoints)) {
         fprintf(stderr, "Error: Unable to load level. Program exiting\n");
         std::exit(-1);
     }

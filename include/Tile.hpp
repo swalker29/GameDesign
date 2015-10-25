@@ -1,8 +1,8 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-#include <stdio.h>
-
+#include <list>
+#include <memory>
 #include <SFML/Graphics/Rect.hpp>
 
 class Tile {
@@ -11,15 +11,17 @@ class Tile {
         // Box2D stuff
         
         // pathfinding stuff
+
         
         // Default constructor
         
         // Default descructor
         
-        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength);
+        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength, std::list<sf::Vector2f>* meshPoints);
         
     private:
     
-        bool parseTile(FILE* tileFile, int tileLength);
+        std::list<sf::Vector2f>* meshPoints;
+        bool parseTile(FILE* tileFile, int newTileMapPosition, int tileLength);
 };
 #endif

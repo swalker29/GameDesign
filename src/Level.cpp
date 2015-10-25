@@ -7,14 +7,14 @@
 
 // Default destructor
 
-bool Level::init(const std::string& levelFilePath) {
+bool Level::init(const std::string& levelFilePath, std::list<sf::Vector2f>* meshPoints) {
     std::FILE* levelFile = std::fopen(levelFilePath.c_str(), "r");
     
     if (nullptr == levelFile) {
         return false;
     }
     
-    bool parseSuccess = parseLevel(levelFile);
+    bool parseSuccess = parseLevel(levelFile, meshPoints);
     
     std::fclose(levelFile);
     
@@ -22,7 +22,7 @@ bool Level::init(const std::string& levelFilePath) {
 }
 
 // TODO: print to stderr/cerr the exact cause of each failure
-bool Level::parseLevel(std::FILE* levelFile) {
+bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints) {
     char buf[256];
     int intBuf[3];
     float tempFloat;
@@ -94,7 +94,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
                 
                 {
                     Tile tile;
-                    tile.init(buf, intBuf[1], tileLength);
+                    tile.init(buf, intBuf[1], tileLength, meshPoints);
                     tileVector[intBuf[0]] = tile;
                 }
             break;
