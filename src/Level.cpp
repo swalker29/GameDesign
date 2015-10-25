@@ -94,7 +94,9 @@ bool Level::parseLevel(std::FILE* levelFile) {
                 
                 {
                     Tile tile;
-                    tile.init(buf, intBuf[1], tileLength);
+                    if (!tile.init(buf, intBuf[1], tileLength)) {
+                        return false;
+                    }
                     tileVector[intBuf[0]] = tile;
                 }
             break;

@@ -8,12 +8,12 @@ s 128
 m 8 8
 
 # tile files used
-u 0 0 grassTile.tile
-u 1 1 webTile.tile
-u 2 2 rockTile.tile
-u 3 3 sandTile.tile
-u 4 4 squareTile.tile
-u 5 5 pentaTile.tile
+u 0 0 assets/grassTile.tile
+u 1 1 assets/webTile.tile
+u 2 2 assets/rockTile.tile
+u 3 3 assets/sandTile.tile
+u 4 4 assets/squareTile.tile
+u 5 5 assets/pentaTile.tile
 
 # tiles on the map
 t 0 0 0 0.0

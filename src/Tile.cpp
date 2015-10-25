@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdio>
 
+#include "Game.hpp"
+
 // Default constructor
         
 // Default descructor
@@ -11,6 +13,8 @@ bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength
     tileMapPosition = newTileMapPosition;
     
     std::FILE* tileFile = std::fopen(tileFilePath, "r");
+	
+	//printf("FILE = %s\n", tileFilePath);
 	
 	if (nullptr == tileFile) {
         return false;
@@ -47,8 +51,13 @@ bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
                     return false;
                 }
                 
-                // add to Box2D hull
-                vertices[count++].Set(intBuf[0], intBuf[1]); // implicit cast to floats
+                {
+                    // add to Box2D hull
+                    float x = intBuf[0] / Game::TILE_SIZE;
+                    float y = intBuf[1] / Game::TILE_SIZE;
+                
+                    vertices[count++].Set(x, y); // implicit cast to floats
+                }
             break;
             // 'v', vertex for pathfinding
             case 'v':
@@ -93,7 +102,8 @@ bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
     }
     else {
         hasCollision = true;
-        shape.Set(vertices, count);
+        //shape.Set(vertices, count);
+        shape.SetAsBox(0.5f, 0.5f);
     }
     
     return true;
