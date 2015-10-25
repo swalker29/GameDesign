@@ -46,6 +46,8 @@ class Game {
         
         void initBox2D();
         
+        void giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity);
+        
         void addTileElementToWorld(int x, int y);
         void removeTileElementFromWorld(int x, int y);
 

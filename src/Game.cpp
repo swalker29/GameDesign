@@ -54,7 +54,9 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
         
     // update the box2d entities based on where player and enemies want to go
-    player.b2body->SetTransform(b2Vec2(player.position.x, player.position.y), 0.0f);
+    //player.b2body->SetTransform(b2Vec2(player.position.x, player.position.y), 0.0f);
+    //player.b2body->ApplyForce(b2Vec2(input.movement.x, input.movement.y), player.b2body->GetPosition(), true);
+    giveImpulseToBody(player.b2body, 7.13f * input.movement);
     
     b2world.Step(BOX2D_TIMESTEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
     b2world.ClearForces();
@@ -81,6 +83,14 @@ void Game::initBox2D() {
         }
     }
     
+}
+
+void Game::giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity) {
+    b2Vec2 currentVelocity = b2body->GetLinearVelocity();
+
+    b2Vec2 desiredChange(desiredVelocity.x - currentVelocity.x, desiredVelocity.y - currentVelocity.y);
+    b2Vec2 impulse = b2body->GetMass() * desiredChange;
+    b2body->ApplyLinearImpulse(impulse, b2body->GetWorldCenter(), true);
 }
 
 void Game::addTileElementToWorld(int x, int y) {
