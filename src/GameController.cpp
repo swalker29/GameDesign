@@ -5,7 +5,7 @@
 #define FPS 60
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
-static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
+static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
 GameController::GameController(int argc, char** argv) {
