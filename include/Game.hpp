@@ -4,6 +4,7 @@
 #include <list>
 #include <memory>
 #include <stdint.h>
+#include <Box2D/Box2D.h>
 
 #include "Enemy.hpp"
 #include "InputData.hpp"
@@ -12,10 +13,6 @@
 
 class Game {
     public:
-        static constexpr float MAX_X = 4.0f;
-        static constexpr float MIN_X = 0.0f;
-        static constexpr float MAX_Y = 3.0f;
-        static constexpr float MIN_Y = 0.0f;
         static constexpr float TILE_SIZE = 3.0f; // We need to define our scale and set this to make sense for Box2D
         
         Player player;
@@ -23,7 +20,7 @@ class Game {
         
         Level level;
         
-        // Default constructor
+        Game();
 
         // Default destructor
         
@@ -45,5 +42,12 @@ class Game {
         };
         
     private:
+        b2World b2world;
+        
+        void initBox2D();
+        
+        void addTileElementToWorld(int x, int y);
+        void removeTileElementFromWorld(int x, int y);
+
 };
 #endif

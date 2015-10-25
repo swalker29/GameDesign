@@ -1,7 +1,5 @@
 #include "GameController.hpp"
 
-#include <Box2D/Box2D.h>
-
 #include "Utils.hpp"
 
 #define FPS 60

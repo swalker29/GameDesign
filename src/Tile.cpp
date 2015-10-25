@@ -29,6 +29,9 @@ bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
 	char buf[256];
 	int intBuf[2];
 	
+	b2Vec2 vertices[8];
+	int count = 0;
+	
 	// initialize Box2D rigid body here
 	
 	// while we have not reached the end of the tileFile, read the next token
@@ -44,7 +47,8 @@ bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
                     return false;
                 }
                 
-                // add to Box2D hull here
+                // add to Box2D hull
+                vertices[count++].Set(intBuf[0], intBuf[1]); // implicit cast to floats
             break;
             // 'v', vertex for pathfinding
             case 'v':
@@ -81,6 +85,15 @@ bool Tile::parseTile(std::FILE* tileFile, int tileLength) {
                 std::fgets(buf, sizeof(buf), tileFile);
             break;
         }
+    }
+    
+    // final box2d stuff
+    if (count < 3) {
+        hasCollision = false;
+    }
+    else {
+        hasCollision = true;
+        shape.Set(vertices, count);
     }
     
     return true;
