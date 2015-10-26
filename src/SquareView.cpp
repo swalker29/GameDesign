@@ -7,7 +7,7 @@ SquareView::SquareView() : length(0.0f), position(), rectangle() {
 // Default destructor
 
 void SquareView::draw(sf::RenderWindow* window) {
-    rectangle.setSize(sf::Vector2f(length, length));
+    rectangle.setRadius(length);
     rectangle.setPosition(position);
     window->draw(rectangle);
 }

@@ -3,6 +3,8 @@
 #include <string>
 #include <cstdio>
 
+#include "Game.hpp"
+
 // Default constructor
         
 // Default descructor
@@ -35,6 +37,9 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
 	char buf[256];
 	int intBuf[2];
 	
+	b2Vec2 vertices[8];
+	int count = 0;
+	
 	// initialize Box2D rigid body here
 	
 	// while we have not reached the end of the tileFile, read the next token
@@ -43,18 +48,23 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
         switch(buf[0]) {
             // 'h', point on the collision convex hull
             case 'h': 
-                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d %d", &intBuf[0], &intBuf[1]);
                 
                 // the points should be within the bounds of the sprite
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= tileLength || intBuf[1] >= tileLength) {
                     return false;
                 }
                 
-                // add to Box2D hull here
+                {
+                    // add to Box2D hull
+                    float x = ((float) intBuf[0] / tileLength) * Game::TILE_SIZE;
+                    float y = ((float) intBuf[1] / tileLength) * Game::TILE_SIZE;
+                    vertices[count++].Set(x, y); // implicit cast to floats
+                }
             break;
             // 'v', vertex for pathfinding
             case 'v':
-                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d %d", &intBuf[0], &intBuf[1]);
                 
                 // the points should be within the bounds of the sprite
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= tileLength || intBuf[1] >= tileLength) {
@@ -65,7 +75,7 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
             break;
             // 'e', edge for pathfinding
             case 'e':
-                std::fscanf(tileFile, "%d, %d", &intBuf[0], &intBuf[1]);
+                std::fscanf(tileFile, "%d %d", &intBuf[0], &intBuf[1]);
                 
                 // the vertex values should be valid
                 if (intBuf[0] < 0 || intBuf[1] < 0) { // || intBuf[0] >= vertexVector.size() || intBuf[1] >= vertexVector.size()
@@ -87,6 +97,16 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
                 std::fgets(buf, sizeof(buf), tileFile);
             break;
         }
+    }
+    
+    // final box2d stuff
+    if (count < 3) {
+        hasCollision = false;
+    }
+    else {
+        hasCollision = true;
+        shape.Set(vertices, count);
+        //shape.SetAsBox(0.5f, 0.5f);
     }
     
     return true;

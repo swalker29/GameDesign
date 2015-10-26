@@ -1,13 +1,11 @@
 #include "GameController.hpp"
 
-#include <Box2D/Box2D.h>
-
 #include "Utils.hpp"
 
 #define FPS 60
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
-static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
+static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
 GameController::GameController(int argc, char** argv) {
@@ -104,9 +102,9 @@ void GameController::initViews() {
         std::exit(-1);
     }
     
-    playerView.length = 35.0f;
-    enemyView.length = 25.0f;
-    playerAim.length = 15.0f;     
+    playerView.length = 20.0f;
+    enemyView.length = 10.0f;
+    playerAim.length = 5.0f;     
 }
 
 void GameController::draw() {
@@ -125,7 +123,7 @@ void GameController::draw() {
 void GameController::drawPlayer() {
     float ratio = getViewRatio();
     // TODO: when we switch the player to use SpriteView, draw player centered at game.player.position, currently we use that as the top-left.
-    playerView.position = ratio * game.player.position;
+    playerView.position = ratio * game.player.position - sf::Vector2f(20.0f, 20.0f);
     playerView.draw(window);
 }
 

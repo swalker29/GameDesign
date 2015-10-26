@@ -94,7 +94,9 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 {
                     Tile tile;
-                    tile.init(buf, intBuf[1], tileLength, meshPoints);
+                    if (!tile.init(buf, intBuf[1], tileLength, meshPoints)) {
+                        return false;
+                    }
                     tileVector[intBuf[0]] = tile;
                 }
             break;

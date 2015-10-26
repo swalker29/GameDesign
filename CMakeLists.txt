@@ -1,6 +1,6 @@
 # Project name
 project(game)
-subdirs(lib)
+add_subdirectory(lib)
 
 # Minimum Cmake Version
 cmake_minimum_required(VERSION 2.6)
@@ -16,7 +16,8 @@ link_libraries(${SFML_LIBRARIES})
 
 # Inlucde External Libraries
 include_directories(${game_SOURCE_DIR}/lib/Box2D)
-link_directories(${game_SOURCE_DIR}/lib/Box2D)
+#link_directories(${game_SOURCE_DIR}/lib/Box2D)
+link_libraries(Box2D)
 
 if(NOT SFML_FOUND)
   # SFML not found

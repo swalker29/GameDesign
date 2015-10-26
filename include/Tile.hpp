@@ -2,13 +2,17 @@
 #define TILE_HPP
 
 #include <list>
-#include <memory>
+#include <stdio.h>
+#include <Box2D/Box2D.h>
 #include <SFML/Graphics/Rect.hpp>
 
 class Tile {
     public:
         int tileMapPosition;
-        // Box2D stuff
+        
+        bool hasCollision;
+        
+        b2PolygonShape shape;
         
         // pathfinding stuff
 

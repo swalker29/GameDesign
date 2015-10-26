@@ -5,7 +5,6 @@
 #include "SpriteView.hpp"
 
 int main(int argc, char** argv) {
-    // no resize
     unsigned int WINDOW_WIDTH = 800;
     unsigned int WINDOW_HEIGHT = 600;
     std::string LEVEL_TILE_SHEET_FILENAME = "assets/testanimation.png";
