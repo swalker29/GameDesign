@@ -13,7 +13,7 @@ class Enemy {
     public:
         sf::Vector2f position;
         sf::Vector2f direction;    
-        float speed;
+        float speed, health;
         void track(const Game& state, const sf::Vector2f& target);
         void setTrackBehavior(EnemyTrackBehavior& newTrackBehavior);
         void setNode(sf::Vector2f& navMeshNode);
