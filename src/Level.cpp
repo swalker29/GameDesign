@@ -2,7 +2,6 @@
 
 #include <string>
 #include <cstdio>
-#include "Game.hpp"
 
 // Default constructor
 
@@ -115,13 +114,6 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                     return false;
                 }
                 
-                {
-                    float tileMidX = intBuf[0] * Game::TILE_SIZE + Game::TILE_SIZE / 2.0;
-                    float tileMidY = intBuf[1] * Game::TILE_SIZE + Game::TILE_SIZE / 2.0;
-                    sf::Vector2f centerStub(tileMidX, tileMidY);
-                    meshPoints->push_back(centerStub);
-                }
-
                 tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
                 tiles[intBuf[0]][intBuf[1]].rotation = tempFloat;
             break;
@@ -131,6 +123,39 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
             break;
         }
     }
+    
+    return true;
+}
+
+bool Level::exportToFile(const std::string& exportPath, const std::vector<std::string>* tileFilePaths) {
+    std::FILE* levelFile = std::fopen(exportPath.c_str(), "w");
+    
+    if (nullptr == levelFile) {
+        return false;
+    }
+    
+    fprintf(levelFile, "# number of tile files this level uses\n");
+    fprintf(levelFile, "n %d\n", tileVector.size());
+    
+    fprintf(levelFile, "\n# size of the tiles in pixels\n");
+    fprintf(levelFile, "s %d\n", tileLength);
+
+    fprintf(levelFile, "\n# size of the level in tiles\n");
+    fprintf(levelFile, "m %d %d\n", width, height);
+
+    fprintf(levelFile, "\n# tile files used\n");
+    for (int x = 0; x < tileVector.size(); x++) {
+        fprintf(levelFile, "u %d %d %s\n", x, x, (*tileFilePaths)[x].c_str());
+    }
+
+    fprintf(levelFile, "\n# tiles on the map\n");
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            fprintf(levelFile, "t %d %d %d %d\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
+        }
+    }
+    
+    std::fclose(levelFile);
     
     return true;
 }

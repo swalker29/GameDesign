@@ -22,6 +22,8 @@ class Level {
         // Default destructor
         
         bool init(const std::string& levelFilePath, std::list<sf::Vector2f>* meshPoints);
+
+        bool exportToFile(const std::string& exportPath, const std::vector<std::string>* tileFilePaths);
     
     private:
         bool parseLevel(FILE* levelFile, std::list<sf::Vector2f>* meshPoints);

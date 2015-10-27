@@ -8,6 +8,8 @@ bool SpriteView::init(const std::string& spriteSheetPath, int newSpriteWidth, in
     // try to load the texture
     bool result = texture.loadFromFile(spriteSheetPath);
     
+    texture.setSmooth(false);
+    
     if (result == true) {
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(0, 0, spriteWidth, spriteHeight));
