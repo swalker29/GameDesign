@@ -45,12 +45,6 @@ class GameController {
         void init();
         void initViews();
         
-        // Input methods
-        // TODO: move these into Controls controller
-        void getInput();
-        void getControllerInput();
-        void getMouseAndKeyboardInput();
-        
         // Drawing logic
         void draw();
         void drawPlayer();

@@ -5,7 +5,7 @@ class BasicSpider: public Enemy {
     public:
         
     private:
-        float meleeDamage
+        float meleeDamage;
 
 }
 
