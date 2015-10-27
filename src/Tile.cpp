@@ -22,8 +22,6 @@ bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength
 	
 	std::fclose(tileFile);
 
-    sf::Vector2f centerStub(0,0);
-    meshPoints->push_back(centerStub);
 
 
 	

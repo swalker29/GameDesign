@@ -1,8 +1,11 @@
 #include "LinearEnemyTrackBehavior.hpp"
 #include "Utils.hpp"
 
-sf::Vector2f LinearEnemyTrackBehavior::track(sf::Vector2f enemyPos, sf::Vector2f playerPos) {
-    sf::Vector2f newVec = enemyPos - playerPos;
+TrackNode LinearEnemyTrackBehavior::track(const Game& state, const sf::Vector2f& node, const sf::Vector2f& myPos, const sf::Vector2f& playerPos) {
+    sf::Vector2f newVec = myPos - playerPos;
     normalizeVector2f(newVec);
-    return newVec;
+    TrackNode tn;
+    tn.node = NULL;
+    tn.direction = newVec;
+    return tn;
 }

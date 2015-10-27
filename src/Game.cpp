@@ -21,17 +21,24 @@ bool Game::init() {
     if (!level.init(LEVEL_FILE, &this->meshPoints)) {
         return false;
     }
-    
+
+    NavEdge ne;
+    ne.from = &this->meshPoints.front();
+    ne.to = &this->meshPoints.back();
+    ne.weight = 1.0;
+    this->meshEdges.push_back(ne);
+
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
     sf::Vector2f direction(0,1);
     float speed = 0.01;
 
-    TrackingEnemyFactory linearEF(TrackingEnemyFactory::linearTrackBehavior);
+    TrackingEnemyFactory linearEF(TrackingEnemyFactory::AStarTrackBehavior);
 
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
         start.x += 0.15;
+        enemy->setNode(this->meshPoints.front());
         this->enemies.push_back(std::move(enemy));
     }
     
@@ -50,7 +57,7 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // all the real game logic starts here
     for (auto& enemy : enemies) {
-        enemy->track(player.position);
+        enemy->track(*this, player.position);
     }
         
     // update the box2d entities based on where player and enemies want to go

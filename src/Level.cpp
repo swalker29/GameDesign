@@ -2,6 +2,7 @@
 
 #include <string>
 #include <cstdio>
+#include "Game.hpp"
 
 // Default constructor
 
@@ -114,6 +115,13 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                     return false;
                 }
                 
+                {
+                    float tileMidX = intBuf[0] * Game::TILE_SIZE + Game::TILE_SIZE / 2.0;
+                    float tileMidY = intBuf[1] * Game::TILE_SIZE + Game::TILE_SIZE / 2.0;
+                    sf::Vector2f centerStub(tileMidX, tileMidY);
+                    meshPoints->push_back(centerStub);
+                }
+
                 tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
                 tiles[intBuf[0]][intBuf[1]].rotation = tempFloat;
             break;

@@ -1,6 +1,7 @@
 #include "TrackingEnemyFactory.hpp"
 
-LinearEnemyTrackBehavior TrackingEnemyFactory::linearTrackBehavior = LinearEnemyTrackBehavior();
+LinearEnemyTrackBehavior TrackingEnemyFactory::LinearTrackBehavior = LinearEnemyTrackBehavior();
+AStarEnemyTrackBehavior TrackingEnemyFactory::AStarTrackBehavior = AStarEnemyTrackBehavior();
 
 TrackingEnemyFactory::TrackingEnemyFactory(EnemyTrackBehavior& etb) :
     etb(&etb) 

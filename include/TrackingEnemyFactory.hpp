@@ -2,6 +2,7 @@
 #define TRACKINGENEMYFACTORY_HPP
 #include "IEnemyFactory.hpp"
 #include "LinearEnemyTrackBehavior.hpp"
+#include "AStarEnemyTrackBehavior.hpp"
 
 class TrackingEnemyFactory : public IEnemyFactory {
     private:
@@ -9,7 +10,8 @@ class TrackingEnemyFactory : public IEnemyFactory {
     protected:
         virtual std::unique_ptr<Enemy> makeEnemy();
     public:
-        static LinearEnemyTrackBehavior linearTrackBehavior;
+        static LinearEnemyTrackBehavior LinearTrackBehavior;
+        static AStarEnemyTrackBehavior AStarTrackBehavior;
         TrackingEnemyFactory(EnemyTrackBehavior& etb);
 };
 #endif
