@@ -11,7 +11,7 @@ bool Level::init(const std::string& levelFilePath, std::list<sf::Vector2f>* mesh
     std::FILE* levelFile = std::fopen(levelFilePath.c_str(), "r");
     
     if (nullptr == levelFile) {
-        fprintf(stderr, "Error: Unable to open file: %s for reading.\n", levelFilePath);
+        fprintf(stderr, "Error: Unable to open file: %s for reading.\n", levelFilePath.c_str());
         return false;
     }
     

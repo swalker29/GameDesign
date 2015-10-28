@@ -25,8 +25,8 @@ int main(int argc, char** argv) {
     std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
     std::string LEVEL_FILE = "assets/map.level";
     const std::string LEVEL_FIlE_EXPORT = "assets/exportedLevel.level";
-    const char* tileArgs[] = {"grassTile.tile", "webTile.tile", "rockTile.tile", "sandTile.tile", "squareTile.tile",
-                              "pentaTile.tile"};
+    const char* tileArgs[] = {"assets/grassTile.tile", "assets/webTile.tile", "assets/rockTile.tile",
+                              "assets/sandTile.tile", "assets/squareTile.tile", "assets/pentaTile.tile"};
     const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 6);
     
     sf::Vector2f position;
