@@ -30,7 +30,6 @@ int main(int argc, char** argv) {
     const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 6);
     
     sf::Vector2f position;
-    std::list<sf::Vector2f> meshPoints;
     
     sf::View view;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT, 32), "MapViewer", sf::Style::Titlebar | sf::Style::Close);
@@ -44,7 +43,7 @@ int main(int argc, char** argv) {
     sf::Vector2i tilePos;
     sf::Vector2i mousePos;
     
-    if (!level.init(LEVEL_FILE, &meshPoints)) {
+    if (!level.init(LEVEL_FILE)) {
         fprintf(stderr, "Error: Unable to load level. Program exiting\n");
         std::exit(-1);
     }

@@ -6,6 +6,9 @@
 #include <vector>
 #include <unordered_map>
 
+static sf::Vector2f tempA(0.0f, 0.0f);
+static sf::Vector2f tempB(0.0f, 0.0f);
+
 class PriorityLocation {
     public:
         typedef std::pair<const sf::Vector2f*, float> PLElement;
@@ -24,18 +27,19 @@ class PriorityLocation {
 
 const sf::Vector2f* aStarNext(const Game& state, const sf::Vector2f& start, const sf::Vector2f& dest);
 
+// this really shouldn't be taking in a game object
 TrackNode AStarEnemyTrackBehavior::track(const Game& state, const sf::Vector2f& node, const sf::Vector2f& myPos, const sf::Vector2f& playerPos) {
 
     //need to calculate end node from player's position with respect to the Game
-    const sf::Vector2f* dest = &state.meshPoints.back(); //stub
-    const sf::Vector2f* next = aStarNext(state, node, *dest);
+    const sf::Vector2f* dest = &tempA;
+    const sf::Vector2f* next = &tempB;
 
     sf::Vector2f direction = myPos - *next;
     normalizeVector2f(direction);
 
     TrackNode tn;
-    tn.node = cmpVector2f(node, *next, TRACKNODE_EPISLON) ? &node : 0;
-    tn.direction = direction;
+    //tn.node = cmpVector2f(node, *next, TRACKNODE_EPISLON) ? &node : 0;
+    //tn.direction = direction;
     return tn;
 }
 

@@ -18,16 +18,10 @@ Game::Game() : b2world(b2Vec2(0.0f, 0.0f)) {
 
 bool Game::init() {
     
-    if (!level.init(LEVEL_FILE, &this->meshPoints)) {
-        fprintf(stderr, "Error: Unable to import level file: %s.\n" LEVEL_FILE.c_str());
+    if (!level.init(LEVEL_FILE)) {
+        fprintf(stderr, "Error: Unable to import level file: %s.\n", LEVEL_FILE.c_str());
         return false;
     }
-
-    NavEdge ne;
-    ne.from = &this->meshPoints.front();
-    ne.to = &this->meshPoints.back();
-    ne.weight = 1.0;
-    this->meshEdges.push_back(ne);
 
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
@@ -39,7 +33,7 @@ bool Game::init() {
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
         start.x += 0.15;
-        enemy->setNode(this->meshPoints.front());
+        //enemy->setNode(this->meshPoints.front());
         this->enemies.push_back(std::move(enemy));
     }
     

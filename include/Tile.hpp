@@ -23,11 +23,9 @@ class Tile {
         
         // Default descructor
         
-        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength, std::list<sf::Vector2f>* meshPoints);
+        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength);
         
     private:
-    
-        std::list<sf::Vector2f>* meshPoints;
         bool parseTile(FILE* tileFile, int newTileMapPosition, int tileLength);
 };
 #endif
