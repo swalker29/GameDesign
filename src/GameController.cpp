@@ -78,7 +78,7 @@ void GameController::init() {
     
     // control configuration initialization
     if (!controlsConfig.loadControlsConfig(CONTROL_CONFIG_FILENAME)) {
-        printf("Error initializing control configuration. Program exiting.\n"); //TODO: print to stderr
+        fprintf(stderr, "Error initializing control configuration. Program exiting.\n");
         fflush(stdout);
         std::exit(-1);
     }

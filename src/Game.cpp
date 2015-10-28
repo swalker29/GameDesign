@@ -19,6 +19,7 @@ Game::Game() : b2world(b2Vec2(0.0f, 0.0f)) {
 bool Game::init() {
     
     if (!level.init(LEVEL_FILE, &this->meshPoints)) {
+        fprintf(stderr, "Error: Unable to import level file: %s.\n" LEVEL_FILE.c_str());
         return false;
     }
 

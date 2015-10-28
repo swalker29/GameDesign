@@ -11,6 +11,7 @@ bool Level::init(const std::string& levelFilePath, std::list<sf::Vector2f>* mesh
     std::FILE* levelFile = std::fopen(levelFilePath.c_str(), "r");
     
     if (nullptr == levelFile) {
+        fprintf(stderr, "Error: Unable to open file: %s for reading.\n", levelFilePath);
         return false;
     }
     
@@ -21,7 +22,6 @@ bool Level::init(const std::string& levelFilePath, std::list<sf::Vector2f>* mesh
     return parseSuccess;
 }
 
-// TODO: print to stderr/cerr the exact cause of each failure
 bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints) {
     char buf[256];
     int intBuf[4];
@@ -42,6 +42,7 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 // the map needs to use at least one tile
                 if (numTiles < 1) {
+                    fprintf(stderr, "Error: The map file must use at least one tile.\n");
                     return false;
                 }
                 
@@ -53,6 +54,7 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 // tile length needs to be at least one pixel
                 if (tileLength < 1) {
+                    fprintf(stderr, "Error: The length of a tile needs to be at least one pixel.\n");
                     return false;
                 }
             break;
@@ -62,6 +64,7 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 // the map needs to be at least one tile wide and tall
                 if (width < 1 || height < 1) {
+                    fprintf(stderr, "Error: The level must be at least one tile wide and tall.\n");
                     return false;
                 }
                 
@@ -79,22 +82,26 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 // we must have seen the 'n' line
                 if (numTiles < 1) {
+                    fprintf(stderr, "Error: The map file must define the number of tiles used (n) before a uses tile definition (u).\n");
                     return false;
                 }
                 
                 // we must have seen the the 's' line as well
                 if (tileLength < 1) {
+                    fprintf(stderr, "Error: The map file must define the tile length (s) before a uses tile definition (u).\n");
                     return false;
                 }
                 
                 // the tile resource num and tile map position should be between 0 and numTiles - 1
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= numTiles || intBuf[1] >= numTiles) {
+                    fprintf(stderr, "Error: The tile resource number and tile map position must be greater than or equal to zero and less than the number of tiles used.\n");
                     return false;
                 }
                 
                 {
                     Tile tile;
                     if (!tile.init(buf, intBuf[1], tileLength, meshPoints)) {
+                        fprintf(stderr, "Failed to import Tile file: %s\n.", buf);
                         return false;
                     }
                     tileVector[intBuf[0]] = tile;
@@ -106,16 +113,19 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 
                 // we should have seen the 'm' line
                 if ( width < 1 || height < 1) {
+                    fprintf(stderr, "Error: The map file must define the size of the dimensions of the level (m) before a tile definition (t).\n");
                     return false;
                 }
                 
                 // the x and y values need to be between 0 and width/height
                 if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= width || intBuf[1] >= height) {
+                    fprintf(stderr, "Error: The tile must be placed within the bounds of the level.\n");
                     return false;
                 }
                 
                 // the rotation should be valid
                 if (intBuf[3] < 0 || intBuf[3] > 3) {
+                    fprintf(stderr, "Error: The rotation should be an integer between 0 and 3.\n");
                     return false;
                 }
                 
