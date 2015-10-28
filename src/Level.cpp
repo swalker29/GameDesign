@@ -151,7 +151,7 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
     fprintf(levelFile, "\n# tiles on the map\n");
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            fprintf(levelFile, "t %d %d %d %d\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
+            fprintf(levelFile, "t %d %d %d %f\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
         }
     }
     

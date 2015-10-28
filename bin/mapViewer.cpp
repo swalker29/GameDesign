@@ -169,7 +169,30 @@ int main(int argc, char** argv) {
                 }
             }
         }
+        //handle tile rotation
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+            mousePos = sf::Mouse::getPosition(window);
+            tilePos = getTilePosition(position, mousePos);
+            level.tiles[tilePos.x][tilePos.y].rotation = 0;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)){
+            mousePos = sf::Mouse::getPosition(window);
+            tilePos = getTilePosition(position, mousePos);
+            level.tiles[tilePos.x][tilePos.y].rotation = 90;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)){
+            mousePos = sf::Mouse::getPosition(window);
+            tilePos = getTilePosition(position, mousePos);
+            level.tiles[tilePos.x][tilePos.y].rotation = 180;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)){
+            mousePos = sf::Mouse::getPosition(window);
+            tilePos = getTilePosition(position, mousePos);
+            level.tiles[tilePos.x][tilePos.y].rotation = 270;
+        }
 
+
+        //spacebar exports to file
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
             level.exportToFile(LEVEL_FIlE_EXPORT, &TILE_FILEPATHS);
         }
