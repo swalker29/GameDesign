@@ -11,12 +11,6 @@
 #include "Level.hpp"
 #include "Player.hpp"
 
-typedef struct NavEdge {
-    const sf::Vector2f* from;
-    const sf::Vector2f* to;
-    float weight;
-} NavEdge;
-
 class Game {
     public:
         static constexpr float TILE_SIZE = 3.0f; // We need to define our scale and set this to make sense for Box2D
@@ -24,8 +18,6 @@ class Game {
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
         
-        std::list<sf::Vector2f> meshPoints;
-        std::list<NavEdge> meshEdges;
         Level level;
         
         Game();

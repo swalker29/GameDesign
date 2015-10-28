@@ -23,12 +23,6 @@ bool Game::init() {
         return false;
     }
 
-    NavEdge ne;
-    ne.from = &this->meshPoints.front();
-    ne.to = &this->meshPoints.back();
-    ne.weight = 1.0;
-    this->meshEdges.push_back(ne);
-
     const int nEnemies = 10;
     sf::Vector2f start(0.5, 0);
     sf::Vector2f direction(0,1);
@@ -39,7 +33,7 @@ bool Game::init() {
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
         start.x += 0.15;
-        enemy->setNode(this->meshPoints.front());
+        //enemy->setNode(this->meshPoints.front());
         this->enemies.push_back(std::move(enemy));
     }
     
