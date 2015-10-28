@@ -1,7 +1,8 @@
 #include "Tile.hpp"
 
-#include <string>
 #include <cstdio>
+#include <memory>
+#include <string>
 
 #include "Game.hpp"
 
@@ -57,7 +58,7 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
                     // add to Box2D hull
                     float x = ((float) intBuf[0] / tileLength) * Game::TILE_SIZE;
                     float y = ((float) intBuf[1] / tileLength) * Game::TILE_SIZE;
-                    vertices[count++].Set(x, y); // implicit cast to floats
+                    vertices[count++].Set(x, y);
                 }
             break;
             // 'v', vertex for pathfinding
@@ -70,13 +71,18 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
                 }
                 
                 // add to pathfinding vertex here
+                {
+                    float x = ((float) intBuf[0] / tileLength) * Game::TILE_SIZE;
+                    float y = ((float) intBuf[1] / tileLength) * Game::TILE_SIZE;
+                    pathVertices.push_back(std::make_shared<PathVertex>(sf::Vector2f(x, y)));
+                }
             break;
             // 'e', edge for pathfinding
             case 'e':
                 std::fscanf(tileFile, "%d %d", &intBuf[0], &intBuf[1]);
                 
                 // the vertex values should be valid
-                if (intBuf[0] < 0 || intBuf[1] < 0) { // || intBuf[0] >= vertexVector.size() || intBuf[1] >= vertexVector.size()
+                if (intBuf[0] < 0 || intBuf[1] < 0 || intBuf[0] >= pathVertices.size() || intBuf[1] >= pathVertices.size()) {
                     return false;
                 }
                 
@@ -85,10 +91,13 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
                     return false;
                 }
                 
-                // we should not have seen this edge or its inverse before, the graph is undirected
+                // we should not have seen this edge before
                 
                 
                 // add to pathfinding edge here
+                pathVertices[intBuf[0]]->neighbors.push_back(pathVertices[intBuf[1]]);
+                pathVertices[intBuf[1]]->neighbors.push_back(pathVertices[intBuf[0]]);
+                
             break;
             // something else, ignore it
             default:
@@ -104,7 +113,6 @@ bool Tile::parseTile(std::FILE* tileFile, int newTileMapPosition, int tileLength
     else {
         hasCollision = true;
         shape.Set(vertices, count);
-        //shape.SetAsBox(0.5f, 0.5f);
     }
     
     return true;

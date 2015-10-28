@@ -114,6 +114,11 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                     return false;
                 }
                 
+                // the rotation should be valid
+                if (intBuf[3] < 0 || intBuf[3] > 3) {
+                    return false;
+                }
+                
                 tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
                 tiles[intBuf[0]][intBuf[1]].rotation = intBuf[3];
             break;
