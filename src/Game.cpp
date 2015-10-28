@@ -107,10 +107,14 @@ void Game::addTileElementToWorld(int x, int y) {
         if (level.tiles[x][y].b2body != nullptr) {
             removeTileElementFromWorld(x, y);
         }
+        
+        int rotation = level.tiles[x][y].rotation;
+        float additionalX = rotation > 0 && rotation < 3 ? TILE_SIZE : 0.0f;
+        float additionalY = rotation > 1 ? TILE_SIZE : 0.0f;
               
-        bodyDef.position.Set(x * TILE_SIZE, y * TILE_SIZE);
-        //bodyDef.angle = level.tiles[x][y].rotation;
-        bodyDef.angle = 0.0f;
+        bodyDef.position.Set(x * TILE_SIZE + additionalX, y * TILE_SIZE + additionalY);
+        bodyDef.angle = level.tiles[x][y].rotation * b2_pi / 2.0f;
+        //bodyDef.angle = 0.0f;
         
         level.tiles[x][y].b2body = b2world.CreateBody(&bodyDef);
         level.tiles[x][y].b2fixture = level.tiles[x][y].b2body->CreateFixture(&(level.tileVector[level.tiles[x][y].resource].shape), BOX2D_VOID_DENSITY);
