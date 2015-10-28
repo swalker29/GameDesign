@@ -8,7 +8,7 @@ class b2Fixture;
 class TileElement {
     public:
         int resource;
-        float rotation;
+        int rotation;
         b2Body* b2body;
         b2Fixture* b2fixture;
 };

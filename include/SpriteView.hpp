@@ -12,6 +12,7 @@
 class SpriteView : public View {
     public:
         sf::Vector2f position;
+        float rotation;
         
         // Default constructor
         

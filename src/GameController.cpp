@@ -155,6 +155,7 @@ void GameController::drawLevel() {
         for (int y = yLow; y <= yHigh; y++) {
             levelView.updateSprite(game.level.tileVector[game.level.tiles[x][y].resource].tileMapPosition);
             levelView.position = sf::Vector2f(x * game.level.tileLength, y * game.level.tileLength);
+            levelView.rotation = 90 * game.level.tiles[x][y].rotation;
             levelView.draw(window);
         }
     }    

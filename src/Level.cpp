@@ -24,7 +24,7 @@ bool Level::init(const std::string& levelFilePath, std::list<sf::Vector2f>* mesh
 // TODO: print to stderr/cerr the exact cause of each failure
 bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints) {
     char buf[256];
-    int intBuf[3];
+    int intBuf[4];
     float tempFloat;
     
     width = -1;
@@ -102,7 +102,7 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
             break;
             // 't', tile definition: x y tileResourceNum rotation
             case 't':
-                std::fscanf(levelFile, "%d %d %d %f", &intBuf[0], &intBuf[1], &intBuf[2], &tempFloat);
+                std::fscanf(levelFile, "%d %d %d %d", &intBuf[0], &intBuf[1], &intBuf[2], &intBuf[3]);
                 
                 // we should have seen the 'm' line
                 if ( width < 1 || height < 1) {
@@ -115,7 +115,7 @@ bool Level::parseLevel(std::FILE* levelFile, std::list<sf::Vector2f>* meshPoints
                 }
                 
                 tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
-                tiles[intBuf[0]][intBuf[1]].rotation = tempFloat;
+                tiles[intBuf[0]][intBuf[1]].rotation = intBuf[3];
             break;
             // something else, ignore it
             default:
@@ -135,7 +135,7 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
     }
     
     fprintf(levelFile, "# number of tile files this level uses\n");
-    fprintf(levelFile, "n %d\n", tileVector.size());
+    fprintf(levelFile, "n %lu\n", tileVector.size());
     
     fprintf(levelFile, "\n# size of the tiles in pixels\n");
     fprintf(levelFile, "s %d\n", tileLength);
@@ -151,7 +151,7 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
     fprintf(levelFile, "\n# tiles on the map\n");
     for (int x = 0; x < width; x++) {
         for (int y = 0; y < height; y++) {
-            fprintf(levelFile, "t %d %d %d %f\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
+            fprintf(levelFile, "t %d %d %d %d\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
         }
     }
     

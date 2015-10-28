@@ -27,6 +27,9 @@ void SpriteView::updateSprite(int frame) {
 }
 
 void SpriteView::draw(sf::RenderWindow* window) {
-    sprite.setPosition(position);
+    sprite.setPosition(position + sf::Vector2f(spriteWidth/2, spriteHeight/2));
+    sprite.setOrigin(spriteWidth / 2, spriteHeight / 2);
+    sprite.rotate(rotation);
     window->draw(sprite);
+    sprite.rotate(-rotation);
 }

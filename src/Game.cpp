@@ -109,7 +109,8 @@ void Game::addTileElementToWorld(int x, int y) {
         }
               
         bodyDef.position.Set(x * TILE_SIZE, y * TILE_SIZE);
-        bodyDef.angle = level.tiles[x][y].rotation;
+        //bodyDef.angle = level.tiles[x][y].rotation;
+        bodyDef.angle = 0.0f;
         
         level.tiles[x][y].b2body = b2world.CreateBody(&bodyDef);
         level.tiles[x][y].b2fixture = level.tiles[x][y].b2body->CreateFixture(&(level.tileVector[level.tiles[x][y].resource].shape), BOX2D_VOID_DENSITY);
