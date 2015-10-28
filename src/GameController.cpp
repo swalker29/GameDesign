@@ -161,7 +161,8 @@ void GameController::drawLevel() {
 }
 
 void GameController::setViewForDrawing() {
-    view.setCenter(game.player.position * getViewRatio());
+    float viewRatio = getViewRatio();
+    view.setCenter(sf::Vector2f(std::round(game.player.position.x * getViewRatio()), std::round(game.player.position.y * getViewRatio())));
     window->setView(view);
 }
 
