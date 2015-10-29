@@ -22,6 +22,8 @@ GameController::~GameController() {
 void GameController::run() {    
     sf::Time elapsed;
     sf::Clock clock;
+    enum GameState {mainMenu, runSurvival, runCampaign};
+    GameState gameState = mainMenu;
 
     init();
 
