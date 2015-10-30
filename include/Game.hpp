@@ -4,7 +4,9 @@
 #include <list>
 #include <memory>
 #include <stdint.h>
+
 #include <Box2D/Box2D.h>
+#include <SFML/System/Vector2.hpp>
 
 #include "Enemy.hpp"
 #include "InputData.hpp"
@@ -45,6 +47,7 @@ class Game {
         b2World b2world;
         
         void initBox2D();
+        bool initWeapons();
         
         void giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity);
         

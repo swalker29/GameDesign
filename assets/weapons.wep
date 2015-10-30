@@ -1,0 +1,21 @@
+# number of weapons (max 8)
+n 1
+
+# weapon declaration: w wep# wepHudSpriteIndex projectileSpriteIndex damage
+
+# pistol
+w 0 0 0 5
+
+
+Have a weapon class. The weapon contains generic things like rate of fire and projectile id as members.
+Then have a behavior int that defines the weapon behavior. Then when calling fire(), the weapon uses
+the behavior int to decide how to create the projectiles. Don't forget tile sheet position.
+
+This will allow us to do some cool things like shotgun spawns a handful of projectiles. Pistol and machine gun
+are vanilla and differ by the rate of fire. Can do chainsaw by damaging every enemy in a cone or flamethrower. 
+Can do laser by doing damage in a thin rectangle. Rocket launcher is just vanilla with slow rate of fire.
+
+Projectiles are defined in a similar manner. They have members like damage, speed, and tile sheet position. They can
+have a behavior int that describes the behavior when it collides with something. Bullets just decrease the enemy's 
+health if it hits an enemy. Rocket launcher can damage what it hits, plus a splash damage effect. The effect
+can vary its damage based on distance.

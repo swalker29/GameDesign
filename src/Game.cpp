@@ -3,7 +3,8 @@
 #include <cstdio>
 #include "TrackingEnemyFactory.hpp"
 
-static const std::string LEVEL_FILE = "assets/map.level";
+static const std::string LEVEL_FILE_PATH = "assets/map.level";
+static const std::string WEAPONS_FILE_PATH = "assets/weapons.wep";
 
 static constexpr float32 BOX2D_TIMESTEP = 1.0f / 60.0f;
 static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
@@ -18,8 +19,8 @@ Game::Game() : b2world(b2Vec2(0.0f, 0.0f)) {
 
 bool Game::init() {
     
-    if (!level.init(LEVEL_FILE)) {
-        fprintf(stderr, "Error: Unable to import level file: %s.\n", LEVEL_FILE.c_str());
+    if (!level.init(LEVEL_FILE_PATH)) {
+        fprintf(stderr, "Error: Unable to import level file: %s.\n", LEVEL_FILE_PATH.c_str());
         return false;
     }
 
@@ -85,6 +86,22 @@ void Game::initBox2D() {
         }
     }
     
+}
+
+bool Game::initWeapons() {
+    /*
+    std::FILE* weaponsFile = std::fopen(WEAPONS_FILE_PATH, "r");
+	
+	if (nullptr == weaponsFile) {
+	    fprintf(stderr, "Error: Unable to open file: %s for reading.\n", WEAPONS_FILE_PATH);
+        return false;
+    }
+    
+    
+	
+	std::fclose(tileFile);
+    */
+	return true;
 }
 
 void Game::giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity) {
