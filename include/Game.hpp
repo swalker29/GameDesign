@@ -14,6 +14,10 @@
 #include "Player.hpp"
 
 class Game {
+    // Disable copy constructor and assignment operator
+    Game(const Game&) = delete;
+    Game& operator=(const Game&) = delete;
+    
     public:
         static constexpr float TILE_SIZE = 3.0f; // We need to define our scale and set this to make sense for Box2D
         
