@@ -12,6 +12,9 @@
 #include "InputData.hpp"
 #include "Level.hpp"
 #include "Player.hpp"
+#include "Projectile.hpp"
+#include "ProjectileInstance.hpp"
+#include "Weapon.hpp"
 
 class Game {
 
@@ -23,6 +26,10 @@ class Game {
         
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
+        std::list<ProjectileInstance> projectileInstances;
+        
+        std::vector<Weapon> weapons;
+        std::vector<Projectile> projectiles;
         
         Level level;
         
@@ -51,7 +58,6 @@ class Game {
         b2World b2world;
         
         void initBox2D();
-        bool initWeapons();
         
         void giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity);
         

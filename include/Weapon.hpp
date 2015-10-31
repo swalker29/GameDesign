@@ -2,6 +2,7 @@
 #define WEAPON_HPP
 
 #include <list>
+#include <string>
 #include <vector>
 
 #include <SFML/System/Vector2.hpp>
@@ -19,16 +20,22 @@ class Weapon {
         int weaponHUDIndex;
         int playerSpriteIndex;
         
+        Weapon();
+        
         Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHUDIndex, int playerSpriteIndex);
         
         // Default destructor
         
         void fire(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
         
+        static bool importWeapons(const std::string& weaponFilePath, std::vector<Weapon>* weaponVector, int numProjectiles);
+        
     private:
         void fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
         void fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
         void fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
         void fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
+        
+        static bool parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVector, int numProjectiles);
 };
 #endif

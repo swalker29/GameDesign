@@ -1,7 +1,7 @@
 #ifndef LEVEL_HPP
 #define LEVEL_HPP
 
-#include <stdio.h>
+#include <string>
 #include <vector>
 
 #include "Tile.hpp"

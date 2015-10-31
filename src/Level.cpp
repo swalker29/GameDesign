@@ -1,6 +1,5 @@
 #include "Level.hpp"
 
-#include <string>
 #include <cstdio>
 
 // Default constructor
@@ -32,7 +31,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
     tileLength = -1;
     int numTiles = -1;
     
-    // while we have not reached the end of the levelFile, read the next token
+    // while we have not reached the end of the level file, read the next token
     while(std::fscanf(levelFile, "%s", buf) != EOF) {
         // switch on the first character of the line read
         switch(buf[0]) {
