@@ -1,6 +1,8 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include <vector>
+
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
 
@@ -12,6 +14,11 @@ class Player {
         b2Body* b2body;
         b2Fixture* b2fixture;
         b2CircleShape circle;
+        
+        int activeWeapon;
+        std::vector<int> ammoCounts;
+        
+        float health;
     
         Player();
 };
