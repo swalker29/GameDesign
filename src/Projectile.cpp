@@ -93,7 +93,7 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
                 projectileVector->resize(numProjectiles);
             break;
             // 'p', projectile declaration
-            case 'w': 
+            case 'p': 
                 std::fscanf(projectilesFile, "%d %d %d %f %f %f", &intBuf[0], &intBuf[1], &intBuf[2], &floatBuf[0], &floatBuf[1], &floatBuf[2]);
                 
                 // the damage, velocity, and radius must be greater than zero

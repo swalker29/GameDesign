@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-static constexpr float EPSILON = 0.001f;
+static constexpr float EPSILON = 0.01f;
 
 Weapon::Weapon() {
 
