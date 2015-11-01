@@ -1,17 +1,18 @@
 #ifndef SURVIVALSTATE_HPP
 #define SURVIVALSTATE_HPP
 
+#include <list>
+
 #include <SFML/Graphics.hpp> // lazy includes
 #include <SFML/System.hpp>
 
+#include "AppState.hpp"
+#include "ControlsConfig.hpp"
 #include "Game.hpp"
+#include "ImageView.hpp"
 #include "InputData.hpp"
 #include "SquareView.hpp"
 #include "SpriteView.hpp"
-#include "ImageView.hpp"
-#include "AppState.hpp"
-
-#include "ControlsConfig.hpp"
 
 class GameApp;
 
@@ -48,6 +49,8 @@ class SurvivalState : public AppState {
         SpriteView levelView;
         ImageView titleView;
         
+        SquareView projectileView;
+        
         // Initialization logic
         void init();
         void initViews();
@@ -59,6 +62,7 @@ class SurvivalState : public AppState {
         void drawEnemies();
         void drawAnimations();
         void drawLevel();
+        void drawProjectiles();
         void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;

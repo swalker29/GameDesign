@@ -5,20 +5,21 @@
 #include <string>
 #include <vector>
 
+#include <Box2D/Box2D.h>
+
 class Projectile {
     public:
         float damage;
         float velocity;
-        float radius;
         
         int behavior; // how this projectile behaves on impact
         int projectileSpriteIndex;
         
-        // collision entity
+        b2CircleShape circle; // can get the radius through here
         
         Projectile();
         
-        Projectile(float damage, float velocity, float radius, int behavior, int projectileSpriteIndex);
+        Projectile(float damage, float velocity, int behavior, int projectileSpriteIndex);
         
         // Default destructor
         

@@ -6,7 +6,7 @@ Projectile::Projectile() {
 
 }
 
-Projectile::Projectile(float damage, float velocity, float radius, int behavior, int projectileSpriteIndex) : damage(damage), velocity(velocity), radius(radius), behavior(behavior), projectileSpriteIndex(projectileSpriteIndex) {
+Projectile::Projectile(float damage, float velocity, int behavior, int projectileSpriteIndex) : damage(damage), velocity(velocity), behavior(behavior), projectileSpriteIndex(projectileSpriteIndex) {
 
 }
 
@@ -124,7 +124,9 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
                 
                 // create the weapon here and add it to the vector
                 {
-                    Projectile projectile(floatBuf[0], floatBuf[1], floatBuf[2], intBuf[1], intBuf[2]);
+                    Projectile projectile(floatBuf[0], floatBuf[1], intBuf[1], intBuf[2]);
+                    projectile.circle.m_p.Set(0.0f, 0.0f);
+                    projectile.circle.m_radius = floatBuf[2];
                     (*projectileVector)[intBuf[0]] = projectile;
                 }
             break;

@@ -66,6 +66,10 @@ void Game::update(const float timeElapsed, InputData& input) {
     for (auto& enemy : enemies) {
         enemy->track(*this, player.position);
     }
+    
+    if (input.fireWeapon) {
+        weapons[player.activeWeapon].fire(player, &projectiles, &projectileInstances, &enemies, &b2world);
+    }
         
     // update the box2d entities based on where player and enemies want to go
     //player.b2body->SetTransform(b2Vec2(player.position.x, player.position.y), 0.0f);
@@ -77,6 +81,17 @@ void Game::update(const float timeElapsed, InputData& input) {
     b2Vec2 position = player.b2body->GetPosition();
     player.position.x = position.x;
     player.position.y = position.y;
+    
+    auto iter = projectileInstances.begin();
+    
+    for (auto iter = projectileInstances.begin(); iter != projectileInstances.end(); iter++) {
+        b2Vec2 position = (*iter).b2body->GetPosition();
+        (*iter).position.x = position.x;
+        (*iter).position.y = position.y;
+        
+        // if collision, delete object
+    }
+        
     
     // box2d creation and destroying of collision entities for nearby tiles
     // sounds wasteful but there's no better way

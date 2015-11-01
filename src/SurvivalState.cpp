@@ -104,7 +104,8 @@ void SurvivalState::initViews() {
     
     playerView.length = 20.0f;
     enemyView.length = 10.0f;
-    playerAim.length = 5.0f;     
+    playerAim.length = 5.0f;    
+    projectileView.length = 2.0f; 
 }
 
 //handles drawing the main menu
@@ -144,6 +145,7 @@ void SurvivalState::draw() {
     drawPlayer();
     drawAim();
     drawEnemies();
+    drawProjectiles();
 
     window->display();
 }
@@ -187,6 +189,15 @@ void SurvivalState::drawLevel() {
             levelView.draw(window);
         }
     }    
+}
+
+void SurvivalState::drawProjectiles() {
+    float ratio = getViewRatio();
+    
+    for (auto iter = game.projectileInstances.begin(); iter != game.projectileInstances.end(); iter++) {        
+        projectileView.position = ratio * (*iter).position - sf::Vector2f(1.0f, 1.0f);
+        projectileView.draw(window);
+    }   
 }
 
 void SurvivalState::setViewForDrawing() {
