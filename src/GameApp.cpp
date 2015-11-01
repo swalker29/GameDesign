@@ -9,17 +9,17 @@ SurvivalState GameApp::sState;
 CampaignState GameApp::cState;
 
 GameApp::GameApp(sf::RenderWindow* window) :
-    window(window)
-   // quitFlag(0)
+    window(window),
+    quitFlag(0)
 {
     //sets the default state we start in
-    this->state = &sState;
+    this->state = &mState;
 }
 
 void GameApp::run() {
-    //while (!quitFlag) {
+    while (!quitFlag) {
         this->state->handle(*this);
-    //}
+    }
 }
 
 void GameApp::goMenu() {

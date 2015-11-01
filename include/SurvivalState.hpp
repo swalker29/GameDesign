@@ -67,12 +67,6 @@ class SurvivalState : public AppState {
         void updateViews();
         inline float getViewRatio() const;
 
-        // Drawing logic for main menu
-        void drawMainMenu();
-        void drawTitle();
-        void drawButtons();
-        void drawMenuAssets();
-
 
 };
 #endif

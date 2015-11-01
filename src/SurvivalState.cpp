@@ -108,33 +108,6 @@ void SurvivalState::initViews() {
     projectileView.length = 2.0f; 
 }
 
-//handles drawing the main menu
-void SurvivalState::drawMainMenu(){
-    window->clear(sf::Color::Black);
-    setViewForDrawing();
-
-    drawTitle();
-    drawButtons();
-    drawMenuAssets();
-}
-
-void SurvivalState::drawTitle(){
-    std::string titleImagePath = "assets/gameTitle.png";
-    titleView.init(titleImagePath);
-    titleView.position = sf::Vector2f(-300.0, -200.0);
-    titleView.draw(window);
-
-}
-
-void SurvivalState::drawButtons(){
-    
-
-}
-
-void SurvivalState::drawMenuAssets(){
-
-}
-
 //handles drawing the game
 void SurvivalState::draw() {
     window->clear(sf::Color::Black);
