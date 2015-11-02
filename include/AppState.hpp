@@ -5,7 +5,7 @@
 class AppState{
     public:
         virtual ~AppState(){}
-        virtual void handle(GameApp& app){};
+        virtual void handle(GameApp& app) = 0;
 };
 
 #endif

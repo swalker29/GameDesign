@@ -18,11 +18,9 @@ class GameApp;
 
 class SurvivalState : public AppState {
     public:
-        SurvivalState();
-        //SurvivalState(const SurvivalState&) = delete;
-       // SurvivalState& operator = (const SurvivalState&) = delete;
+        // Default constructor
         
-        ~SurvivalState();
+        // Default destructor
         
         void handle(GameApp& gameApp);
         

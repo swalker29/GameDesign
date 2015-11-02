@@ -8,28 +8,42 @@ MenuState GameApp::mState;
 SurvivalState GameApp::sState;
 CampaignState GameApp::cState;
 
-GameApp::GameApp(sf::RenderWindow* window) :
-    window(window),
-    quitFlag(0)
-{
-    //sets the default state we start in
-    this->state = &mState;
+GameApp::GameApp() : quitFlag(false) {
+    // Start in the menu
+    state = &mState;
+    
+    window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Escape From Arachine", sf::Style::Titlebar | sf::Style::Close);
+}
+
+GameApp::~GameApp() {
+    if (window != nullptr) {
+        delete window;
+        window = nullptr;
+    }
 }
 
 void GameApp::run() {
-    while (!quitFlag) {
-        this->state->handle(*this);
+    while (window->isOpen() && !quitFlag) {
+        state->handle(*this);
     }
 }
 
 void GameApp::goMenu() {
-    this->state = &mState;
+    state = &mState;
 }
 
 void GameApp::goSurvival() {
-    this->state = &sState;
+    state = &sState;
 }
 
-void GameApp::goCampaign(){
-    this->state = &cState;
+void GameApp::goCampaign() {
+    state = &cState;
+}
+
+void GameApp::quit() {
+    quitFlag = true;
+}
+
+sf::RenderWindow* GameApp::getWindow() {
+    return window;
 }

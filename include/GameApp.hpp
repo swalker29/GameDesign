@@ -9,23 +9,29 @@ class MenuState;
 class AppState;
 
 class GameApp{
-    private:
-        static SurvivalState sState;
-        static CampaignState cState;
-        static MenuState mState;
-
-        int quitFlag;
-        AppState* state;
-        sf::RenderWindow* window;
-
     public:
-        GameApp(sf::RenderWindow* window);
+        GameApp();
+        
+        ~GameApp();
+        
         void goSurvival();
         void goCampaign();
         void goMenu();
 
         void run();
-        void quit() {this->quitFlag = 1; };
-        sf::RenderWindow* getWindow() { return this->window; }
+        void quit();
+        
+        sf::RenderWindow* getWindow();
+    
+    private:
+        static SurvivalState sState;
+        static CampaignState cState;
+        static MenuState mState;
+
+        bool quitFlag;
+        AppState* state;
+        sf::RenderWindow* window;
+
+    
 };
 #endif

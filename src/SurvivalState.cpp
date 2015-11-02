@@ -8,16 +8,9 @@ static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
-SurvivalState::SurvivalState() {
+// Default constructor
 
-}
-
-SurvivalState::~SurvivalState() {
-    if (window != nullptr) {
-        delete window;
-        window = nullptr;
-    }
-}
+// Default destructor
 
 void SurvivalState::handle(GameApp& gameApp) {
     window = gameApp.getWindow();
