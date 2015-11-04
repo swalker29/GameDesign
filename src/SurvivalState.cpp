@@ -42,6 +42,14 @@ void SurvivalState::handle(GameApp& gameApp) {
                 // restart the clock so we don't have an incredibly long elapsed time
                 clock.restart();
             }
+            //handle pausing event
+            if(event.type == sf::Event::KeyPressed) {
+                if(event.key.code == sf::Keyboard::Escape) {
+                    if(isPaused == false) {
+                        isPaused = true;
+                    } else { isPaused = false; }
+                }
+            }
         }
         
         // Leave this here instead of in getInput() because if the controller gets disconnected we should pause.
@@ -52,9 +60,13 @@ void SurvivalState::handle(GameApp& gameApp) {
         
         elapsed = clock.restart();
         
-
-        game.update(elapsed.asSeconds(), controlsConfig.input);
-        draw();
+        //only update gamelogic and draw the game if the game isn't paused
+        if(isPaused == false) {
+            game.update(elapsed.asSeconds(), controlsConfig.input);
+            draw();
+        } else {
+            drawPause();
+        }
     }
 
     return;
@@ -94,11 +106,22 @@ void SurvivalState::initViews() {
         fprintf(stderr, "Error: Unable to load level tile sheet. Program exiting\n");
         std::exit(-1);
     }
-    
+
+    initPauseScreen();
+
     playerView.length = 20.0f;
     enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
     projectileView.length = 2.0f; 
+}
+
+void SurvivalState::initPauseScreen() {
+    
+    pauseText.setFont(font);
+    pauseText.setCharacterSize(50);
+    pauseText.setColor(sf::Color::Blue);
+    pauseText.setString("PAUSED: \n press Esc to resume");
+    
 }
 
 //handles drawing the game
@@ -164,6 +187,14 @@ void SurvivalState::drawProjectiles() {
         projectileView.position = ratio * (*iter).position - sf::Vector2f(1.0f, 1.0f);
         projectileView.draw(window);
     }   
+}
+
+void SurvivalState::drawPause() {
+    float ratio = getViewRatio();
+    pauseTextLocation = ratio * (game.player.position + 2.0f * game.player.direction);
+    pauseText.setPosition(pauseTextLocation.x - 300, pauseTextLocation.y - 200);
+    window->draw(pauseText);
+    window->display();
 }
 
 void SurvivalState::setViewForDrawing() {

@@ -3,6 +3,7 @@
 
 #include "Level.hpp"
 #include "SpriteView.hpp"
+#include "math.h"
 
 sf::Vector2i getTilePosition(sf::Vector2f viewPosition, sf::Vector2i mousePosition){
     int mouseX = mousePosition.x;
@@ -13,8 +14,8 @@ sf::Vector2i getTilePosition(sf::Vector2f viewPosition, sf::Vector2i mousePositi
     int absX = (viewPosX + (mouseX)) - 400;
     int absY = (viewPosY + (mouseY)) - 300;
 
-    int tilePosX = absX / 128; //TILESIZE
-    int tilePosY = absY / 128;
+    int tilePosX = absX / 256; //TILESIZE
+    int tilePosY = absY / 256;
 
     return sf::Vector2i(tilePosX, tilePosY);
 }
@@ -23,11 +24,14 @@ int main(int argc, char** argv) {
     unsigned int WINDOW_WIDTH = 800;
     unsigned int WINDOW_HEIGHT = 600;
     std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
-    std::string LEVEL_FILE = "assets/map.level";
-    const std::string LEVEL_FIlE_EXPORT = "assets/exportedLevel.level";
-    const char* tileArgs[] = {"assets/grassTile.tile", "assets/webTile.tile", "assets/rockTile.tile",
-                              "assets/sandTile.tile", "assets/squareTile.tile", "assets/pentaTile.tile"};
-    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 6);
+    std::string LEVEL_FILE = "assets/mapEditorLevel.level";
+    const std::string LEVEL_FIlE_EXPORT = "assets/mapEditorLevel.level";
+    const char* tileArgs[] = {"assets/TileData/redGrass.tile", "assets/TileData/redGrassWebTL.tile", "assets/TileData/redGrassWebT.tile",
+                              "assets/TileData/redGrassWebTR.tile", "assets/TileData/redGrassWebML.tile", "assets/TileData/redGrassWebM.tile",
+                              "assets/TileData/redGrassWebMR.tile", "assets/TileData/redGrassWebBL.tile", "assets/TileData/redGrassWebB.tile",
+                              "assets/TileData/redGrassWebBR.tile", "assets/TileData/spikyBush.tile", "assets/TileData/spikyTree.tile",
+                              "assets/TileData/water.tile", "assets/TileData/waterBubble.tile"};
+    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 14);
     
     sf::Vector2f position;
     
@@ -126,13 +130,29 @@ int main(int argc, char** argv) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
             curTile = 9;
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            curTile = 10;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            curTile = 11;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+            curTile = 12;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            curTile = 13;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
+            curTile = 14;
+        }
+
 
         //handle tile placement
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             mousePos = sf::Mouse::getPosition(window);
             tilePos = getTilePosition(position, mousePos);
             if (tilePos.x < 0 || tilePos.x >= level.width || tilePos.y < 0 || tilePos.y >= level.height) {
-                std::printf("out of bounds!");
+
             } else {
                 switch(curTile) {
                     case 0:
@@ -165,35 +185,39 @@ int main(int argc, char** argv) {
                     case 9:
                         level.tiles[tilePos.x][tilePos.y].resource = 9;
                         break;
+                    case 10:
+                        level.tiles[tilePos.x][tilePos.y].resource = 10;
+                        break;
+                    case 11:
+                        level.tiles[tilePos.x][tilePos.y].resource = 11;
+                        break;
+                    case 12:
+                        level.tiles[tilePos.x][tilePos.y].resource = 12;
+                        break;
+                    case 13:
+                        level.tiles[tilePos.x][tilePos.y].resource = 13;
+                        break;
+                    case 14:
+                        level.tiles[tilePos.x][tilePos.y].resource = 14;
+                        break;
                 }
             }
         }
         //handle tile rotation
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt)){
             mousePos = sf::Mouse::getPosition(window);
             tilePos = getTilePosition(position, mousePos);
-            level.tiles[tilePos.x][tilePos.y].rotation = 0;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)){
-            mousePos = sf::Mouse::getPosition(window);
-            tilePos = getTilePosition(position, mousePos);
-            level.tiles[tilePos.x][tilePos.y].rotation = 90;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)){
-            mousePos = sf::Mouse::getPosition(window);
-            tilePos = getTilePosition(position, mousePos);
-            level.tiles[tilePos.x][tilePos.y].rotation = 180;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)){
-            mousePos = sf::Mouse::getPosition(window);
-            tilePos = getTilePosition(position, mousePos);
-            level.tiles[tilePos.x][tilePos.y].rotation = 270;
+            level.tiles[tilePos.x][tilePos.y].rotation += 90;
+            if (level.tiles[tilePos.x][tilePos.y].rotation == 360) {
+                
+            }
         }
 
 
         //spacebar exports to file
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
             level.exportToFile(LEVEL_FIlE_EXPORT, &TILE_FILEPATHS);
+            window.clear(sf::Color::White);
         }
         
         // draw the level

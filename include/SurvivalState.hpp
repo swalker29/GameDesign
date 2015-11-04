@@ -27,6 +27,8 @@ class SurvivalState : public AppState {
     private:
         static constexpr unsigned int WINDOW_WIDTH = 800;
         static constexpr unsigned int WINDOW_HEIGHT = 600;
+
+        bool isPaused = false;
         
         // Model
         Game game;
@@ -46,12 +48,15 @@ class SurvivalState : public AppState {
         SquareView enemyView;
         SpriteView levelView;
         ImageView titleView;
+        sf::Text pauseText;
+        sf::Vector2f pauseTextLocation;
         
         SquareView projectileView;
         
         // Initialization logic
         void init();
         void initViews();
+        void initPauseScreen();
         
         // Drawing logic for survival/campaign
         void draw();
@@ -61,6 +66,7 @@ class SurvivalState : public AppState {
         void drawAnimations();
         void drawLevel();
         void drawProjectiles();
+        void drawPause();
         void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;
