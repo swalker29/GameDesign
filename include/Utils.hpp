@@ -5,6 +5,10 @@
 #include <cmath>
 #include <functional>
 
+inline sf::Vector2f tileCenter(std::size_t row, std::size_t col, std::size_t tileSize) {
+    return sf::Vector2f(row * tileSize + tileSize / 2.0, col * tileSize + tileSize/2.0);
+}
+
 inline void normalizeVector2f(sf::Vector2f& v) {
     float lengthSquared = v.x*v.x + v.y*v.y;
     

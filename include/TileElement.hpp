@@ -9,6 +9,7 @@ class TileElement {
     public:
         int resource;
         int rotation;
+
         b2Body* b2body;
         b2Fixture* b2fixture;
 };

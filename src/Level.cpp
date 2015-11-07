@@ -1,6 +1,10 @@
 #include "Level.hpp"
 
 #include <cstdio>
+#include "Utils.hpp"
+#include "Game.hpp"
+#include "PathVertex.hpp"
+#include <iostream>
 
 // Default constructor
 
@@ -17,7 +21,63 @@ bool Level::init(const std::string& levelFilePath) {
     bool parseSuccess = parseLevel(levelFile);
     
     std::fclose(levelFile);
-    
+
+#if TILESTUB
+    //stubs out one nav mesh node for each tile center
+    for (std::size_t x=0; x < tiles.size(); x++) {
+        for (std::size_t y=0; y < tiles[0].size(); y++) {
+            sf::Vector2f center = tileCenter(x, y, Game::TILE_SIZE);
+            this->pathVertices.push_back(std::make_shared<PathVertex>(center));
+        }
+    }
+
+    const int rowSize = tiles.size();
+    const int rows = tiles[0].size();
+
+    auto inBounds = [rowSize, rows] (int x, int y) {
+        if (x < 0 || y < 0) return false;
+        if (x >= rows || y >= rowSize) return false;
+        return true;
+    };
+
+    //{dx, dy}
+    std::list<std::pair<int,int>> dirs = {
+        {0,1},
+        {0,-1},
+        {-1,0},
+        {1,0}
+    };
+    //Build stub adjacency list
+    for (size_t i=this->pathVertices.size(); i--;) {
+        for (auto& dir : dirs) {
+            int adjRow = i / rows + dir.first;
+            int adjCol = i % rows + dir.second;
+            if (inBounds(adjRow, adjCol)) {
+                int adj = adjRow * rowSize + adjCol;
+                this->pathVertices[i]->neighbors.push_back(this->pathVertices[adj]);
+            }
+        }
+    }
+    //for (size_t i=this->pathVertices.size(); i-- > -1;) {
+    //    this->pathVertices[i]->neighbors.push_back(this->pathVertices[i-1]);
+    //    this->pathVertices[i-1]->neighbors.push_back(this->pathVertices[i]);
+    //}
+
+#if 1
+    //print adjacency list
+    for (auto& pv : this->pathVertices) {
+        sf::Vector2f pos = pv->position;
+        std::cout << pos.x << " " << pos.y;
+        std::cout << " : ";
+
+        for (auto& neighbor : pv->neighbors) {
+            sf::Vector2f npos = neighbor->position;
+            std::cout << " (" << npos.x << "," << npos.y << ")";
+        }
+        std::cout << std::endl;
+    }
+#endif
+#endif
     return parseSuccess;
 }
 
@@ -30,6 +90,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
     height = -1;
     tileLength = -1;
     int numTiles = -1;
+
     
     // while we have not reached the end of the level file, read the next token
     while(std::fscanf(levelFile, "%s", buf) != EOF) {

@@ -7,11 +7,16 @@
 #include "Tile.hpp"
 #include "TileElement.hpp"
 
+#define TILESTUB 1
+
 class Level {
     public:
     
         std::vector<std::vector<TileElement>> tiles;
         std::vector<Tile> tileVector;
+#ifdef TILESTUB
+        std::vector<std::shared_ptr<PathVertex>> pathVertices;
+#endif
         
         int width;
         int height;
