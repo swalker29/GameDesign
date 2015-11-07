@@ -8,7 +8,8 @@ Enemy::Enemy() : position(0, 0), direction(0, 0), speed(0), node(NULL) {
 void Enemy::track(const Game& state, const sf::Vector2f& target) {
     if (!this->trackBehavior) return;
 
-    TrackNode tn = this->trackBehavior->track(state, *node, this->position, target);
+    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[30];
+    TrackNode tn = this->trackBehavior->track(state, this->position, target, node, targetNode);
 
     this->direction = tn.direction;
     if (tn.node) this->node = tn.node;
@@ -20,8 +21,8 @@ void Enemy::setTrackBehavior(EnemyTrackBehavior& newBehavior) {
     this->trackBehavior = &newBehavior;
 }
 
-void Enemy::setNode(sf::Vector2f& navMeshNode) {
-    this->node = &navMeshNode;
-    this->position.y = navMeshNode.y;
-    this->position.x = navMeshNode.x;
+void Enemy::setNode(PathVertexP newNode) {
+    this->node = newNode;
+    this->position.y = this->node->position.y;
+    this->position.x = this->node->position.x;
 }

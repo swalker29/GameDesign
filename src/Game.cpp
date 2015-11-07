@@ -45,7 +45,7 @@ bool Game::init() {
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
         start.x += 0.15;
-        //enemy->setNode(this->meshPoints.front());
+        enemy->setNode(this->level.pathVertices[0]);
         this->enemies.push_back(std::move(enemy));
     }
     

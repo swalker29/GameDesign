@@ -15,4 +15,6 @@ class PathVertex {
         
         // Default destructor
 };
+typedef std::shared_ptr<PathVertex> PathVertexP;
+typedef std::vector<std::shared_ptr<PathVertex>> PathVertexAdjList;
 #endif
