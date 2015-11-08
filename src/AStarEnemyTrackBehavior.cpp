@@ -29,23 +29,24 @@ template <class T> class PriorityLocation {
 
 PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathVertexP dest);
 
-// this really shouldn't be taking in a game object
 TrackNode AStarEnemyTrackBehavior::track(const Game& state, const sf::Vector2f& myPos, const sf::Vector2f& playerPos, PathVertexP myNode, PathVertexP destNode) {
 
     PathVertexP next = aStarNext(state.level.pathVertices, myNode, destNode);
 
-    sf::Vector2f direction = myPos - next->position;
-    //normalizeVector2f(direction);
-
     TrackNode tn;
-    //tn.node = cmpVector2f(node, *next, TRACKNODE_EPISLON) ? &node : 0;
-    //tn.direction = direction;
+
+    tn.node = cmpVector2f(myPos, next->position, TRACKNODE_EPISLON) ? next : myNode;
+
+    sf::Vector2f direction = myPos - next->position;
+    normalizeVector2f(direction);
+    tn.direction = direction;
+
     return tn;
 }
 
 float aStarH(PathVertexP a, PathVertexP b) {
-    //stub
-    return 0.0;
+    //Manhattan distance
+    return std::fabs(a->position.x - b->position.x) + std::fabs(a->position.y - b->position.y);
 }
 
 
@@ -58,15 +59,15 @@ PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathV
 
     pQueue.push(start, 0);
     location_source[start] = start;
+    PathVertexP last = start;
     costs[start] = 0;
 
-    const int maxSteps = 40;
+    const int maxSteps = 100;
     int steps = 0;
 
     while (!pQueue.isEmpty() && steps++ < maxSteps) {
         PathVertexP u = pQueue.pop();
 
-        //std::cout << u->position.x << "," << u->position.y << std::endl;
 
         std::list<PathVertexP> reachable;
         for (auto& neighbor : u->neighbors) {
@@ -80,13 +81,22 @@ PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathV
 
         for (auto& v : reachable) {
             float f = costs[u] + edgeCost(u, v);
-            costs[v] = f;
-            float priority = f + aStarH(v, dest);
-            pQueue.push(v, priority);
-            location_source[v] = u;
+            if (costs.find(v) == costs.end() || f < costs[v]) {
+                costs[v] = f;
+                float priority = f + aStarH(v, dest);
+                pQueue.push(v, priority);
+                location_source[v] = u;
+                last = v;
+            }
         }
     }
-    return dest;
+    PathVertexP next;
+    while (last != start) {
+        next = last;
+        last = location_source[last];
+    }
+    //std::cout << "(" << next->position.x << "," << next->position.y << ")" << std::endl;
+    return next;
 }
 
 #if 0

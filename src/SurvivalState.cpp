@@ -154,10 +154,10 @@ void SurvivalState::drawAim() {
 
 void SurvivalState::drawEnemies() {
     float ratio = getViewRatio();
-    //for (auto& enemy : game.enemies) {
-    //    enemyView.position = ratio * enemy->position;
-    //    enemyView.draw(window);
-    //}
+    for (auto& enemy : game.enemies) {
+        enemyView.position = ratio * enemy->position;
+        enemyView.draw(window);
+    }
 }
 
 void SurvivalState::drawLevel() {
