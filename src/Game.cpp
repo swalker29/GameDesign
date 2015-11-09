@@ -57,6 +57,7 @@ bool Game::init() {
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
     player.position += 0.13f * input.movement;
+    player.node = this->level.findClosestNode(player.position);
     
     if (input.aim.x != 0 || input.aim.y != 0) {
         player.direction = input.aim;
@@ -64,7 +65,10 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // all the real game logic starts here
     for (auto& enemy : enemies) {
-        enemy->track(*this, player.position);
+        TrackNode tn = enemy->track(*this, player.position);
+        sf::Vector2f box2dV = enemy->speed * tn.direction;
+        enemy->position.y -= box2dV.y;
+        enemy->position.x -= box2dV.x;
     }
     
     if (input.fireWeapon) {

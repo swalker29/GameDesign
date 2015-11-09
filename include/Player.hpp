@@ -2,14 +2,15 @@
 #define PLAYER_HPP
 
 #include <vector>
-
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
+#include "PathVertex.hpp"
 
 class Player {
     public:
         sf::Vector2f position;
         sf::Vector2f direction; 
+        PathVertexP node;
         
         b2Body* b2body;
         b2Fixture* b2fixture;

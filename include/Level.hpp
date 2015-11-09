@@ -29,6 +29,7 @@ class Level {
         bool init(const std::string& levelFilePath);
 
         bool exportToFile(const std::string& exportPath, const std::vector<std::string>* tileFilePaths);
+        PathVertexP findClosestNode(sf::Vector2f& location);
     
     private:
 

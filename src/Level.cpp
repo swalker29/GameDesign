@@ -81,6 +81,10 @@ bool Level::init(const std::string& levelFilePath) {
     return parseSuccess;
 }
 
+PathVertexP Level::findClosestNode(sf::Vector2f& location) {
+    return this->pathVertices[4];
+}
+
 bool Level::parseLevel(std::FILE* levelFile) {
     char buf[256];
     int intBuf[4];

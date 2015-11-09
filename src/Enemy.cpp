@@ -1,18 +1,25 @@
 #include "Enemy.hpp"
 #include "Game.hpp"
-#include "EnemyTrackBehavior.hpp"
 #include <iostream>
 
-Enemy::Enemy() : position(0, 0), direction(0, 0), speed(0), node(NULL) {
+Enemy::Enemy() : position(0, 0), direction(0, 0), speed(0), node(NULL) , stationary(false) {
 
 }
-void Enemy::track(const Game& state, const sf::Vector2f& target) {
-    if (!this->trackBehavior) return;
+TrackNode Enemy::track(const Game& state, const sf::Vector2f& target) {
+    if (!this->trackBehavior || this->stationary) {
+        TrackNode tn;
+        tn.node = 0;
+        tn.direction = sf::Vector2f(0,0);
+        return tn;
+    }
 
-    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[27];
+    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[4];
     TrackNode tn = this->trackBehavior->track(state, this->position, target, this->node, targetNode);
 
-    if (this->node == targetNode) {
+    return tn;
+
+#if 0
+    if (this->node && this->node == targetNode) {
         //track player within hierachy
         return;
     }
@@ -22,6 +29,9 @@ void Enemy::track(const Game& state, const sf::Vector2f& target) {
 
     this->position.y -= this->speed * this->direction.y;
     this->position.x -= this->speed * this->direction.x;
+    //std::cout << this->node->position.x << "," << this->node->position.y << " ";
+    //std::cout << targetNode->position.x << "," << targetNode->position.y << std::endl;
+#endif
 }
 void Enemy::setTrackBehavior(EnemyTrackBehavior& newBehavior) {
     this->trackBehavior = &newBehavior;
