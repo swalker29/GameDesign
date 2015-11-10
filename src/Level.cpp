@@ -259,6 +259,9 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
 
     fprintf(levelFile, "\n# size of the level in tiles\n");
     fprintf(levelFile, "m %d %d\n", width, height);
+    
+    fprintf(levelFile, "\n# player starting position\n");
+    fprintf(levelFile, "p %f %f\n", startingPosition.x, startingPosition.y);
 
     fprintf(levelFile, "\n# tile files used\n");
     for (int x = 0; x < tileVector.size(); x++) {
