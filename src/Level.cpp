@@ -64,9 +64,11 @@ bool Level::init(const std::string& levelFilePath) {
     //}
 
 #if 1
+    int index = 0;
     //print adjacency list
     for (auto& pv : this->pathVertices) {
         sf::Vector2f pos = pv->position;
+        std::cout << index++ << "-  ";
         std::cout << pos.x << " " << pos.y;
         std::cout << " : ";
 

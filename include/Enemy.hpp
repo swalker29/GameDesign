@@ -14,6 +14,7 @@ class EnemyTrackBehavior;
 class Enemy {
     private:
         EnemyTrackBehavior* trackBehavior;
+        void debugTracking(TrackNode& tn, PathVertexP targetNode);
         void updateNode();
 
     public:

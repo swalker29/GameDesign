@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include <string>
 #include <cstdio>
+#include "Utils.hpp"
 #include "TrackingEnemyFactory.hpp"
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
@@ -38,17 +39,17 @@ bool Game::init() {
     player.position = level.startingPosition * TILE_SIZE;
 
     const int nEnemies = 1;
-    sf::Vector2f start(5.5f, 5.0f);
-    sf::Vector2f direction(0,1);
-    float speed = 3.05f;
+    PathVertexP enemyStart = this->level.pathVertices[205];
+    sf::Vector2f direction(0,0);
+    float speed = 0.5;
 
     TrackingEnemyFactory linearEF(TrackingEnemyFactory::AStarTrackBehavior);
 
     for (int i=0; i < nEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
+        std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(enemyStart->position, direction, speed);
         createEnemyBox2D(*enemy);
-        start.x += 0.15;
-        enemy->setNode(this->level.pathVertices[0]);
+        //start.x += 0.15;
+        enemy->setNode(enemyStart);
         this->enemies.push_back(std::move(enemy));
     }
     
@@ -69,8 +70,11 @@ void Game::update(const float timeElapsed, InputData& input) {
     // all the real game logic starts here
     for (auto& enemy : enemies) {
         TrackNode tn = enemy->track(*this, player.position);
+        enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;
         giveImpulseToBody(enemy->b2body, box2dV);
+        //enemy->position.x -= box2dV.x;
+        //enemy->position.y -= box2dV.y;
     }
     
     if (input.fireWeapon) {

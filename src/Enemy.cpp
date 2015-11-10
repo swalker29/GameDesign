@@ -13,8 +13,15 @@ TrackNode Enemy::track(const Game& state, const sf::Vector2f& target) {
         return tn;
     }
 
-    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[4];
+    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[165];
     TrackNode tn = this->trackBehavior->track(state, this->position, target, this->node, targetNode);
+
+    if (this->node && this->node == targetNode) {
+        tn.direction = sf::Vector2f(0,0);
+        return tn;
+    }
+
+    debugTracking(tn, targetNode);
 
     return tn;
 
@@ -32,6 +39,14 @@ TrackNode Enemy::track(const Game& state, const sf::Vector2f& target) {
     //std::cout << this->node->position.x << "," << this->node->position.y << " ";
     //std::cout << targetNode->position.x << "," << targetNode->position.y << std::endl;
 #endif
+}
+void Enemy::debugTracking(TrackNode& tn, PathVertexP targetNode) {
+    std::cout << this->node->position.x << "," << this->node->position.y << " ";
+    std::cout << tn.node->position.x << "," << tn.node->position.y << " ";
+    std::cout << targetNode->position.x << "," << targetNode->position.y << " ";
+    std::cout << "(" << this->position.x << "," << this->position.y << ")";
+
+    std::cout << std::endl;
 }
 void Enemy::setTrackBehavior(EnemyTrackBehavior& newBehavior) {
     this->trackBehavior = &newBehavior;
