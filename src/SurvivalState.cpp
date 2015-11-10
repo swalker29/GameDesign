@@ -3,10 +3,16 @@
 #include "Utils.hpp"
 
 #define FPS 60
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
+static const std::string PLAYER_TILE_SHEET_FILENAME = "assets/playerSpritesheet.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
+
+static constexpr int PLAYER_SPRITE_WIDTH = 128;
 
 // Default constructor
 
@@ -106,10 +112,13 @@ void SurvivalState::initViews() {
         fprintf(stderr, "Error: Unable to load level tile sheet. Program exiting\n");
         std::exit(-1);
     }
+    if (!playerView.init(PLAYER_TILE_SHEET_FILENAME, PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
+        std::exit(-1);
+    }
 
     initPauseScreen();
 
-    playerView.length = 20.0f;
     enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
     projectileView.length = 2.0f; 
@@ -141,8 +150,19 @@ void SurvivalState::draw() {
 
 void SurvivalState::drawPlayer() {
     float ratio = getViewRatio();
-    // TODO: when we switch the player to use SpriteView, draw player centered at game.player.position, currently we use that as the top-left.
-    playerView.position = ratio * game.player.position - sf::Vector2f(20.0f, 20.0f);
+    
+    playerView.position = ratio * game.player.position - sf::Vector2f(PLAYER_SPRITE_WIDTH / 2.0f, PLAYER_SPRITE_WIDTH / 2.0f);
+    
+    // Draw/Animate legs here
+    // TODO: do animation the legs should be drawn walking in the direction the player is moving
+    // playerView.updateSprite(current leg stuff)
+    
+    // Now draw the top
+    float rotation = std::atan2(game.player.direction.x, game.player.direction.y);
+    rotation = -180.0f * rotation / M_PI + 180.0f;
+    
+    playerView.rotation = rotation;
+    playerView.updateSprite(10);
     playerView.draw(window);
 }
 
