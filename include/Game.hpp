@@ -58,6 +58,7 @@ class Game {
         b2World b2world;
         
         void initBox2D();
+        void createEnemyBox2D(Enemy& enemy);
         
         void giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity);
         

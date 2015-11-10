@@ -44,6 +44,7 @@ bool Game::init() {
 
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(start, direction, speed);
+        createEnemyBox2D(*enemy);
         start.x += 0.15;
         enemy->setNode(this->level.pathVertices[0]);
         this->enemies.push_back(std::move(enemy));
@@ -67,8 +68,7 @@ void Game::update(const float timeElapsed, InputData& input) {
     for (auto& enemy : enemies) {
         TrackNode tn = enemy->track(*this, player.position);
         sf::Vector2f box2dV = enemy->speed * tn.direction;
-        enemy->position.y -= box2dV.y;
-        enemy->position.x -= box2dV.x;
+        giveImpulseToBody(enemy->b2body, box2dV);
     }
     
     if (input.fireWeapon) {
@@ -82,9 +82,17 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     b2world.Step(BOX2D_TIMESTEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
     b2world.ClearForces();
-    b2Vec2 position = player.b2body->GetPosition();
-    player.position.x = position.x;
-    player.position.y = position.y;
+    
+    // update all of the positions of player, enemies, and projectiles
+    b2Vec2 playerPosition = player.b2body->GetPosition();
+    player.position.x = playerPosition.x;
+    player.position.y = playerPosition.y;
+    
+    for (auto& enemy : enemies) {
+        b2Vec2 position = enemy->b2body->GetPosition();
+        enemy->position.x = position.x;
+        enemy->position.y = position.y;
+    }
     
     auto iter = projectileInstances.begin();
     
@@ -116,6 +124,14 @@ void Game::initBox2D() {
         }
     }
     
+}
+
+void Game::createEnemyBox2D(Enemy& enemy) {
+    b2BodyDef bodyDef;
+    bodyDef.type = b2_dynamicBody;
+    bodyDef.position.Set(enemy.position.x, enemy.position.y);
+    enemy.b2body = b2world.CreateBody(&bodyDef);
+    player.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);
 }
 
 void Game::giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity) {

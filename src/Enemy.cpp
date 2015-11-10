@@ -2,7 +2,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-Enemy::Enemy() : position(0, 0), direction(0, 0), speed(0), node(NULL) , stationary(false) {
+Enemy::Enemy() : position(0, 0), direction(0, 0), speed(10.0f), node(NULL) , stationary(false) {
 
 }
 TrackNode Enemy::track(const Game& state, const sf::Vector2f& target) {
