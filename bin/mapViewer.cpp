@@ -37,8 +37,12 @@ int main(int argc, char** argv) {
                               "assets/TileData/water.tile", "assets/TileData/water.tile", "assets/TileData/waterBL.tile", 
                               "assets/TileData/waterB.tile", "assets/TileData/waterBR.tile", "assets/TileData/waterL.tile",
                               "assets/TileData/waterR.tile",
-                              "assets/TileData/waterTL.tile", "assets/TileData/waterT.tile", "assets/TileData/waterTR.tile"};
-    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 34);
+                              "assets/TileData/waterTL.tile", "assets/TileData/waterT.tile", "assets/TileData/waterTR.tile",
+                              "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile"};
+    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 46);
     
     sf::Vector2f position;
     
@@ -73,6 +77,14 @@ int main(int argc, char** argv) {
             // Exit
             if(event.type == sf::Event::Closed) {
                 window.close();
+            }
+            if(event.type == sf::Event::KeyReleased){
+                if(event.key.code == sf::Keyboard::M){
+                    curTile = curTile + 1;
+                }
+                if(event.key.code == sf::Keyboard::N){
+                    curTile = curTile - 1;
+                }
             }
         }
         
@@ -209,12 +221,6 @@ int main(int argc, char** argv) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
             curTile = 33;
         }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
-            curTile = 34;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
-            curTile = 35;
-        }
 
 
 
@@ -330,6 +336,49 @@ int main(int argc, char** argv) {
                     case 33:
                         level.tiles[tilePos.x][tilePos.y].resource = 33;
                         break;
+                    case 34:
+                        level.tiles[tilePos.x][tilePos.y].resource = 34;
+                        break;
+                    case 35:
+                        level.tiles[tilePos.x][tilePos.y].resource = 35;
+                        break;
+                    case 36:
+                        level.tiles[tilePos.x][tilePos.y].resource = 36;
+                        break;
+                    case 37:
+                        level.tiles[tilePos.x][tilePos.y].resource = 37;
+                        break;
+                    case 38:
+                        level.tiles[tilePos.x][tilePos.y].resource = 38;
+                        break;
+                    case 39:
+                        level.tiles[tilePos.x][tilePos.y].resource = 39;
+                        break;
+                    case 40:
+                        level.tiles[tilePos.x][tilePos.y].resource = 40;
+                        break;
+                    case 41:
+                        level.tiles[tilePos.x][tilePos.y].resource = 41;
+                        break;
+                    case 42:
+                        level.tiles[tilePos.x][tilePos.y].resource = 42;
+                        break;
+                    case 43:
+                        level.tiles[tilePos.x][tilePos.y].resource = 43;
+                        break;
+                    case 44:
+                        level.tiles[tilePos.x][tilePos.y].resource = 44;
+                        break;
+                    case 45:
+                        level.tiles[tilePos.x][tilePos.y].resource = 45;
+                        break;
+                    case 46:
+                        level.tiles[tilePos.x][tilePos.y].resource = 46;
+                        break;
+                    case 47:
+                        level.tiles[tilePos.x][tilePos.y].resource = 47;
+                        break;
+
                 }
             }
         }

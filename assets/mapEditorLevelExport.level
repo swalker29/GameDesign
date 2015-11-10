@@ -1,11 +1,14 @@
 # number of tile files this level uses
-n 34
+n 46
 
 # size of the tiles in pixels
 s 256
 
 # size of the level in tiles
 m 40 40
+
+# player starting position
+p 0.000000 0.000000
 
 # tile files used
 u 0 0 assets/TileData/redGrass.tile
@@ -42,6 +45,18 @@ u 30 30 assets/TileData/waterR.tile
 u 31 31 assets/TileData/waterTL.tile
 u 32 32 assets/TileData/waterT.tile
 u 33 33 assets/TileData/waterTR.tile
+u 34 34 assets/TileData/noCollisionTile.tile
+u 35 35 assets/TileData/noCollisionTile.tile
+u 36 36 assets/TileData/noCollisionTile.tile
+u 37 37 assets/TileData/noCollisionTile.tile
+u 38 38 assets/TileData/noCollisionTile.tile
+u 39 39 assets/TileData/noCollisionTile.tile
+u 40 40 assets/TileData/noCollisionTile.tile
+u 41 41 assets/TileData/noCollisionTile.tile
+u 42 42 assets/TileData/noCollisionTile.tile
+u 43 43 assets/TileData/noCollisionTile.tile
+u 44 44 assets/TileData/noCollisionTile.tile
+u 45 45 assets/TileData/noCollisionTile.tile
 
 # tiles on the map
 t 0 0 11 0
@@ -126,7 +141,7 @@ t 1 38 11 0
 t 1 39 11 0
 t 2 0 11 0
 t 2 1 11 0
-t 2 2 10 0
+t 2 2 44 0
 t 2 3 17 0
 t 2 4 17 0
 t 2 5 17 0
@@ -161,7 +176,7 @@ t 2 33 17 0
 t 2 34 17 0
 t 2 35 17 0
 t 2 36 17 0
-t 2 37 21 0
+t 2 37 42 0
 t 2 38 11 0
 t 2 39 11 0
 t 3 0 11 0
@@ -215,14 +230,14 @@ t 4 7 0 0
 t 4 8 0 0
 t 4 9 18 0
 t 4 10 15 0
-t 4 11 12 0
-t 4 12 0 0
-t 4 13 0 0
+t 4 11 15 0
+t 4 12 15 0
+t 4 13 12 0
 t 4 14 0 0
 t 4 15 0 0
 t 4 16 0 0
 t 4 17 0 0
-t 4 18 28 0
+t 4 18 36 0
 t 4 19 25 0
 t 4 20 32 0
 t 4 21 0 0
@@ -256,13 +271,13 @@ t 5 8 0 0
 t 5 9 19 0
 t 5 10 16 0
 t 5 11 23 0
-t 5 12 15 0
-t 5 13 15 0
+t 5 12 22 0
+t 5 13 45 0
 t 5 14 15 0
-t 5 15 0 0
+t 5 15 12 0
 t 5 16 0 0
-t 5 17 26 0
-t 5 18 24 0
+t 5 17 36 0
+t 5 18 30 0
 t 5 19 32 0
 t 5 20 0 0
 t 5 21 0 0
@@ -1526,7 +1541,7 @@ t 36 38 11 0
 t 36 39 11 0
 t 37 0 11 0
 t 37 1 11 0
-t 37 2 13 0
+t 37 2 45 0
 t 37 3 15 0
 t 37 4 15 0
 t 37 5 15 0
@@ -1561,7 +1576,7 @@ t 37 33 15 0
 t 37 34 15 0
 t 37 35 15 0
 t 37 36 15 0
-t 37 37 15 0
+t 37 37 43 0
 t 37 38 11 0
 t 37 39 11 0
 t 38 0 11 0
