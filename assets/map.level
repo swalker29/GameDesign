@@ -7,6 +7,9 @@ s 256
 # size of the level in tiles
 m 20 20
 
+# player starting position
+p 6.0 6.0
+
 # tile files used
 u 0 0 assets/TileData/redGrass.tile
 u 1 1 assets/TileData/redGrassWebTL.tile

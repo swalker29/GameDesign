@@ -34,6 +34,8 @@ bool Game::init() {
         fprintf(stderr, "Error: Unable to import weapons file: %s\n", WEAPONS_FILE_PATH.c_str());
         return false;
     }
+    
+    player.position = level.startingPosition * TILE_SIZE;
 
     const int nEnemies = 1;
     sf::Vector2f start(5.5f, 5.0f);
@@ -112,7 +114,7 @@ void Game::update(const float timeElapsed, InputData& input) {
 void Game::initBox2D() {
     b2BodyDef bodyDef; 
     bodyDef.type = b2_dynamicBody; 
-    bodyDef.position.Set(0.0f, 0.0f); // TODO: set to the player's starting location
+    bodyDef.position.Set(player.position.x, player.position.y);
     player.b2body = b2world.CreateBody(&bodyDef);
     // might need to create a fixture def later on
     player.b2fixture = player.b2body->CreateFixture(&player.circle, 1.0f); // player has density of 1.0. Don't think this will be important.

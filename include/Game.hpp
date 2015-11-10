@@ -22,7 +22,7 @@ class Game {
     Game& operator=(const Game&) = delete;
     
     public:
-        static constexpr float TILE_SIZE = 3.0f; // We need to define our scale and set this to make sense for Box2D
+        static constexpr float TILE_SIZE = 4.0f; // We need to define our scale and set this to make sense for Box2D
         
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;

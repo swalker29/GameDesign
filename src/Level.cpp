@@ -89,6 +89,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
     char buf[256];
     int intBuf[4];
     float tempFloat;
+    float floatBuf[2];
     
     width = -1;
     height = -1;
@@ -195,6 +196,24 @@ bool Level::parseLevel(std::FILE* levelFile) {
                 
                 tiles[intBuf[0]][intBuf[1]].resource = intBuf[2];
                 tiles[intBuf[0]][intBuf[1]].rotation = intBuf[3];
+            break;
+            // 'p', player starting position
+            case 'p': 
+                std::fscanf(levelFile, "%f %f", &floatBuf[0], &floatBuf[1]);
+                
+                // we must have seen the the 's' line as well
+                if (tileLength < 1) {
+                    fprintf(stderr, "Error: The map file must define the tile length (s) before the player starting position (p).\n");
+                    return false;
+                }
+                
+                // the player starting position should be between 1 and width/height - 2
+                if (floatBuf[0] < 1.0f || floatBuf[1] < 1.0f || floatBuf[0] >= width - 1.0f || floatBuf[1] >= height - 1.0f) {
+                    fprintf(stderr, "Error: The player's starting position must be greater than or equal to 1.0 and less than width/height - 1.0.\n");
+                    return false;
+                }
+                
+                startingPosition = sf::Vector2f(floatBuf[0], floatBuf[1]);
             break;
             // something else, ignore it
             default:

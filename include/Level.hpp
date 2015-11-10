@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <SFML/System/Vector2.hpp>
+
 #include "Tile.hpp"
 #include "TileElement.hpp"
 
@@ -21,6 +23,8 @@ class Level {
         int width;
         int height;
         int tileLength; // in pixels
+        
+        sf::Vector2f startingPosition;
     
         // Default constructor
         
