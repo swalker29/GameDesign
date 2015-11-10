@@ -36,9 +36,9 @@ bool Game::init() {
     }
 
     const int nEnemies = 1;
-    sf::Vector2f start(0.5, 0);
+    sf::Vector2f start(5.5f, 5.0f);
     sf::Vector2f direction(0,1);
-    float speed = 0.05;
+    float speed = 3.05f;
 
     TrackingEnemyFactory linearEF(TrackingEnemyFactory::AStarTrackBehavior);
 
