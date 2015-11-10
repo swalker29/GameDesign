@@ -212,7 +212,26 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
     if (nullptr == levelFile) {
         return false;
     }
+    printf("# number of tile files this level uses\n");
+    printf("n %lu\n", tileVector.size());
     
+    printf("\n# size of the tiles in pixels\n");
+    printf("s %d\n", tileLength);
+
+    printf("\n# size of the level in tiles\n");
+    printf("m %d %d\n", width, height);
+
+    printf("\n# tile files used\n");
+    for (int x = 0; x < tileVector.size(); x++) {
+        printf("u %d %d %s\n", x, x, (*tileFilePaths)[x].c_str());
+    }
+
+    printf("\n# tiles on the map\n");
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            printf("t %d %d %d %d\n", x, y, tiles[x][y].resource, tiles[x][y].rotation);
+        }
+    }
     fprintf(levelFile, "# number of tile files this level uses\n");
     fprintf(levelFile, "n %lu\n", tileVector.size());
     

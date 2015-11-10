@@ -25,13 +25,20 @@ int main(int argc, char** argv) {
     unsigned int WINDOW_HEIGHT = 600;
     std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
     std::string LEVEL_FILE = "assets/mapEditorLevel.level";
-    const std::string LEVEL_FIlE_EXPORT = "assets/mapEditorLevel.level";
+    const std::string LEVEL_FIlE_EXPORT = "assets/mapEditorLevelExport.level";
     const char* tileArgs[] = {"assets/TileData/redGrass.tile", "assets/TileData/redGrassWebTL.tile", "assets/TileData/redGrassWebT.tile",
                               "assets/TileData/redGrassWebTR.tile", "assets/TileData/redGrassWebML.tile", "assets/TileData/redGrassWebM.tile",
                               "assets/TileData/redGrassWebMR.tile", "assets/TileData/redGrassWebBL.tile", "assets/TileData/redGrassWebB.tile",
                               "assets/TileData/redGrassWebBR.tile", "assets/TileData/spikyBush.tile", "assets/TileData/spikyTree.tile",
-                              "assets/TileData/water.tile", "assets/TileData/waterBubble.tile"};
-    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 14);
+                              "assets/TileData/spikyBush.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/spikyBush.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/spikyBush.tile", "assets/TileData/spikyBush.tile", "assets/TileData/noCollisionTile.tile",
+                              "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", "assets/TileData/noCollisionTile.tile", 
+                              "assets/TileData/water.tile", "assets/TileData/water.tile", "assets/TileData/waterBL.tile", 
+                              "assets/TileData/waterB.tile", "assets/TileData/waterBR.tile", "assets/TileData/waterL.tile",
+                              "assets/TileData/waterR.tile",
+                              "assets/TileData/waterTL.tile", "assets/TileData/waterT.tile", "assets/TileData/waterTR.tile"};
+    const std::vector<std::string> TILE_FILEPATHS(tileArgs, tileArgs + 34);
     
     sf::Vector2f position;
     
@@ -145,6 +152,72 @@ int main(int argc, char** argv) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::T)) {
             curTile = 14;
         }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y)) {
+            curTile = 15;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::U)) {
+            curTile = 16;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) {
+            curTile = 17;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+            curTile = 18;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            curTile = 19;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            curTile = 20;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            curTile = 21;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            curTile = 22;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+            curTile = 23;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+            curTile = 24;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+            curTile = 25;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::J)) {
+            curTile = 26;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::K)) {
+            curTile = 27;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::L)) {
+            curTile = 28;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Z)) {
+            curTile = 29;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::X)) {
+            curTile = 30;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+            curTile = 31;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+            curTile = 32;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+            curTile = 33;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+            curTile = 34;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+            curTile = 35;
+        }
+
+
+
 
 
         //handle tile placement
@@ -200,6 +273,63 @@ int main(int argc, char** argv) {
                     case 14:
                         level.tiles[tilePos.x][tilePos.y].resource = 14;
                         break;
+                    case 15:
+                        level.tiles[tilePos.x][tilePos.y].resource = 15;
+                        break;
+                    case 16:
+                        level.tiles[tilePos.x][tilePos.y].resource = 16;
+                        break;
+                    case 17:
+                        level.tiles[tilePos.x][tilePos.y].resource = 17;
+                        break;
+                    case 18:
+                        level.tiles[tilePos.x][tilePos.y].resource = 18;
+                        break;
+                    case 19:
+                        level.tiles[tilePos.x][tilePos.y].resource = 19;
+                        break;
+                    case 20:
+                        level.tiles[tilePos.x][tilePos.y].resource = 20;
+                        break;
+                    case 21:
+                        level.tiles[tilePos.x][tilePos.y].resource = 21;
+                        break;
+                    case 22:
+                        level.tiles[tilePos.x][tilePos.y].resource = 22;
+                        break;
+                    case 23:
+                        level.tiles[tilePos.x][tilePos.y].resource = 23;
+                        break;
+                    case 24:
+                        level.tiles[tilePos.x][tilePos.y].resource = 24;
+                        break;
+                    case 25:
+                        level.tiles[tilePos.x][tilePos.y].resource = 25;
+                        break;
+                    case 26:
+                        level.tiles[tilePos.x][tilePos.y].resource = 26;
+                        break;
+                    case 27:
+                        level.tiles[tilePos.x][tilePos.y].resource = 27;
+                        break;
+                    case 28:
+                        level.tiles[tilePos.x][tilePos.y].resource = 28;
+                        break;
+                    case 29:
+                        level.tiles[tilePos.x][tilePos.y].resource = 29;
+                        break;
+                    case 30:
+                        level.tiles[tilePos.x][tilePos.y].resource = 30;
+                        break;
+                    case 31:
+                        level.tiles[tilePos.x][tilePos.y].resource = 31;
+                        break;
+                    case 32:
+                        level.tiles[tilePos.x][tilePos.y].resource = 32;
+                        break;
+                    case 33:
+                        level.tiles[tilePos.x][tilePos.y].resource = 33;
+                        break;
                 }
             }
         }
@@ -207,9 +337,9 @@ int main(int argc, char** argv) {
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LAlt)){
             mousePos = sf::Mouse::getPosition(window);
             tilePos = getTilePosition(position, mousePos);
-            level.tiles[tilePos.x][tilePos.y].rotation += 90;
-            if (level.tiles[tilePos.x][tilePos.y].rotation == 360) {
-                
+            level.tiles[tilePos.x][tilePos.y].rotation += 1;
+            if (level.tiles[tilePos.x][tilePos.y].rotation == 4) {
+                level.tiles[tilePos.x][tilePos.y].rotation = 0;
             }
         }
 

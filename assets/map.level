@@ -1,5 +1,5 @@
 # number of tile files this level uses
-n 14
+n 34
 
 # size of the tiles in pixels
 s 256
@@ -20,8 +20,29 @@ u 8 8 assets/TileData/redGrassWebB.tile
 u 9 9 assets/TileData/redGrassWebBR.tile
 u 10 10 assets/TileData/spikyBush.tile
 u 11 11 assets/TileData/spikyTree.tile
-u 12 12 assets/TileData/water.tile
-u 13 13 assets/TileData/waterBubble.tile
+u 12 12 assets/TileData/spikyBush.tile
+u 13 13 assets/TileData/noCollisionTile.tile
+u 14 14 assets/TileData/noCollisionTile.tile
+u 15 15 assets/TileData/spikyBush.tile
+u 16 16 assets/TileData/noCollisionTile.tile
+u 17 17 assets/TileData/noCollisionTile.tile
+u 18 18 assets/TileData/spikyBush.tile
+u 19 19 assets/TileData/spikyBush.tile
+u 20 20 assets/TileData/noCollisionTile.tile
+u 21 21 assets/TileData/noCollisionTile.tile
+u 22 22 assets/TileData/noCollisionTile.tile
+u 23 23 assets/TileData/noCollisionTile.tile
+u 24 24 assets/TileData/water.tile
+u 25 25 assets/TileData/water.tile
+u 26 26 assets/TileData/waterBL.tile
+u 27 27 assets/TileData/waterB.tile
+u 28 28 assets/TileData/waterBR.tile
+u 29 29 assets/TileData/waterL.tile
+u 30 30 assets/TileData/waterR.tile
+u 31 31 assets/TileData/waterTL.tile
+u 32 32 assets/TileData/waterT.tile
+u 33 33 assets/TileData/waterTR.tile
+
 
 # tiles on the map
 t 0 0 0 0
