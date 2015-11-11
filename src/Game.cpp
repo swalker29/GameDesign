@@ -43,13 +43,11 @@ bool Game::init() {
     sf::Vector2f direction(0,0);
     float speed = 0.5;
 
-    TrackingEnemyFactory linearEF(TrackingEnemyFactory::AStarTrackBehavior);
+    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior);
 
     for (int i=0; i < nEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = linearEF.makeEnemyAt(enemyStart->position, direction, speed);
+        std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed);
         createEnemyBox2D(*enemy);
-        //start.x += 0.15;
-        enemy->setNode(enemyStart);
         this->enemies.push_back(std::move(enemy));
     }
     

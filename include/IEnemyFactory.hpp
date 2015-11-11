@@ -9,6 +9,6 @@ class IEnemyFactory {
     public:
         IEnemyFactory() {}
         virtual ~IEnemyFactory() {}
-        std::unique_ptr<Enemy> makeEnemyAt(sf::Vector2f start, sf::Vector2f direction, float speed);
+        std::unique_ptr<Enemy> makeEnemyAt(PathVertexP node, sf::Vector2f& direction, float speed);
 };
 #endif
