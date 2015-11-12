@@ -71,8 +71,6 @@ void Game::update(const float timeElapsed, InputData& input) {
         enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;
         giveImpulseToBody(enemy->b2body, box2dV);
-        //enemy->position.x -= box2dV.x;
-        //enemy->position.y -= box2dV.y;
     }
     
     if (input.fireWeapon) {

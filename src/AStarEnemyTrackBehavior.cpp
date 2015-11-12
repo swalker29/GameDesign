@@ -38,7 +38,8 @@ TrackNode AStarEnemyTrackBehavior::track(const Game& state, const sf::Vector2f& 
     //tn.node = cmpVector2f(myPos, next->position, TRACKNODE_EPISLON) ? next : myNode;
     tn.node = next;
 
-    sf::Vector2f direction = myPos - next->position;
+    //sf::Vector2f direction = myPos - next->position;
+    sf::Vector2f direction = next->position - myPos;
     normalizeVector2f(direction);
     tn.direction = direction;
 
@@ -69,11 +70,14 @@ PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathV
     while (!pQueue.isEmpty()) {
         PathVertexP u = pQueue.pop();
 
+        if (u == dest) {
+            last = u;
+            break;
+        }
 
         std::list<PathVertexP> reachable;
         for (auto& neighbor : u->neighbors) {
             reachable.push_back(neighbor);
-            //std::cout << neighbor->position.x << "," << neighbor->position.y << std::endl;
         }
 
         auto edgeCost = [&] (PathVertexP from , PathVertexP to) {
@@ -87,11 +91,10 @@ PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathV
                 float priority = f + aStarH(v, dest);
                 pQueue.push(v, priority);
                 location_source[v] = u;
-                last = v;
             }
         }
     }
-    PathVertexP next;
+    PathVertexP next = start;
     while (last != start) {
         next = last;
         last = location_source[last];

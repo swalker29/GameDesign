@@ -13,7 +13,8 @@ TrackNode Enemy::track(const Game& state, const sf::Vector2f& target) {
         return tn;
     }
 
-    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[165];
+    //165
+    std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[168];
     TrackNode tn = this->trackBehavior->track(state, this->position, target, this->node, targetNode);
 
     if (this->node && this->node == targetNode) {
