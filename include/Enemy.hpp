@@ -11,10 +11,12 @@
 
 class Game;
 class EnemyTrackBehavior;
+class EnemyState;
+
 class Enemy {
     private:
         EnemyTrackBehavior* trackBehavior;
-        void debugTracking(TrackNode& tn, PathVertexP targetNode);
+        void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target);
         void updateNode();
 
     public:
@@ -25,12 +27,15 @@ class Enemy {
         float health;
         float radius;
         bool stationary;
+        TrackNode tracking;
         
         b2Body* b2body;
         b2Fixture* b2fixture;
         b2CircleShape circle;
+
+        void action(const Game& state);
         
-        TrackNode track(const Game& state, const sf::Vector2f& target);
+        void track(const Game& state, const sf::Vector2f& target);
         void setTrackBehavior(EnemyTrackBehavior& newTrackBehavior);
         void setNode(PathVertexP node);
         Enemy();

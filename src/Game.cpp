@@ -41,7 +41,7 @@ bool Game::init() {
     const int nEnemies = 1;
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
-    float speed = 0.5;
+    float speed = 1.5;
 
     TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior);
 
@@ -67,7 +67,8 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // all the real game logic starts here
     for (auto& enemy : enemies) {
-        TrackNode tn = enemy->track(*this, player.position);
+        enemy->track(*this, player.position);
+        TrackNode tn = enemy->tracking;
         enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;
         giveImpulseToBody(enemy->b2body, box2dV);

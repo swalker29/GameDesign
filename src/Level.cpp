@@ -83,8 +83,28 @@ bool Level::init(const std::string& levelFilePath) {
     return parseSuccess;
 }
 
-PathVertexP Level::findClosestNode(sf::Vector2f& location) {
-    return this->pathVertices[4];
+PathVertexP Level::findClosestNode(const sf::Vector2f& location) const {
+    PathVertexP closest = (this->pathVertices.empty()) ? NULL : this->pathVertices.front();
+    if (!closest) return NULL;
+
+    auto eucl = [] (const sf::Vector2f& p1, const sf::Vector2f& p2) {
+        float dx = p1.x - p2.x;
+        float dy = p1.y - p2.y;
+        return std::sqrt(dx*dx + dy*dy);
+    };
+
+    float eClosest = eucl(location, closest->position);
+
+    for (auto& u : this->pathVertices) {
+        float tClosest;
+        if ((tClosest = eucl(location, u->position)) < eClosest) {
+            eClosest = tClosest;
+            closest = u;
+        }
+    }
+    //std::cout << eClosest << std::endl;
+    return closest;
+    //return this->pathVertices[4];
 }
 
 bool Level::parseLevel(std::FILE* levelFile) {
