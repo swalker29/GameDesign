@@ -3,5 +3,5 @@
 EnemyStateMelee::EnemyStateMelee() {
 }
 
-void EnemyStateMelee:handle(Enemy& enemy) {
+void EnemyStateMelee::handle(Enemy& enemy) {
 }
