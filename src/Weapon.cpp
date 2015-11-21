@@ -3,7 +3,7 @@
 #include <cstdio>
 #include <memory>
 
-static constexpr float EPSILON = 0.01f;
+static constexpr float EPSILON = 0.15f;
 
 Weapon::Weapon() {
 
