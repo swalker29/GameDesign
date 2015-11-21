@@ -8,6 +8,7 @@
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
 
+#include "ContactListener.hpp"
 #include "Enemy.hpp"
 #include "InputData.hpp"
 #include "Level.hpp"
@@ -21,12 +22,15 @@ class Game {
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
     
+    // This needs to be up here to force b2world to be initialized before player, will be private due to class
+    b2World b2world;
+    
     public:
         static constexpr float TILE_SIZE = 4.0f; // We need to define our scale and set this to make sense for Box2D
         
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
-        std::list<ProjectileInstance> projectileInstances;
+        std::list<std::unique_ptr<ProjectileInstance>> projectileInstances;
         
         std::vector<Weapon> weapons;
         std::vector<Projectile> projectiles;
@@ -54,8 +58,8 @@ class Game {
             return sf::Vector2f(TILE_SIZE * x, TILE_SIZE * y);
         };
         
-    private:
-        b2World b2world;
+    private:        
+        ContactListener contactListener;
         
         void initBox2D();
         void createEnemyBox2D(Enemy& enemy);

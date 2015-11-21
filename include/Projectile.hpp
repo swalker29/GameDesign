@@ -7,6 +7,10 @@
 
 #include <Box2D/Box2D.h>
 
+#include "Enemy.hpp"
+#include "Player.hpp"
+#include "ProjectileInstance.hpp"
+
 class Projectile {
     public:
         float damage;
@@ -23,15 +27,14 @@ class Projectile {
         
         // Default destructor
         
-        //void impact(std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
+        void impact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies, Character* characterHit);
         
         static bool importProjectiles(const std::string& projectileFilePath, std::vector<Projectile>* projectileVector);
         
     private:
-        //void fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
-        //void fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
-        //void fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
-        //void fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies);
+        void bulletImpact(Character* characterHit);
+        void explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies);
+        void webImpact(Character* characterHit);
         
         static bool parseProjectiles(std::FILE* projectilesFile, std::vector<Projectile>* projectileVector);
 };

@@ -13,7 +13,7 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
-Game::Game() : b2world(b2Vec2(0.0f, 0.0f)) {
+Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles) {
 
 }
 
@@ -99,12 +99,17 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     auto iter = projectileInstances.begin();
     
-    for (auto iter = projectileInstances.begin(); iter != projectileInstances.end(); iter++) {
-        b2Vec2 position = (*iter).b2body->GetPosition();
-        (*iter).position.x = position.x;
-        (*iter).position.y = position.y;
+    for (auto iter = projectileInstances.begin(); iter != projectileInstances.end(); iter++) {        
+        b2Vec2 position = (*iter)->b2body->GetPosition();
+        (*iter)->position.x = position.x;
+        (*iter)->position.y = position.y;
         
         // if collision, delete object
+        if ((*iter)->collided) {
+            (*iter)->b2body->DestroyFixture((*iter)->b2fixture);
+            b2world.DestroyBody((*iter)->b2body);
+            projectileInstances.erase(iter--);
+        }
     }
         
     
@@ -113,12 +118,7 @@ void Game::update(const float timeElapsed, InputData& input) {
 }
 
 void Game::initBox2D() {
-    b2BodyDef bodyDef; 
-    bodyDef.type = b2_dynamicBody; 
-    bodyDef.position.Set(player.position.x, player.position.y);
-    player.b2body = b2world.CreateBody(&bodyDef);
-    // might need to create a fixture def later on
-    player.b2fixture = player.b2body->CreateFixture(&player.circle, 1.0f); // player has density of 1.0. Don't think this will be important.
+    player.b2body->SetTransform(b2Vec2(player.position.x, player.position.y), player.b2body->GetAngle());
     
     // TODO: only add tiles that are neccessary instead of all tiles
     for (int x = 0; x < level.width; x++) {
@@ -127,6 +127,7 @@ void Game::initBox2D() {
         }
     }
     
+    b2world.SetContactListener(&contactListener);
 }
 
 void Game::createEnemyBox2D(Enemy& enemy) {

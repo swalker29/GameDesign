@@ -1,6 +1,7 @@
 #include "Weapon.hpp"
 
 #include <cstdio>
+#include <memory>
 
 static constexpr float EPSILON = 0.01f;
 
@@ -14,7 +15,7 @@ Weapon::Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHU
 
 // Default destructor
 
-void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
+void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
     switch(behavior) {
         case 0:
             fireSingleProjectile(player, projectiles, projectileInstances, b2world);
@@ -34,33 +35,34 @@ void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
     }
 }
 
-void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, b2World* b2world) {
+void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
     createProjectile(player, projectiles, player.direction, projectileInstances, b2world);
 }
 
-void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, b2World* b2world) {
+void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
 
 }
 
-void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
+void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
 
 }
 
-void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
+void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
 
 }
 
-void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<ProjectileInstance>* projectileInstances, b2World* b2world) {
+void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
     float radiusSum = player.circle.m_radius + (*projectiles)[projectileIndex].circle.m_radius + EPSILON;
     
-    ProjectileInstance projectileInstance(projectileIndex, player.position + radiusSum * direction, direction, &((*projectiles)[projectileIndex].circle), b2world);
+    std::unique_ptr<ProjectileInstance> projectileInstance(new ProjectileInstance(projectileIndex, player.position + radiusSum * direction, direction, &((*projectiles)[projectileIndex].circle), b2world));
     
     // set the velocity
     sf::Vector2f vel = direction * (*projectiles)[projectileIndex].velocity;
     b2Vec2 velocity(vel.x, vel.y);
-    projectileInstance.b2body->SetLinearVelocity(velocity);
+    projectileInstance->b2body->SetLinearVelocity(velocity);
     
-    projectileInstances->push_back(projectileInstance);
+    projectileInstances->push_back(std::move(projectileInstance));
+    
 }
 
 bool Weapon::importWeapons(const std::string& weaponFilePath, std::vector<Weapon>* weaponVector, int numProjectiles) {

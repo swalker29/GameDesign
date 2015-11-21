@@ -2,6 +2,10 @@
 
 #include <cstdio>
 
+#include "Utils.hpp"
+
+static constexpr float MAX_RADIUS_SQUARED = 1.5f * 1.5f;
+
 Projectile::Projectile() {
 
 }
@@ -12,43 +16,45 @@ Projectile::Projectile(float damage, float velocity, int behavior, int projectil
 
 // Default destructor
 
-/*
-void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
+
+void Projectile::impact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies, Character* characterHit) {
+    // set projectile to inactive and draw impact explosion. Play sound as well.
+    
     switch(behavior) {
         case 0:
-            fireSingleProjectile(player, projectiles, projectileInstances, enemies);
+            bulletImpact(characterHit);
         break;
         case 1:
-            fireShotgun(player, projectiles, projectileInstances, enemies);
+            explosiveImpact(projectileInstance, player, enemies);
         break;
         case 2:
-            fireLaser(player, projectiles, projectileInstances, enemies);
-        break;
-        case 3:
-            fireMelee(player, projectiles, projectileInstances, enemies);
+            webImpact(characterHit);
         break;
         default:
-            fireSingleProjectile(player, projectiles, projectileInstances, enemies);
+            bulletImpact(characterHit);
         break;
     }
 }
 
-void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
+void Projectile::bulletImpact(Character* characterHit) {
+    if (characterHit != nullptr) {
+        characterHit->health -= damage;
+    }
 }
 
-void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
+void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies) {
+    //for (auto& enemy : enemies) {
+        //float distanceSq = distanceSquared(projectileInstance.position, enemy.position);
+    //}
+    
 }
 
-void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
+void Projectile::webImpact(Character* characterHit) {
+    if (characterHit != nullptr && characterHit->team != Character::Team::ENEMY) {
+        characterHit->health -= damage;
+    }
 }
 
-void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<ProjectileInstance>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
-}
-*/
 bool Projectile::importProjectiles(const std::string& projectileFilePath, std::vector<Projectile>* projectileVector) {
     std::FILE* projectilesFile = std::fopen(projectileFilePath.c_str(), "r");
     

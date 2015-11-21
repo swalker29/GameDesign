@@ -204,7 +204,7 @@ void SurvivalState::drawProjectiles() {
     float ratio = getViewRatio();
     
     for (auto iter = game.projectileInstances.begin(); iter != game.projectileInstances.end(); iter++) {        
-        projectileView.position = ratio * (*iter).position - sf::Vector2f(1.0f, 1.0f);
+        projectileView.position = ratio * (*iter)->position - sf::Vector2f(1.0f, 1.0f);
         projectileView.draw(window);
     }   
 }

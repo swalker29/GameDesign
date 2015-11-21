@@ -26,4 +26,12 @@ inline bool cmpVector2f(const sf::Vector2f& a, const sf::Vector2f& b, float epsi
     if (std::fabs(res.y) > epsilon) return false;
     return true;
 }
+
+inline float distanceSquared(const sf::Vector2f& a, const sf::Vector2f& b) {
+    float dx = a.x - b.x;
+    float dy = a.y - b.y;
+
+    return dx*dx + dy*dy;
+}
+
 #endif

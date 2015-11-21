@@ -2,11 +2,14 @@
 #define PLAYER_HPP
 
 #include <vector>
+
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
+
+#include "Character.hpp"
 #include "PathVertex.hpp"
 
-class Player {
+class Player : public Character{
     public:
         sf::Vector2f position;
         sf::Vector2f direction; 
@@ -21,6 +24,6 @@ class Player {
         
         float health;
     
-        Player();
+        Player(b2World* b2world);
 };
 #endif
