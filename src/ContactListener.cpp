@@ -4,7 +4,7 @@
 #include "ICollidable.hpp"
 #include "ProjectileInstance.hpp"
 
-ContactListener::ContactListener(std::vector<Projectile>* projectiles) : projectiles(projectiles) {
+ContactListener::ContactListener(std::vector<Projectile>* projectiles, std::list<std::unique_ptr<Enemy>>* enemies, Player& player) : projectiles(projectiles), enemies(enemies), player(player) {
 
 }
 
@@ -46,7 +46,8 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
     }
     
     if (projectile != nullptr) {
-        // projectile->impact(character);
+        //projectile->impact(character);
+        (*projectiles)[projectile->projectileIndex].impact(*projectile, player, enemies, character);
         projectile->collided = true;
         contact->SetRestitution(0.0f);
     }

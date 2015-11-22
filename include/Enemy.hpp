@@ -6,6 +6,7 @@
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
 
+#include "Character.hpp"
 #include "EnemyTrackBehavior.hpp"
 #include "PathVertex.hpp"
 
@@ -13,7 +14,7 @@ class Game;
 class EnemyTrackBehavior;
 class EnemyState;
 
-class Enemy {
+class Enemy : public Character {
     private:
         EnemyTrackBehavior* trackBehavior;
         void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target);
@@ -24,8 +25,6 @@ class Enemy {
         sf::Vector2f position;
         sf::Vector2f direction;    
         float speed;
-        float health;
-        float radius;
         bool stationary;
         TrackNode tracking;
         

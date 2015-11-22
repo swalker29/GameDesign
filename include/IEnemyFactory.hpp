@@ -1,7 +1,10 @@
 #ifndef ENEMYFACTORY_HPP
 #define ENEMYFACTORY_HPP
+
 #include <memory>
+
 #include <SFML/System/Vector2.hpp>
+
 #include "Enemy.hpp"
 class IEnemyFactory {
     protected:

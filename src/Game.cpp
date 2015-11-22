@@ -13,7 +13,7 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
-Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles) {
+Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles, &enemies, player) {
 
 }
 
@@ -91,10 +91,17 @@ void Game::update(const float timeElapsed, InputData& input) {
     player.position.x = playerPosition.x;
     player.position.y = playerPosition.y;
     
-    for (auto& enemy : enemies) {
-        b2Vec2 position = enemy->b2body->GetPosition();
-        enemy->position.x = position.x;
-        enemy->position.y = position.y;
+    for (auto iter = enemies.begin(); iter != enemies.end(); iter++) {
+        b2Vec2 position = (*iter)->b2body->GetPosition();
+        (*iter)->position.x = position.x;
+        (*iter)->position.y = position.y;
+        
+        // if enemy has ran out of health, remove it
+        if ((*iter)->health <= 0.0f) {
+            (*iter)->b2body->DestroyFixture((*iter)->b2fixture);
+            b2world.DestroyBody((*iter)->b2body);
+            enemies.erase(iter--);
+        }
     }
     
     auto iter = projectileInstances.begin();
@@ -135,7 +142,8 @@ void Game::createEnemyBox2D(Enemy& enemy) {
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(enemy.position.x, enemy.position.y);
     enemy.b2body = b2world.CreateBody(&bodyDef);
-    player.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);
+    enemy.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);
+    enemy.b2fixture->SetUserData(&enemy);
 }
 
 void Game::giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity) {

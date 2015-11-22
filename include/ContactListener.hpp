@@ -5,14 +5,18 @@
 
 #include <Box2D/Box2D.h>
 
+#include "Player.hpp"
 #include "Projectile.hpp"
+
 
 class ContactListener : public b2ContactListener { 
     public: 
         // does not own these
         std::vector<Projectile>* projectiles;
+        std::list<std::unique_ptr<Enemy>>* enemies;
+        Player& player;
     
-        ContactListener(std::vector<Projectile>* projectiles);
+        ContactListener(std::vector<Projectile>* projectiles, std::list<std::unique_ptr<Enemy>>* enemies, Player& player);
         
         // Default destructor   
     
