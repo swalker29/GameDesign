@@ -7,11 +7,12 @@
 class TrackingEnemyFactory : public IEnemyFactory {
     private:
         EnemyTrackBehavior* etb;
+        EnemyTrackBehavior* fallback;
     protected:
         virtual std::unique_ptr<Enemy> makeEnemy();
     public:
         static LinearEnemyTrackBehavior LinearTrackBehavior;
         static AStarEnemyTrackBehavior AStarTrackBehavior;
-        TrackingEnemyFactory(EnemyTrackBehavior& etb);
+        TrackingEnemyFactory(EnemyTrackBehavior& etb, EnemyTrackBehavior& fallback);
 };
 #endif

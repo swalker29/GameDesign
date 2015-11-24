@@ -43,7 +43,7 @@ bool Game::init() {
     sf::Vector2f direction(0,0);
     float speed = 1.5;
 
-    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior);
+    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, TrackingEnemyFactory::LinearTrackBehavior);
 
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed);
@@ -66,8 +66,9 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
     
     // all the real game logic starts here
+    PathVertexP playerNode = this->level.findClosestNode(player.position);
     for (auto& enemy : enemies) {
-        enemy->track(*this, player.position);
+        enemy->track(*this, playerNode, player.position);
         TrackNode tn = enemy->tracking;
         enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;

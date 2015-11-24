@@ -12,25 +12,19 @@ Enemy::Enemy() : Character(DEFAULT_ENEMY_HEALTH, Character::Team::ENEMY), positi
     circle.m_p.Set(0.0f, 0.0f);
     circle.m_radius = DEFAULT_ENEMY_RADIUS;
 }
-void Enemy::track(const Game& state, const sf::Vector2f& target) {
-    if (!this->trackBehavior || this->stationary) {
-        TrackNode tn;
-        tn.node = 0;
-        tn.direction = sf::Vector2f(0,0);
-        this->tracking = tn;
-    }
-
-    //165
-    //std::shared_ptr<PathVertex> targetNode = state.level.pathVertices[168];
-    PathVertexP targetNode = state.level.findClosestNode(target);
+void Enemy::track(const Game& state, PathVertexP targetNode, const sf::Vector2f& target) {
     TrackNode tn;
-
-    tn = this->trackBehavior->track(state, this->position, target, this->node, targetNode);
-
-    if (this->node && this->node == targetNode) {
+    if (!this->trackBehavior || this->stationary) {
+        tn.node = this->node;
+        tn.direction = sf::Vector2f(0,0);
+    } else if (this->node && this->node == targetNode) { 
         sf::Vector2f direction = target - this->position;
         normalizeVector2f(direction);
         tn.direction = direction;
+
+        tn = this->fallbackBehavior->track(state, this->position, target, this->node, targetNode);
+    } else {
+        tn = this->trackBehavior->track(state, this->position, target, this->node, targetNode);
     }
 
     //debugTracking(tn, targetNode, target);
@@ -48,6 +42,10 @@ void Enemy::debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vecto
 }
 void Enemy::setTrackBehavior(EnemyTrackBehavior& newBehavior) {
     this->trackBehavior = &newBehavior;
+}
+
+void Enemy::setFallbackBehavior(EnemyTrackBehavior& newBehavior) {
+    this->fallbackBehavior = &newBehavior;
 }
 
 void Enemy::setNode(PathVertexP newNode) {
