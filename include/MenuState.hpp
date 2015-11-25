@@ -2,6 +2,7 @@
 #define MENUSTATE_HPP
 
 #include "AppState.hpp"
+#include <SFML/Audio.hpp>
 
 class GameApp;
 
@@ -21,7 +22,10 @@ class MenuState : public AppState {
         sf::Text survivalText;
         sf::Text campaignText;
         sf::Text quitText;
-
+		//music
+		//sf::SoundBuffer mBuffer;
+		sf::Music menuMusic;
+		
         void init();
         void draw();
 

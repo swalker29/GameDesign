@@ -1,6 +1,7 @@
 #include "MenuState.hpp"
 #include "GameApp.hpp"
 
+
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 
 MenuState::MenuState() { }
@@ -82,6 +83,12 @@ void MenuState::init(){
     quitText.setColor(sf::Color::Black);
     quitText.setString("Quit"); 
     
+	//Music
+	if (!menuMusic.openFromFile("assets/menuMusic.wav"))
+		//ERROR
+	//menuMusic.setBuffer(mBuffer);	
+	menuMusic.setLoop(true);
+	menuMusic.play();
 }
 
 void MenuState::selectPrevButton(){
