@@ -6,7 +6,7 @@
 #include <KeyMap.hpp>
 #include "Utils.hpp"
 
-ControlsConfig::ControlsConfig() {
+ControlsConfig::ControlsConfig() : changeWeaponsReleased(true) {
 
 }
 
@@ -307,6 +307,8 @@ void ControlsConfig::getMouseAndKeyboardInput() {
     sf::Keyboard::Key moveRight = static_cast<sf::Keyboard::Key>(right);
     sf::Keyboard::Key moveLeft = static_cast<sf::Keyboard::Key>(left);
     sf::Mouse::Button fireGun = sf::Mouse::Left;
+    sf::Keyboard::Key next = static_cast<sf::Keyboard::Key>(nextWeapon);
+    sf::Keyboard::Key previous = static_cast<sf::Keyboard::Key>(prevWeapon);
     
     // get movement vector from keyboard
     sf::Vector2f moveVector(0.0f, 0.0f);
@@ -329,6 +331,29 @@ void ControlsConfig::getMouseAndKeyboardInput() {
     sf::Vector2u windowSize = window->getSize();
     
     sf::Vector2f aimVector(mousePosition.x - (windowSize.x / 2.0f), mousePosition.y - (windowSize.y / 2.0f));
+    
+    // determine if to switch weapons
+    if (!changeWeaponsReleased) {
+        changeWeaponsReleased = !sf::Keyboard::isKeyPressed(next) && !sf::Keyboard::isKeyPressed(previous);
+    }
+    
+    if (input.weaponChange != 0) {
+        input.weaponChange = 0;
+    }
+    else if (changeWeaponsReleased) {
+        int desiredChange = 0;
+        
+        if (sf::Keyboard::isKeyPressed(next)) {
+            desiredChange++;
+            changeWeaponsReleased = false;
+        }
+        if (sf::Keyboard::isKeyPressed(previous)) {
+            desiredChange--;
+            changeWeaponsReleased = false;
+        }
+        
+        input.weaponChange = desiredChange;
+    }
 
     normalizeVector2f(aimVector);
     normalizeVector2f(moveVector);

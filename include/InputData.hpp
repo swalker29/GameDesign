@@ -8,6 +8,7 @@ struct InputData {
     sf::Vector2f movement;
     sf::Vector2f aim;
     bool fireWeapon;
+    int weaponChange;
     // somethings for weapon change    
 };
 #endif

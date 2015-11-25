@@ -65,6 +65,14 @@ void Game::update(const float timeElapsed, InputData& input) {
         player.direction = input.aim;
     }
     
+    player.activeWeapon += input.weaponChange;
+    if (player.activeWeapon == -1) {
+        player.activeWeapon = weapons.size() - 1;
+    }
+    else if (player.activeWeapon >= weapons.size()) {
+        player.activeWeapon = 0;
+    }
+    
     // all the real game logic starts here
     PathVertexP playerNode = this->level.findClosestNode(player.position);
     for (auto& enemy : enemies) {

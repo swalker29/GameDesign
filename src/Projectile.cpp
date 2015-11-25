@@ -50,10 +50,10 @@ void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player&
     //for (auto& enemy : enemies) {
         //float distanceSq = distanceSquared(projectileInstance.position, enemy.position);
     //}
-    if(!sBuffer.loadFromFile(EXPLOSION_FILENAME))
-		fprintf(stderr, "Error: Unable to load explosion impact sound.\n");
-	impactSound.setBuffer(sBuffer);
-	impactSound.play();
+    //if(!sBuffer.loadFromFile(EXPLOSION_FILENAME))
+		//fprintf(stderr, "Error: Unable to load explosion impact sound.\n");
+	//impactSound.setBuffer(sBuffer);
+	//impactSound.play();
 }
 
 void Projectile::webImpact(Character* characterHit) {

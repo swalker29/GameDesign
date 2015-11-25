@@ -36,5 +36,7 @@ class ControlsConfig {
         std::string parseInputIntoString(char* input);
         void getControllerInput();
         void getMouseAndKeyboardInput();
+        
+        bool changeWeaponsReleased;
 };
 #endif

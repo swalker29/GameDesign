@@ -1,10 +1,16 @@
 # weapon declaration: w wep# projectileIndex behavior weaponHUDIndex playerSpriteIndex rateOfFire
 
 # number of weapons used
-n 1
+n 3
 
 # pistol
 w 0 0 0 0 0 0.75
+
+# shotgun
+w 1 1 1 1 1 1.25
+
+# machine gun
+w 2 0 0 2 2 0.2
 
 
 # This will allow us to do some cool things like shotgun spawns a handful of projectiles. Pistol and machine gun

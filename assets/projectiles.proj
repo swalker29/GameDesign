@@ -1,7 +1,10 @@
-# projectile declaration: p projectile# spriteIndex behavior damage velocity radius
+# projectile declaration: p projectile# behavior spriteIndex damage velocity radius
 
 # number of projectiles used
-n 1
+n 2
 
 # pistol ammo
 p 0 0 0 30.1 30.0 0.01
+
+# shotgun ammo
+p 1 0 0 10.2 22.0 0.01

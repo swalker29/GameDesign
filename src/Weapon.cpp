@@ -9,6 +9,10 @@ static const std::string SHOTGUN_FILENAME = "assets/pistolShot.wav";
 static const std::string LASER_FILENAME = "assets/pistolShot.wav";
 static const std::string MELEE_FILENAME = "assets/pistolShot.wav";
 
+#ifndef M_PI
+#define M_PI (3.14159265358979323846)
+#endif
+
 Weapon::Weapon() {
 
 }
@@ -41,31 +45,26 @@ void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
 
 void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
     createProjectile(player, projectiles, player.direction, projectileInstances, b2world);	
-	if(!sBuffer.loadFromFile(PISTOL_FILENAME))
-		fprintf(stderr, "Error: Unable to load pistol sound.\n");
-	weaponSound.setBuffer(sBuffer);
-	weaponSound.play();
+	
+	playFireSound(PISTOL_FILENAME);
 }
 
 void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
-	if(!sBuffer.loadFromFile(SHOTGUN_FILENAME))
-		fprintf(stderr, "Error: Unable to load shotgun sound.\n");
-	weaponSound.setBuffer(sBuffer);
-	weaponSound.play();
+	//playFireSound(SHOTGUN_FILENAME);
+	
+	for (int x = -3; x <= 3; x++) {
+	    float theta = x * M_PI / 60.0f;
+	    sf::Vector2f direction(player.direction.x * std::cos(theta) - player.direction.y * std::sin(theta), player.direction.x * std::sin(theta) + player.direction.y * std::cos(theta));
+	    createProjectile(player, projectiles, direction, projectileInstances, b2world);
+    }
 }
 
 void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	if(!sBuffer.loadFromFile(LASER_FILENAME))
-		fprintf(stderr, "Error: Unable to load laser sound.\n");
-	weaponSound.setBuffer(sBuffer);
-	weaponSound.play();
+	playFireSound(LASER_FILENAME);
 }
 
 void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	if(!sBuffer.loadFromFile(MELEE_FILENAME))
-		fprintf(stderr, "Error: Unable to load melee sound.\n");
-	weaponSound.setBuffer(sBuffer);
-	weaponSound.play();
+	playFireSound(MELEE_FILENAME);
 }
 
 void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
@@ -181,4 +180,14 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
     }
     
     return true;
+}
+
+void Weapon::playFireSound(const std::string& soundFile) {
+    if(!sBuffer.loadFromFile(soundFile)) {
+		fprintf(stderr, "Error: Unable to load pistol sound.\n");
+	}
+	else {
+	    weaponSound.setBuffer(sBuffer);
+	    weaponSound.play();
+    }
 }

@@ -43,5 +43,7 @@ class Weapon {
         void createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world);
         
         static bool parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVector, int numProjectiles);
+        
+        void playFireSound(const std::string& soundFile);
 };
 #endif
