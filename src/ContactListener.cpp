@@ -46,17 +46,10 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
     }
     
     if (projectile != nullptr) {
-        //projectile->impact(character);
         (*projectiles)[projectile->projectileIndex].impact(*projectile, player, enemies, character);
         projectile->collided = true;
         contact->SetRestitution(0.0f);
-    }
-    else {
-        if (aUserData != nullptr && bUserData != nullptr) {
-            printf("A: %p       B: %p\n", aUserData, bUserData);
-            printf("CHAR: %d    PROJ: %d\n\n", character == nullptr ? 0:1, projectile == nullptr ? 0:1);
-        }
-    }    
+    }   
 }
  
 void ContactListener::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {

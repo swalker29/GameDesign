@@ -39,7 +39,6 @@ void Projectile::impact(ProjectileInstance& projectileInstance, Player& player, 
 void Projectile::bulletImpact(Character* characterHit) {
     if (characterHit != nullptr) {
         characterHit->health -= damage;
-        printf("health: %f\n", characterHit->health);
     }
 }
 

@@ -9,6 +9,9 @@ ProjectileInstance::ProjectileInstance(int projectileIndex, sf::Vector2f positio
     
     b2fixture = b2body->CreateFixture(b2circleShape, 0.0001f); // set density to really low so bullets don't push enemies around
     b2fixture->SetUserData(this);
+    b2Filter filter;
+    filter.groupIndex = -2;
+    b2fixture->SetFilterData(filter);
 }
 
 // Default destructor

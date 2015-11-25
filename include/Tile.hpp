@@ -13,6 +13,7 @@ class Tile {
         int tileMapPosition;
         
         bool hasCollision;
+        bool projectilesCollide;
         
         b2PolygonShape shape;
         
@@ -23,7 +24,7 @@ class Tile {
         
         // Default descructor
         
-        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength);
+        bool init(const char* tileFilePath, int newTileMapPosition, int tileLength, bool doProjectilesCollide);
         
     private:
         bool parseTile(FILE* tileFile, int newTileMapPosition, int tileLength);

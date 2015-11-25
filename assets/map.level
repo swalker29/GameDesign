@@ -11,52 +11,52 @@ m 40 40
 p 5.000000 5.000000
 
 # tile files used
-u 0 0 assets/TileData/redGrass.tile
-u 1 1 assets/TileData/redGrassWebTL.tile
-u 2 2 assets/TileData/redGrassWebT.tile
-u 3 3 assets/TileData/redGrassWebTR.tile
-u 4 4 assets/TileData/redGrassWebML.tile
-u 5 5 assets/TileData/redGrassWebM.tile
-u 6 6 assets/TileData/redGrassWebMR.tile
-u 7 7 assets/TileData/redGrassWebBL.tile
-u 8 8 assets/TileData/redGrassWebB.tile
-u 9 9 assets/TileData/redGrassWebBR.tile
-u 10 10 assets/TileData/spikyBush.tile
-u 11 11 assets/TileData/spikyTree.tile
-u 12 12 assets/TileData/spikyBush.tile
-u 13 13 assets/TileData/noCollisionTile.tile
-u 14 14 assets/TileData/noCollisionTile.tile
-u 15 15 assets/TileData/spikyBush.tile
-u 16 16 assets/TileData/noCollisionTile.tile
-u 17 17 assets/TileData/noCollisionTile.tile
-u 18 18 assets/TileData/spikyBush.tile
-u 19 19 assets/TileData/spikyBush.tile
-u 20 20 assets/TileData/noCollisionTile.tile
-u 21 21 assets/TileData/noCollisionTile.tile
-u 22 22 assets/TileData/noCollisionTile.tile
-u 23 23 assets/TileData/noCollisionTile.tile
-u 24 24 assets/TileData/water.tile
-u 25 25 assets/TileData/water.tile
-u 26 26 assets/TileData/waterBL.tile
-u 27 27 assets/TileData/waterB.tile
-u 28 28 assets/TileData/waterBR.tile
-u 29 29 assets/TileData/waterL.tile
-u 30 30 assets/TileData/waterR.tile
-u 31 31 assets/TileData/waterTL.tile
-u 32 32 assets/TileData/waterT.tile
-u 33 33 assets/TileData/waterTR.tile
-u 34 34 assets/TileData/noCollisionTile.tile
-u 35 35 assets/TileData/noCollisionTile.tile
-u 36 36 assets/TileData/noCollisionTile.tile
-u 37 37 assets/TileData/noCollisionTile.tile
-u 38 38 assets/TileData/noCollisionTile.tile
-u 39 39 assets/TileData/noCollisionTile.tile
-u 40 40 assets/TileData/noCollisionTile.tile
-u 41 41 assets/TileData/noCollisionTile.tile
-u 42 42 assets/TileData/noCollisionTile.tile
-u 43 43 assets/TileData/noCollisionTile.tile
-u 44 44 assets/TileData/noCollisionTile.tile
-u 45 45 assets/TileData/noCollisionTile.tile
+u 0 0 0 assets/TileData/redGrass.tile
+u 1 1 0 assets/TileData/redGrassWebTL.tile
+u 2 2 0 assets/TileData/redGrassWebT.tile
+u 3 3 0 assets/TileData/redGrassWebTR.tile
+u 4 4 0 assets/TileData/redGrassWebML.tile
+u 5 5 0 assets/TileData/redGrassWebM.tile
+u 6 6 0 assets/TileData/redGrassWebMR.tile
+u 7 7 0 assets/TileData/redGrassWebBL.tile
+u 8 8 0 assets/TileData/redGrassWebB.tile
+u 9 9 0 assets/TileData/redGrassWebBR.tile
+u 10 10 0 assets/TileData/spikyBush.tile
+u 11 11 0 assets/TileData/spikyTree.tile
+u 12 12 0 assets/TileData/spikyBush.tile
+u 13 13 0 assets/TileData/noCollisionTile.tile
+u 14 14 0 assets/TileData/noCollisionTile.tile
+u 15 15 0 assets/TileData/spikyBush.tile
+u 16 16 0 assets/TileData/noCollisionTile.tile
+u 17 17 0 assets/TileData/noCollisionTile.tile
+u 18 18 0 assets/TileData/spikyBush.tile
+u 19 19 0 assets/TileData/spikyBush.tile
+u 20 20 0 assets/TileData/noCollisionTile.tile
+u 21 21 0 assets/TileData/noCollisionTile.tile
+u 22 22 0 assets/TileData/noCollisionTile.tile
+u 23 23 0 assets/TileData/noCollisionTile.tile
+u 24 24 1 assets/TileData/water.tile
+u 25 25 1 assets/TileData/water.tile
+u 26 26 1 assets/TileData/waterBL.tile
+u 27 27 1 assets/TileData/waterB.tile
+u 28 28 1 assets/TileData/waterBR.tile
+u 29 29 1 assets/TileData/waterL.tile
+u 30 30 1 assets/TileData/waterR.tile
+u 31 31 1 assets/TileData/waterTL.tile
+u 32 32 1 assets/TileData/waterT.tile
+u 33 33 1 assets/TileData/waterTR.tile
+u 34 34 0 assets/TileData/noCollisionTile.tile
+u 35 35 0 assets/TileData/noCollisionTile.tile
+u 36 36 0 assets/TileData/noCollisionTile.tile
+u 37 37 0 assets/TileData/noCollisionTile.tile
+u 38 38 0 assets/TileData/noCollisionTile.tile
+u 39 39 0 assets/TileData/noCollisionTile.tile
+u 40 40 0 assets/TileData/noCollisionTile.tile
+u 41 41 0 assets/TileData/noCollisionTile.tile
+u 42 42 0 assets/TileData/noCollisionTile.tile
+u 43 43 0 assets/TileData/noCollisionTile.tile
+u 44 44 0 assets/TileData/noCollisionTile.tile
+u 45 45 0 assets/TileData/noCollisionTile.tile
 
 # tiles on the map
 t 0 0 11 0

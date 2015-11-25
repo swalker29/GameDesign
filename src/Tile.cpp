@@ -10,8 +10,9 @@
         
 // Default descructor
 
-bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength) {
+bool Tile::init(const char* tileFilePath, int newTileMapPosition, int tileLength, bool doProjectilesCollide) {
     tileMapPosition = newTileMapPosition;
+    projectilesCollide = doProjectilesCollide;
     
     std::FILE* tileFile = std::fopen(tileFilePath, "r");
 	

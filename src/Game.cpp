@@ -80,8 +80,6 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
         
     // update the box2d entities based on where player and enemies want to go
-    //player.b2body->SetTransform(b2Vec2(player.position.x, player.position.y), 0.0f);
-    //player.b2body->ApplyForce(b2Vec2(input.movement.x, input.movement.y), player.b2body->GetPosition(), true);
     giveImpulseToBody(player.b2body, 7.13f * input.movement);
     
     b2world.Step(BOX2D_TIMESTEP, BOX2D_VELOCITY_ITERATIONS, BOX2D_POSITION_ITERATIONS);
@@ -172,6 +170,11 @@ void Game::addTileElementToWorld(int x, int y) {
         
         level.tiles[x][y].b2body = b2world.CreateBody(&bodyDef);
         level.tiles[x][y].b2fixture = level.tiles[x][y].b2body->CreateFixture(&(level.tileVector[level.tiles[x][y].resource].shape), BOX2D_VOID_DENSITY);
+        if (!level.tileVector[level.tiles[x][y].resource].projectilesCollide) {
+            b2Filter filter;
+            filter.groupIndex = -2;
+            level.tiles[x][y].b2fixture->SetFilterData(filter);
+        }
     }
 }
 

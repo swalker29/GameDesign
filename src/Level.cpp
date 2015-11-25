@@ -165,7 +165,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
             break;
             // 'u', uses tile definition. first value is the id the tile will be referenced by. the 2nd value is the position on the tile sheet.
             case 'u': 
-                std::fscanf(levelFile, "%d %d %s", &intBuf[0], &intBuf[1], buf);
+                std::fscanf(levelFile, "%d %d %d %s", &intBuf[0], &intBuf[1], &intBuf[2], buf);
                 
                 // we must have seen the 'n' line
                 if (numTiles < 1) {
@@ -187,7 +187,7 @@ bool Level::parseLevel(std::FILE* levelFile) {
                 
                 {
                     Tile tile;
-                    if (!tile.init(buf, intBuf[1], tileLength)) {
+                    if (!tile.init(buf, intBuf[1], tileLength, intBuf[2] != 1)) {
                         fprintf(stderr, "Failed to import Tile file: %s\n.", buf);
                         return false;
                     }
@@ -287,7 +287,7 @@ bool Level::exportToFile(const std::string& exportPath, const std::vector<std::s
 
     fprintf(levelFile, "\n# tile files used\n");
     for (int x = 0; x < tileVector.size(); x++) {
-        fprintf(levelFile, "u %d %d %s\n", x, x, (*tileFilePaths)[x].c_str());
+        fprintf(levelFile, "u %d %d %d %s\n", x, x, tileVector[x].projectilesCollide ? 1 : 0, (*tileFilePaths)[x].c_str());
     }
 
     fprintf(levelFile, "\n# tiles on the map\n");
