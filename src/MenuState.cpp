@@ -86,10 +86,9 @@ void MenuState::init(){
 	//Music
 	if (!menuMusic.openFromFile("assets/menuMusic.wav"))
 		//ERROR
-	//menuMusic.setBuffer(mBuffer);	
-	menuMusic.setLoop(true);
 	menuMusic.setPlayingOffset(sf::seconds(0));
 	menuMusic.play();
+	menuMusic.setLoop(true);
 }
 
 void MenuState::selectPrevButton(){

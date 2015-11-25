@@ -23,7 +23,6 @@ class MenuState : public AppState {
         sf::Text campaignText;
         sf::Text quitText;
 		//music
-		//sf::SoundBuffer mBuffer;
 		sf::Music menuMusic;
 		
         void init();
