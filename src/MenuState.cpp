@@ -88,6 +88,7 @@ void MenuState::init(){
 		//ERROR
 	//menuMusic.setBuffer(mBuffer);	
 	menuMusic.setLoop(true);
+	menuMusic.setPlayingOffset(sf::seconds(0));
 	menuMusic.play();
 }
 
@@ -104,14 +105,17 @@ void MenuState::selectNextButton(){
 void MenuState::selectButton(GameApp& app){
     switch(curSelected) {
         case 0:
+			menuMusic.stop();
             app.goSurvival();
             app.run();
             break;
         case 1:
+			//menuMusic.stop();
             //app.goCampaign();
             //app.run();
             break;
         case 2:
+			menuMusic.stop();
             window->close();
             app.quit();
             break;
