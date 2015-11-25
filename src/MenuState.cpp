@@ -3,6 +3,7 @@
 
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
+static const std::string MUSIC_FILENAME = "assets/menuMusic.wav";
 
 MenuState::MenuState() { }
 
@@ -84,10 +85,10 @@ void MenuState::init(){
     quitText.setString("Quit"); 
     
 	//Music
-	if (!menuMusic.openFromFile("assets/menuMusic.wav"))
-		//ERROR
-	menuMusic.setPlayingOffset(sf::seconds(0));
+	if (!menuMusic.openFromFile(MUSIC_FILENAME))
+		fprintf(stderr, "Error: Unable to load menu music.\n");
 	menuMusic.play();
+	menuMusic.setPlayingOffset(sf::seconds(0));
 	menuMusic.setLoop(true);
 }
 

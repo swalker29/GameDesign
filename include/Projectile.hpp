@@ -6,6 +6,7 @@
 #include <vector>
 
 #include <Box2D/Box2D.h>
+#include <SFML/Audio.hpp>
 
 #include "Enemy.hpp"
 #include "Player.hpp"
@@ -18,7 +19,13 @@ class Projectile {
         
         int behavior; // how this projectile behaves on impact
         int projectileSpriteIndex;
-        
+        int soundNumber;
+		
+		sf::SoundBuffer psBuffer;
+		sf::SoundBuffer sBuffer;
+		sf::Sound pImpactSound;
+		sf::Sound impactSound;
+		
         b2CircleShape circle; // can get the radius through here
         
         Projectile();

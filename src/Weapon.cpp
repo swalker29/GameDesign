@@ -4,6 +4,10 @@
 #include <memory>
 
 static constexpr float EPSILON = 0.15f;
+static const std::string PISTOL_FILENAME = "assets/pistolShot.wav";
+static const std::string SHOTGUN_FILENAME = "assets/pistolShot.wav";
+static const std::string LASER_FILENAME = "assets/pistolShot.wav";
+static const std::string MELEE_FILENAME = "assets/pistolShot.wav";
 
 Weapon::Weapon() {
 
@@ -36,19 +40,32 @@ void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
 }
 
 void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
-    createProjectile(player, projectiles, player.direction, projectileInstances, b2world);
+    createProjectile(player, projectiles, player.direction, projectileInstances, b2world);	
+	if(!sBuffer.loadFromFile(PISTOL_FILENAME))
+		fprintf(stderr, "Error: Unable to load pistol sound.\n");
+	weaponSound.setBuffer(sBuffer);
+	weaponSound.play();
 }
 
 void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
-
+	if(!sBuffer.loadFromFile(SHOTGUN_FILENAME))
+		fprintf(stderr, "Error: Unable to load shotgun sound.\n");
+	weaponSound.setBuffer(sBuffer);
+	weaponSound.play();
 }
 
 void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
+	if(!sBuffer.loadFromFile(LASER_FILENAME))
+		fprintf(stderr, "Error: Unable to load laser sound.\n");
+	weaponSound.setBuffer(sBuffer);
+	weaponSound.play();
 }
 
 void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-
+	if(!sBuffer.loadFromFile(MELEE_FILENAME))
+		fprintf(stderr, "Error: Unable to load melee sound.\n");
+	weaponSound.setBuffer(sBuffer);
+	weaponSound.play();
 }
 
 void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {

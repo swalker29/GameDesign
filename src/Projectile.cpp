@@ -5,6 +5,10 @@
 #include "Utils.hpp"
 
 static constexpr float MAX_RADIUS_SQUARED = 1.5f * 1.5f;
+static const std::string EXPLOSION_FILENAME = "assets/explosionImpact.wav";
+static const std::string PIMPACT1_FILENAME = "assets/personHit1.wav";
+static const std::string PIMPACT2_FILENAME = "assets/personHit2.wav";
+static const std::string PIMPACT3_FILENAME = "assets/personHit3.wav";
 
 Projectile::Projectile() {
 
@@ -46,12 +50,29 @@ void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player&
     //for (auto& enemy : enemies) {
         //float distanceSq = distanceSquared(projectileInstance.position, enemy.position);
     //}
-    
+    if(!sBuffer.loadFromFile(EXPLOSION_FILENAME))
+		fprintf(stderr, "Error: Unable to load explosion impact sound.\n");
+	impactSound.setBuffer(sBuffer);
+	impactSound.play();
 }
 
 void Projectile::webImpact(Character* characterHit) {
     if (characterHit != nullptr && characterHit->team != Character::Team::ENEMY) {
         characterHit->health -= damage;
+		//Player hurt audio.
+		soundNumber = rand() % 3;
+		if (soundNumber == 0) {
+			if(!psBuffer.loadFromFile(PIMPACT1_FILENAME))
+				fprintf(stderr, "Error: Unable to load player impact sound 1.\n");
+		} else if (soundNumber == 1) {
+			if(!psBuffer.loadFromFile(PIMPACT2_FILENAME))
+				fprintf(stderr, "Error: Unable to load player impact sound 2.\n");
+		} else {
+			if(!psBuffer.loadFromFile(PIMPACT3_FILENAME))
+				fprintf(stderr, "Error: Unable to load player impact sound 3.\n");
+		}
+		pImpactSound.setBuffer(psBuffer);
+		pImpactSound.play();
     }
 }
 

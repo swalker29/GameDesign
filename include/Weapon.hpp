@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <SFML/Audio.hpp>
 #include <SFML/System/Vector2.hpp>
 
 #include "Enemy.hpp"
@@ -20,6 +21,9 @@ class Weapon {
         int weaponHUDIndex;
         int playerSpriteIndex;
         
+		sf::SoundBuffer sBuffer;
+		sf::Sound weaponSound;
+		
         Weapon();
         
         Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHUDIndex, int playerSpriteIndex);
