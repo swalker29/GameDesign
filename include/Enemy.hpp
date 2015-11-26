@@ -16,12 +16,12 @@ class EnemyState;
 
 class Enemy : public Character {
     private:
-        EnemyTrackBehavior* trackBehavior;
-        EnemyTrackBehavior* fallbackBehavior;
-        void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target);
         void updateNode();
 
     public:
+        EnemyTrackBehavior* trackBehavior;
+        EnemyTrackBehavior* fallbackBehavior;
+        EnemyState* state;
         PathVertexP node;
         sf::Vector2f position;
         sf::Vector2f direction;    
@@ -35,7 +35,6 @@ class Enemy : public Character {
 
         void action(const Game& state);
         
-        void track(const Game& state, PathVertexP targetNode, const sf::Vector2f& target);
         void setTrackBehavior(EnemyTrackBehavior& newTrackBehavior);
         void setFallbackBehavior(EnemyTrackBehavior& newTrackBehavior);
         void setNode(PathVertexP node);
