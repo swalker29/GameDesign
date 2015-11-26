@@ -4,6 +4,8 @@
 #include <cmath>
 #include <memory>
 
+#include "Game.hpp"
+
 static constexpr float EPSILON = 0.15f;
 
 #ifndef M_PI
@@ -184,7 +186,5 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
 }
 
 void Weapon::playFireSound() {
-    weaponSound.stop();
-    weaponSound.setBuffer(sBuffer);
-    weaponSound.play();
+    Game::playSound(sBuffer);
 }
