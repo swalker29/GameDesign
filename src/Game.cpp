@@ -13,6 +13,8 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
+std::list<sf::Sound> Game::playingSounds;
+
 Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles, &enemies, player) {
 
 }
@@ -125,10 +127,25 @@ void Game::update(const float timeElapsed, InputData& input) {
             projectileInstances.erase(iter--);
         }
     }
+    
+    // check for finished sounds and remove them. Just check 5-10 sounds per frame
+    int count = 0;
+    for (auto iter = playingSounds.begin(); iter != playingSounds.end() && count < 10; iter++) {
+        if ((*iter).getStatus() == sf::Sound::Stopped) {
+            playingSounds.erase(iter--);
+        }
+        count++;
+    }
         
     
     // box2d creation and destroying of collision entities for nearby tiles
     // sounds wasteful but there's no better way
+}
+
+void Game::playSound(const sf::SoundBuffer& buffer) {
+    playingSounds.push_back(sf::Sound());
+    playingSounds.back().setBuffer(buffer);
+    playingSounds.back().play();   
 }
 
 void Game::initBox2D() {

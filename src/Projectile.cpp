@@ -2,10 +2,10 @@
 
 #include <cstdio>
 
+#include "Game.hpp"
 #include "Utils.hpp"
 
 static constexpr float MAX_RADIUS_SQUARED = 1.5f * 1.5f;
-static const std::string EXPLOSION_FILENAME = "";
 static const std::string PIMPACT1_FILENAME = "assets/personHit1.wav";
 static const std::string PIMPACT2_FILENAME = "assets/personHit2.wav";
 static const std::string PIMPACT3_FILENAME = "assets/personHit3.wav";
@@ -173,7 +173,5 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
 }
 
 void Projectile::playImpactSound() {
-    impactSound.stop();
-    impactSound.setBuffer(sBuffer);
-    impactSound.play();
+    Game::playSound(sBuffer);
 }
