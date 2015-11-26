@@ -85,8 +85,9 @@ void MenuState::init(){
     quitText.setString("Quit"); 
     
 	//Music
-	if (!menuMusic.openFromFile(MUSIC_FILENAME))
+	if (!mBuffer.loadFromFile(MUSIC_FILENAME))
 		fprintf(stderr, "Error: Unable to load menu music.\n");
+	menuMusic.setBuffer(mBuffer);
 	menuMusic.play();
 	menuMusic.setPlayingOffset(sf::seconds(0));
 	menuMusic.setLoop(true);

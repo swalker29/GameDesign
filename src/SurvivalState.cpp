@@ -113,7 +113,6 @@ void SurvivalState::init() {
 		fprintf(stderr, "Error: Unable to load survival music (high).\n");
 	survivalMusicLow.setBuffer(lowBuffer);
 	survivalMusicHigh.setBuffer(highBuffer);
-	
 	survivalMusicLow.play();
 	survivalMusicHigh.play();
 	survivalMusicLow.setVolume(0);
