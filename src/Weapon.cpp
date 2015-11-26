@@ -4,10 +4,6 @@
 #include <memory>
 
 static constexpr float EPSILON = 0.15f;
-static const std::string PISTOL_FILENAME = "";
-static const std::string SHOTGUN_FILENAME = "assets/pistolShot.wav";
-static const std::string LASER_FILENAME = "assets/pistolShot.wav";
-static const std::string MELEE_FILENAME = "assets/pistolShot.wav";
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -51,7 +47,7 @@ void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* proje
 
 void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
 	for (int x = -3; x <= 3; x++) {
-	    float theta = x * M_PI / 60.0f;
+	    float theta = x * M_PI / 60.0f; // 3 degree spread between each projectile
 	    sf::Vector2f direction(player.direction.x * std::cos(theta) - player.direction.y * std::sin(theta), player.direction.x * std::sin(theta) + player.direction.y * std::cos(theta));
 	    createProjectile(player, projectiles, direction, projectileInstances, b2world);
     }
@@ -167,13 +163,13 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
                 // create the weapon here and add it to the vector
                 {
                     Weapon weapon(tempFloat, intBuf[1], intBuf[2], intBuf[3], intBuf[4]);
+                    (*weaponVector)[intBuf[0]] = weapon;
+                    
                     std::string soundFile(buf);
-                    if(!weapon.sBuffer.loadFromFile(soundFile)) {
+                    if(!(*weaponVector)[intBuf[0]].sBuffer.loadFromFile(soundFile)) {
 		                fprintf(stderr, "Error: Unable to weapon sound file: %s\n", buf);
 		                return false;
 	                }
-                    
-                    (*weaponVector)[intBuf[0]] = weapon;
                 }
             break;
             // something else, ignore it
@@ -187,6 +183,7 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
 }
 
 void Weapon::playFireSound() {
+    weaponSound.stop();
     weaponSound.setBuffer(sBuffer);
     weaponSound.play();
 }

@@ -5,7 +5,7 @@
 #include "Utils.hpp"
 
 static constexpr float MAX_RADIUS_SQUARED = 1.5f * 1.5f;
-static const std::string EXPLOSION_FILENAME = "assets/explosionImpact.wav";
+static const std::string EXPLOSION_FILENAME = "";
 static const std::string PIMPACT1_FILENAME = "assets/personHit1.wav";
 static const std::string PIMPACT2_FILENAME = "assets/personHit2.wav";
 static const std::string PIMPACT3_FILENAME = "assets/personHit3.wav";
@@ -23,6 +23,7 @@ Projectile::Projectile(float damage, float velocity, int behavior, int projectil
 
 void Projectile::impact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies, Character* characterHit) {
     // set projectile to inactive and draw impact explosion. Play sound as well.
+    playImpactSound();
     
     switch(behavior) {
         case 0:
@@ -50,16 +51,13 @@ void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player&
     //for (auto& enemy : enemies) {
         //float distanceSq = distanceSquared(projectileInstance.position, enemy.position);
     //}
-    //if(!sBuffer.loadFromFile(EXPLOSION_FILENAME))
-		//fprintf(stderr, "Error: Unable to load explosion impact sound.\n");
-	//impactSound.setBuffer(sBuffer);
-	//impactSound.play();
 }
 
 void Projectile::webImpact(Character* characterHit) {
     if (characterHit != nullptr && characterHit->team != Character::Team::ENEMY) {
         characterHit->health -= damage;
 		//Player hurt audio.
+		#if 0
 		soundNumber = rand() % 3;
 		if (soundNumber == 0) {
 			if(!psBuffer.loadFromFile(PIMPACT1_FILENAME))
@@ -73,6 +71,7 @@ void Projectile::webImpact(Character* characterHit) {
 		}
 		pImpactSound.setBuffer(psBuffer);
 		pImpactSound.play();
+		#endif
     }
 }
 
@@ -121,7 +120,7 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
             break;
             // 'p', projectile declaration
             case 'p': 
-                std::fscanf(projectilesFile, "%d %d %d %f %f %f", &intBuf[0], &intBuf[1], &intBuf[2], &floatBuf[0], &floatBuf[1], &floatBuf[2]);
+                std::fscanf(projectilesFile, "%d %d %d %f %f %f %s", &intBuf[0], &intBuf[1], &intBuf[2], &floatBuf[0], &floatBuf[1], &floatBuf[2], buf);
                 
                 // the damage, velocity, and radius must be greater than zero
                 if (floatBuf[0] <= 0.0f || floatBuf[1] <= 0.0f || floatBuf[2] <= 0.0f) {
@@ -153,8 +152,14 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
                 {
                     Projectile projectile(floatBuf[0], floatBuf[1], intBuf[1], intBuf[2]);
                     projectile.circle.m_p.Set(0.0f, 0.0f);
-                    projectile.circle.m_radius = floatBuf[2];
+                    projectile.circle.m_radius = floatBuf[2];               
                     (*projectileVector)[intBuf[0]] = projectile;
+                    
+                    std::string soundFile(buf);
+                    if(!(*projectileVector)[intBuf[0]].sBuffer.loadFromFile(soundFile)) {
+		                fprintf(stderr, "Error: Unable to projectile impact sound file: %s\n", buf);
+		                return false;
+	                }
                 }
             break;
             // something else, ignore it
@@ -165,4 +170,10 @@ bool Projectile::parseProjectiles(std::FILE* projectilesFile, std::vector<Projec
     }
     
     return true;
+}
+
+void Projectile::playImpactSound() {
+    impactSound.stop();
+    impactSound.setBuffer(sBuffer);
+    impactSound.play();
 }
