@@ -76,9 +76,8 @@ void Game::update(const float timeElapsed, InputData& input) {
     }
     
     // all the real game logic starts here
-    PathVertexP playerNode = this->level.findClosestNode(player.position);
     for (auto& enemy : enemies) {
-        enemy->track(*this, playerNode, player.position);
+        enemy->action(*this);
         TrackNode tn = enemy->tracking;
         enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;

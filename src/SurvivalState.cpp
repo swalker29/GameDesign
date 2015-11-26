@@ -10,6 +10,8 @@
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static const std::string PLAYER_TILE_SHEET_FILENAME = "assets/playerSpritesheet.png";
+static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
+static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
@@ -70,9 +72,13 @@ void SurvivalState::handle(GameApp& gameApp) {
         if(isPaused == false) {
             game.update(elapsed.asSeconds(), controlsConfig.input);
             draw();
+			//Changes to volume for dynamic music.
+			survivalMusicHigh.setVolume(100+game.player.health);
+			survivalMusicLow.setVolume(100-100+game.player.health);
         } else {
             drawPause();
         }
+		
     }
 
     return;
@@ -100,6 +106,19 @@ void SurvivalState::init() {
     view.setSize(SurvivalState::WINDOW_WIDTH, SurvivalState::WINDOW_HEIGHT);
     
     window->setFramerateLimit(60);
+	
+	if (!lowBuffer.loadFromFile(MUSIC_LOW_FILENAME))
+		fprintf(stderr, "Error: Unable to load survival music (low).\n");
+	if (!highBuffer.loadFromFile(MUSIC_HIGH_FILENAME))
+		fprintf(stderr, "Error: Unable to load survival music (high).\n");
+	survivalMusicLow.setBuffer(lowBuffer);
+	survivalMusicHigh.setBuffer(highBuffer);
+	
+	survivalMusicLow.play();
+	survivalMusicHigh.play();
+	survivalMusicLow.setVolume(0);
+	survivalMusicLow.setLoop(true);
+	survivalMusicHigh.setLoop(true);
 }
 
 void SurvivalState::initViews() {

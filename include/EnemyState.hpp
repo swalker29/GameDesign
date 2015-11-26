@@ -1,13 +1,15 @@
 #ifndef ENEMYSTATE_HPP
 #define ENEMYSTATE_HPP
+class Game;
 class Enemy;
 class EnemyStateTracking;
+class EnemyStateFiring;
 class EnemyState {
-    protected:
-        static EnemyStateTracking tracking;
     public:
+        static EnemyStateFiring firing;
+        static EnemyStateTracking tracking;
         virtual ~EnemyState() {}
-        virtual void handle(Enemy& enemy) = 0;
+        virtual void handle(const Game& state, Enemy& enemy) = 0;
 };
 #endif
 

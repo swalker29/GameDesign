@@ -1,6 +1,7 @@
 #include "Weapon.hpp"
 
 #include <cstdio>
+#include <cmath>
 #include <memory>
 
 #include "Game.hpp"
