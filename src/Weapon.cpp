@@ -1,6 +1,7 @@
 #include "Weapon.hpp"
 
 #include <cstdio>
+#include <cmath>
 #include <memory>
 
 static constexpr float EPSILON = 0.15f;
