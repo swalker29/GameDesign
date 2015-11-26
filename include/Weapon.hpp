@@ -44,6 +44,6 @@ class Weapon {
         
         static bool parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVector, int numProjectiles);
         
-        void playFireSound(const std::string& soundFile);
+        void playFireSound();
 };
 #endif

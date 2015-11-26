@@ -4,7 +4,7 @@
 #include <memory>
 
 static constexpr float EPSILON = 0.15f;
-static const std::string PISTOL_FILENAME = "assets/pistolShot.wav";
+static const std::string PISTOL_FILENAME = "";
 static const std::string SHOTGUN_FILENAME = "assets/pistolShot.wav";
 static const std::string LASER_FILENAME = "assets/pistolShot.wav";
 static const std::string MELEE_FILENAME = "assets/pistolShot.wav";
@@ -41,17 +41,15 @@ void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
             fireSingleProjectile(player, projectiles, projectileInstances, b2world);
         break;
     }
+    
+    playFireSound();
 }
 
 void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
     createProjectile(player, projectiles, player.direction, projectileInstances, b2world);	
-	
-	playFireSound(PISTOL_FILENAME);
 }
 
 void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
-	//playFireSound(SHOTGUN_FILENAME);
-	
 	for (int x = -3; x <= 3; x++) {
 	    float theta = x * M_PI / 60.0f;
 	    sf::Vector2f direction(player.direction.x * std::cos(theta) - player.direction.y * std::sin(theta), player.direction.x * std::sin(theta) + player.direction.y * std::cos(theta));
@@ -60,11 +58,11 @@ void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, s
 }
 
 void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	playFireSound(LASER_FILENAME);
+	playFireSound();
 }
 
 void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	playFireSound(MELEE_FILENAME);
+	playFireSound();
 }
 
 void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
@@ -126,7 +124,7 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
             break;
             // 'w', weapon declaration
             case 'w': 
-                std::fscanf(weaponsFile, "%d %d %d %d %d %f", &intBuf[0], &intBuf[1], &intBuf[2], &intBuf[3], &intBuf[4], &tempFloat);
+                std::fscanf(weaponsFile, "%d %d %d %d %d %f %s", &intBuf[0], &intBuf[1], &intBuf[2], &intBuf[3], &intBuf[4], &tempFloat, buf);
                 
                 // the rate of fire must be greater than or equal to zero
                 if (tempFloat < 0.0f) {
@@ -169,6 +167,12 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
                 // create the weapon here and add it to the vector
                 {
                     Weapon weapon(tempFloat, intBuf[1], intBuf[2], intBuf[3], intBuf[4]);
+                    std::string soundFile(buf);
+                    if(!weapon.sBuffer.loadFromFile(soundFile)) {
+		                fprintf(stderr, "Error: Unable to weapon sound file: %s\n", buf);
+		                return false;
+	                }
+                    
                     (*weaponVector)[intBuf[0]] = weapon;
                 }
             break;
@@ -182,12 +186,7 @@ bool Weapon::parseWeapons(std::FILE* weaponsFile, std::vector<Weapon>* weaponVec
     return true;
 }
 
-void Weapon::playFireSound(const std::string& soundFile) {
-    if(!sBuffer.loadFromFile(soundFile)) {
-		fprintf(stderr, "Error: Unable to load pistol sound.\n");
-	}
-	else {
-	    weaponSound.setBuffer(sBuffer);
-	    weaponSound.play();
-    }
+void Weapon::playFireSound() {
+    weaponSound.setBuffer(sBuffer);
+    weaponSound.play();
 }
