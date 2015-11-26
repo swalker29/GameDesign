@@ -3,6 +3,7 @@
 
 #include <list>
 
+#include <SFML/Audio/Music.hpp>
 #include <SFML/Graphics.hpp> // lazy includes
 #include <SFML/System.hpp>
 
@@ -51,6 +52,12 @@ class SurvivalState : public AppState {
         sf::Text pauseText;
         sf::Vector2f pauseTextLocation;
         
+		//music 
+		sf::SoundBuffer lowBuffer;
+		sf::SoundBuffer highBuffer;
+		sf::Sound survivalMusicLow;
+		sf::Sound survivalMusicHigh;
+		
         SquareView projectileView;
         
         // Initialization logic
