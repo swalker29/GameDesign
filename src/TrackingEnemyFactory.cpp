@@ -4,14 +4,15 @@
 LinearEnemyTrackBehavior TrackingEnemyFactory::LinearTrackBehavior = LinearEnemyTrackBehavior();
 AStarEnemyTrackBehavior TrackingEnemyFactory::AStarTrackBehavior = AStarEnemyTrackBehavior();
 
-TrackingEnemyFactory::TrackingEnemyFactory(EnemyTrackBehavior& etb, EnemyTrackBehavior& fallback) :
-    etb(&etb), fallback(&fallback)
-{}
+TrackingEnemyFactory::TrackingEnemyFactory(EnemyTrackBehavior& etb, std::shared_ptr<EnemyState> onDest) :
+    initState(new EnemyStateTracking(etb))
+{
+    onDest->setTransition(initState);
+    initState->setTransition(onDest);
+}
 
 std::unique_ptr<Enemy> TrackingEnemyFactory::makeEnemy() {
     std::unique_ptr<Enemy> enemy(new Enemy());
-    enemy->state = &EnemyState::tracking;
-    enemy->setTrackBehavior(*(this->etb));
-    enemy->setFallbackBehavior(*(this->fallback));
+    enemy->state = initState;
     return enemy;
 }

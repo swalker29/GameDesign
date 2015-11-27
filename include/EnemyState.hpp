@@ -1,14 +1,12 @@
 #ifndef ENEMYSTATE_HPP
 #define ENEMYSTATE_HPP
+#include <memory>
 class Game;
 class Enemy;
-class EnemyStateTracking;
-class EnemyStateFiring;
 class EnemyState {
     public:
-        static EnemyStateFiring firing;
-        static EnemyStateTracking tracking;
         virtual ~EnemyState() {}
+        virtual void setTransition(std::shared_ptr<EnemyState> nextState) {}
         virtual void handle(const Game& state, Enemy& enemy) = 0;
 };
 #endif

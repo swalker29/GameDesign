@@ -19,14 +19,11 @@ class Enemy : public Character {
         void updateNode();
 
     public:
-        EnemyTrackBehavior* trackBehavior;
-        EnemyTrackBehavior* fallbackBehavior;
-        EnemyState* state;
+        std::shared_ptr<EnemyState> state;
         PathVertexP node;
         sf::Vector2f position;
         sf::Vector2f direction;    
         float speed;
-        bool stationary;
         TrackNode tracking;
         
         b2Body* b2body;
@@ -35,8 +32,6 @@ class Enemy : public Character {
 
         void action(const Game& state);
         
-        void setTrackBehavior(EnemyTrackBehavior& newTrackBehavior);
-        void setFallbackBehavior(EnemyTrackBehavior& newTrackBehavior);
         void setNode(PathVertexP node);
         Enemy();
 };

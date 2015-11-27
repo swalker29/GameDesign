@@ -3,6 +3,7 @@
 #include <cstdio>
 #include "Utils.hpp"
 #include "TrackingEnemyFactory.hpp"
+#include "EnemyStateFiring.hpp"
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
 static const std::string WEAPONS_FILE_PATH = "assets/weapons.wep";
@@ -45,7 +46,7 @@ bool Game::init() {
     sf::Vector2f direction(0,0);
     float speed = 1.5;
 
-    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, TrackingEnemyFactory::LinearTrackBehavior);
+    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyState> (new EnemyStateFiring));
 
     for (int i=0; i < nEnemies; i++) {
         std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed);

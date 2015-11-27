@@ -3,16 +3,17 @@
 #include "IEnemyFactory.hpp"
 #include "LinearEnemyTrackBehavior.hpp"
 #include "AStarEnemyTrackBehavior.hpp"
+#include "EnemyStateTracking.hpp"
+#include <memory>
 
 class TrackingEnemyFactory : public IEnemyFactory {
     private:
-        EnemyTrackBehavior* etb;
-        EnemyTrackBehavior* fallback;
+        std::shared_ptr<EnemyStateTracking> initState;
     protected:
         virtual std::unique_ptr<Enemy> makeEnemy();
     public:
         static LinearEnemyTrackBehavior LinearTrackBehavior;
         static AStarEnemyTrackBehavior AStarTrackBehavior;
-        TrackingEnemyFactory(EnemyTrackBehavior& etb, EnemyTrackBehavior& fallback);
+        TrackingEnemyFactory(EnemyTrackBehavior& etb, std::shared_ptr<EnemyState> onDest);
 };
 #endif

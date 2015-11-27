@@ -4,35 +4,45 @@
 #include <iostream>
 #include "Utils.hpp"
 
-#define DEBUGTRACKING 0
+#define DEBUGTRACKING 1
 
-EnemyStateTracking::EnemyStateTracking() {}
+EnemyStateTracking::EnemyStateTracking(EnemyTrackBehavior& etb)
+    : trackBehavior(&etb) {}
+
+void EnemyStateTracking::setTransition(std::shared_ptr<EnemyState> onDest) {
+    this->onDest = onDest;
+}
 
 #if DEBUGTRACKING
 void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target, Enemy& enemy);
 #endif
+
 void EnemyStateTracking::handle(const Game& state, Enemy& enemy) {
-    //enemy.track(state);
-    TrackNode tn;
-    PathVertexP targetNode = state.player.node;
-    sf::Vector2f target = state.player.position;
+#if 0
     if (!enemy.trackBehavior || enemy.stationary) {
         tn.node = enemy.node;
         tn.direction = sf::Vector2f(0,0);
-    } else if (enemy.node && enemy.node == targetNode) { 
-        sf::Vector2f direction = target - enemy.position;
-        normalizeVector2f(direction);
-        tn.direction = direction;
+    }
+#endif
+    PathVertexP targetNode = state.player.node;
+    TrackNode tn;
 
-        tn = enemy.fallbackBehavior->track(state, enemy.position, target, enemy.node, targetNode);
-    } else {
-        tn = enemy.trackBehavior->track(state, enemy.position, target, enemy.node, targetNode);
+    if (enemy.node && enemy.node == targetNode && this->onDest) {
+        tn.node = enemy.node;
+        tn.direction = sf::Vector2f(0,0);
+        enemy.tracking = tn;
+
+        enemy.state = this->onDest;
+        return;
     }
 
+    sf::Vector2f target = state.player.position;
+    tn = this->trackBehavior->track(state, enemy.position, target, enemy.node, targetNode);
+    enemy.tracking = tn;
 #if DEBUGTRACKING
     debugTracking(tn, targetNode, target, enemy);
 #endif
-    enemy.tracking = tn;
+
 }
 #if DEBUGTRACKING
 void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target, Enemy& enemy) {
