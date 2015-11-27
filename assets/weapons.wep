@@ -7,10 +7,10 @@ n 3
 w 0 0 0 0 0 0.75 assets/pistolShot.wav
 
 # shotgun
-w 1 1 1 1 1 1.25 assets/pistolShot.wav
+w 1 1 1 1 1 1.25 assets/machineGunShot.wav
 
 # machine gun
-w 2 0 0 2 2 0.2 assets/pistolShot.wav
+w 2 0 0 2 2 0.2 assets/machineGunShot.wav
 
 
 # This will allow us to do some cool things like shotgun spawns a handful of projectiles. Pistol and machine gun

@@ -4,7 +4,7 @@
 n 2
 
 # pistol ammo
-p 0 0 0 30.1 30.0 0.01 assets/explosionImpact.wav
+p 0 0 0 30.1 30.0 0.01 assets/bulletImpact.wav
 
 # shotgun ammo
-p 1 0 0 10.2 20.0 0.01 assets/explosionImpact.wav
+p 1 0 0 10.2 20.0 0.01 assets/bulletImpact.wav
