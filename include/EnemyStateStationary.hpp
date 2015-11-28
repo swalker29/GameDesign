@@ -3,6 +3,6 @@
 #include "EnemyState.hpp"
 class EnemyStateStationary : public EnemyState {
     public:
-        void handle(const Game& state, Enemy& enemy);
+        void handle(Game& state, Enemy& enemy);
 };
 #endif

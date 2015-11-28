@@ -3,5 +3,5 @@
 EnemyStateMelee::EnemyStateMelee() {
 }
 
-void EnemyStateMelee::handle(const Game& state, Enemy& enemy) {
+void EnemyStateMelee::handle(Game& state, Enemy& enemy) {
 }

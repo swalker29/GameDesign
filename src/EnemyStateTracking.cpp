@@ -17,7 +17,7 @@ void EnemyStateTracking::setTransition(std::shared_ptr<EnemyState> onDest) {
 void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target, Enemy& enemy);
 #endif
 
-void EnemyStateTracking::handle(const Game& state, Enemy& enemy) {
+void EnemyStateTracking::handle(Game& state, Enemy& enemy) {
 #if 0
     if (!enemy.trackBehavior || enemy.stationary) {
         tn.node = enemy.node;

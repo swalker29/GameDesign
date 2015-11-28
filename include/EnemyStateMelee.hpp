@@ -4,6 +4,6 @@
 class EnemyStateMelee : EnemyState {
     public:
         EnemyStateMelee();
-        void handle(const Game& state, Enemy& enemy);
+        void handle(Game& state, Enemy& enemy);
 };
 #endif

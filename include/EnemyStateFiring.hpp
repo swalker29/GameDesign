@@ -5,9 +5,11 @@
 class EnemyStateFiring : public EnemyState {
     private:
         std::shared_ptr<EnemyState> outRange;
+        float fireRate;
     public:
         EnemyStateFiring();
+        EnemyStateFiring(float shotInterval);
         void setTransition(std::shared_ptr<EnemyState> outRange);
-        void handle(const Game& state, Enemy& enemy);
+        void handle(Game& state, Enemy& enemy);
 };
 #endif

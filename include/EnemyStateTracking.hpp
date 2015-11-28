@@ -10,6 +10,6 @@ class EnemyStateTracking : public EnemyState {
     public:
         EnemyStateTracking(EnemyTrackBehavior& trackBehavior);
         virtual void setTransition(std::shared_ptr<EnemyState> onDest);
-        void handle(const Game& state, Enemy& enemy);
+        void handle(Game& state, Enemy& enemy);
 };
 #endif

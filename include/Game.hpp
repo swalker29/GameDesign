@@ -34,6 +34,7 @@ class Game {
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
         std::list<std::unique_ptr<ProjectileInstance>> projectileInstances;
+        std::list<std::unique_ptr<ProjectileInstance>> enemyProjectiles;
         
         std::vector<Weapon> weapons;
         std::vector<Projectile> projectiles;
@@ -57,6 +58,7 @@ class Game {
         inline sf::Vector2f getTilePosition(int x, int y) const {
             return sf::Vector2f(TILE_SIZE * x, TILE_SIZE * y);
         };
+        b2World* getWorld() { return &this->b2world; }
         
     private:        
         ContactListener contactListener;

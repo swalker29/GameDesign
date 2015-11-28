@@ -12,7 +12,7 @@ Enemy::Enemy() : Character(DEFAULT_ENEMY_HEALTH, Character::Team::ENEMY), positi
     circle.m_radius = DEFAULT_ENEMY_RADIUS;
 }
 
-void Enemy::action(const Game& state) {
+void Enemy::action(Game& state) {
     this->state->handle(state, *this);
 }
 

@@ -5,7 +5,7 @@
 
 #include <Box2D/Box2D.h>
 #include <SFML/System/Vector2.hpp>
-
+#include <SFML/System/Clock.hpp>
 #include "Character.hpp"
 #include "EnemyTrackBehavior.hpp"
 #include "PathVertex.hpp"
@@ -19,6 +19,7 @@ class Enemy : public Character {
         void updateNode();
 
     public:
+        sf::Clock timer;
         std::shared_ptr<EnemyState> state;
         PathVertexP node;
         sf::Vector2f position;
@@ -30,7 +31,7 @@ class Enemy : public Character {
         b2Fixture* b2fixture;
         b2CircleShape circle;
 
-        void action(const Game& state);
+        void action(Game& state);
         
         void setNode(PathVertexP node);
         Enemy();
