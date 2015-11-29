@@ -2,7 +2,10 @@
 #define MENUSTATE_HPP
 
 #include "AppState.hpp"
+#include "Game.hpp"
+#include "SpriteView.hpp"
 #include <SFML/Audio.hpp>
+
 
 class GameApp;
 
@@ -13,7 +16,11 @@ class MenuState : public AppState {
     private:
         int curSelected;
         int numButtons;
-
+		int displacement; 
+		int i;
+		int j;
+		Game game;
+		
         //graphics
         sf::RenderWindow* window;
         sf::View view;
@@ -26,8 +33,11 @@ class MenuState : public AppState {
 		sf::SoundBuffer mBuffer;
 		sf::Sound menuMusic;
 		
+		SpriteView tileView;
+		
         void init();
-        void draw();
+        void drawBackground();
+		void drawMenu();
 
         void selectPrevButton();
         void selectNextButton();

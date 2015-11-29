@@ -4,6 +4,7 @@
 
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string MUSIC_FILENAME = "assets/menuMusic.wav";
+static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 
 MenuState::MenuState() { }
 
@@ -28,7 +29,7 @@ void MenuState::handle(GameApp& app) {
                     window->waitEvent(event);
                     
                     // draw in case the screen was resized or another window was placed on top before
-                    draw();
+                    drawMenu();
                 }
 
             }
@@ -45,8 +46,8 @@ void MenuState::handle(GameApp& app) {
                 }
             }
         }
-
-        draw();
+		drawBackground();
+        drawMenu();
     }
 
 }
@@ -62,9 +63,9 @@ void MenuState::init(){
 
     arachineText.setFont(font);
     arachineText.setCharacterSize(70);
-    arachineText.setPosition(50, 15);
-    arachineText.setColor(sf::Color::Blue);
-    arachineText.setString("Escape from Arachine");
+    arachineText.setPosition(250, 15);
+    arachineText.setColor(sf::Color::White);
+    arachineText.setString("Arachine");
 
     survivalText.setFont(font);
     survivalText.setCharacterSize(35);
@@ -91,6 +92,15 @@ void MenuState::init(){
 	menuMusic.play();
 	menuMusic.setPlayingOffset(sf::seconds(0));
 	menuMusic.setLoop(true);
+	
+	//Background
+	displacement = 0;
+	//Why can't this take game.level.tileLength?
+	if (!tileView.init(LEVEL_TILE_SHEET_FILENAME, 256, 256)) {
+        fprintf(stderr, "Error: Unable to load level tile sheet. Program exiting\n");
+        std::exit(-1);
+    }
+	tileView.updateSprite(0);
 }
 
 void MenuState::selectPrevButton(){
@@ -123,7 +133,19 @@ void MenuState::selectButton(GameApp& app){
     }
 }
 
-void MenuState::draw(){
+void MenuState::drawBackground() {
+	window->clear();
+	for (i = 0; i < 5; i++) {
+		for (j = 0; j < 3; j++) {
+			//Can't use Game::TILE_SIZE?
+			tileView.position = (sf::Vector2f(i * 256 + displacement, j * 256));
+			tileView.draw(window);
+		}
+	}
+	displacement = (displacement - 1) % 256;
+}
+
+void MenuState::drawMenu(){
     switch(curSelected) {
         case 0:
             survivalText.setColor(sf::Color::Red);
@@ -142,7 +164,7 @@ void MenuState::draw(){
             break;
     }
     
-    window->clear(sf::Color::White);
+    //window->clear(sf::Color::White);
     window->draw(survivalText);
     window->draw(campaignText);
     window->draw(quitText);
