@@ -4,14 +4,11 @@
 #include <iostream>
 #include "Utils.hpp"
 
-#define DEBUGTRACKING 1
+#define DEBUGTRACKING 0
 
 EnemyStateTracking::EnemyStateTracking(EnemyTrackBehavior& etb)
     : trackBehavior(&etb) {}
 
-void EnemyStateTracking::setTransition(std::shared_ptr<EnemyState> onDest) {
-    this->onDest = onDest;
-}
 
 #if DEBUGTRACKING
 void debugTracking(TrackNode& tn, PathVertexP targetNode, const sf::Vector2f& target, Enemy& enemy);
@@ -27,12 +24,15 @@ void EnemyStateTracking::handle(Game& state, Enemy& enemy) {
     PathVertexP targetNode = state.player.node;
     TrackNode tn;
 
-    if (enemy.node && enemy.node == targetNode && this->onDest) {
+    if (enemy.node && enemy.node == targetNode && this->closeRange) {
         tn.node = enemy.node;
         tn.direction = sf::Vector2f(0,0);
         enemy.tracking = tn;
 
-        enemy.state = this->onDest;
+        enemy.state = this->closeRange;
+        return;
+    } else if (enemy.node && enemy.node != targetNode && this->outRange) {
+        enemy.state = this->outRange;
         return;
     }
 

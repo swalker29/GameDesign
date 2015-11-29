@@ -9,10 +9,6 @@
 EnemyStateFiring::EnemyStateFiring() : fireRate(1.5) {}
 EnemyStateFiring::EnemyStateFiring(float shotInterval) : fireRate(shotInterval) {}
 
-void EnemyStateFiring::setTransition(std::shared_ptr<EnemyState> outRange) {
-    this->outRange = outRange;
-}
-
 void EnemyStateFiring::handle(Game& state, Enemy& enemy) {
 
     //if player moves away from the enemy's node, the enemy may reengage track behavior

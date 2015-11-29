@@ -4,6 +4,7 @@
 #include "LinearEnemyTrackBehavior.hpp"
 #include "AStarEnemyTrackBehavior.hpp"
 #include "EnemyStateTracking.hpp"
+#include "EnemyStateClose.hpp"
 #include <memory>
 
 class TrackingEnemyFactory : public IEnemyFactory {
@@ -14,6 +15,6 @@ class TrackingEnemyFactory : public IEnemyFactory {
     public:
         static LinearEnemyTrackBehavior LinearTrackBehavior;
         static AStarEnemyTrackBehavior AStarTrackBehavior;
-        TrackingEnemyFactory(EnemyTrackBehavior& etb, std::shared_ptr<EnemyState> onDest);
+        TrackingEnemyFactory(EnemyTrackBehavior& etb, std::shared_ptr<EnemyStateClose> onDest);
 };
 #endif

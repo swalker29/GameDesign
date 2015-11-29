@@ -1,15 +1,13 @@
 #ifndef ENEMYSTATETRACKING_HPP
 #define ENEMYSTATETRACKING_HPP
-#include "EnemyState.hpp"
-#include <memory>
+#include "EnemyStateFar.hpp"
+#include "EnemyStateClose.hpp"
 class EnemyTrackBehavior;
-class EnemyStateTracking : public EnemyState {
+class EnemyStateTracking : public EnemyStateFar, public EnemyStateClose {
     private:
-        std::shared_ptr<EnemyState> onDest;
         EnemyTrackBehavior* trackBehavior;
     public:
         EnemyStateTracking(EnemyTrackBehavior& trackBehavior);
-        virtual void setTransition(std::shared_ptr<EnemyState> onDest);
         void handle(Game& state, Enemy& enemy);
 };
 #endif

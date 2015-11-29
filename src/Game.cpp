@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "TrackingEnemyFactory.hpp"
 #include "EnemyStateFiring.hpp"
+#include <random>
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
 static const std::string WEAPONS_FILE_PATH = "assets/weapons.wep";
@@ -41,15 +42,26 @@ bool Game::init() {
     
     player.position = level.startingPosition * TILE_SIZE;
 
-    const int nEnemies = 1;
+    const int rangedEnemies = 1;
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
     float speed = 1.5;
+    std::default_random_engine rgen;
+    std::uniform_real_distribution<float> sVar(-0.5, 0.5);
 
-    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyState> (new EnemyStateFiring));
+    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
 
-    for (int i=0; i < nEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed);
+    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+
+    for (int i=0; i < rangedEnemies; i++) {
+        std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+        createEnemyBox2D(*enemy);
+        this->enemies.push_back(std::move(enemy));
+    }
+
+    const int meleeEnemies = 4;
+    for (int i=0; i < meleeEnemies; i++) {
+        std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
         this->enemies.push_back(std::move(enemy));
     }
