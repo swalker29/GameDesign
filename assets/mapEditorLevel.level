@@ -45,10 +45,10 @@ u 30 30 assets/TileData/waterR.tile
 u 31 31 assets/TileData/waterTL.tile
 u 32 32 assets/TileData/waterT.tile
 u 33 33 assets/TileData/waterTR.tile
-u 34 34 assets/TileData/noCollisionTile.tile
-u 35 35 assets/TileData/noCollisionTile.tile
-u 36 36 assets/TileData/noCollisionTile.tile
-u 37 37 assets/TileData/noCollisionTile.tile
+u 34 34 assets/TileData/waterLandBL.tile
+u 35 35 assets/TileData/waterLandBR.tile
+u 36 36 assets/TileData/waterLandTL.tile
+u 37 37 assets/TileData/waterLandTR.tile
 u 38 38 assets/TileData/noCollisionTile.tile
 u 39 39 assets/TileData/noCollisionTile.tile
 u 40 40 assets/TileData/noCollisionTile.tile

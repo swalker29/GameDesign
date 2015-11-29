@@ -45,10 +45,10 @@ u 30 30 1 assets/TileData/waterR.tile
 u 31 31 1 assets/TileData/waterTL.tile
 u 32 32 1 assets/TileData/waterT.tile
 u 33 33 1 assets/TileData/waterTR.tile
-u 34 34 0 assets/TileData/noCollisionTile.tile
-u 35 35 0 assets/TileData/noCollisionTile.tile
-u 36 36 0 assets/TileData/noCollisionTile.tile
-u 37 37 0 assets/TileData/noCollisionTile.tile
+u 34 34 1 assets/TileData/waterLandBL.tile
+u 35 35 1 assets/TileData/waterLandBR.tile
+u 36 36 1 assets/TileData/waterLandTL.tile
+u 37 37 1 assets/TileData/waterLandTR.tile
 u 38 38 0 assets/TileData/noCollisionTile.tile
 u 39 39 0 assets/TileData/noCollisionTile.tile
 u 40 40 0 assets/TileData/noCollisionTile.tile
@@ -260,9 +260,9 @@ t 4 37 19 0
 t 4 38 11 0
 t 4 39 11 0
 t 5 0 11 0
-t 5 1 11 1
-t 5 2 13 2
-t 5 3 0 3
+t 5 1 11 0
+t 5 2 13 0
+t 5 3 0 0
 t 5 4 1 0
 t 5 5 4 0
 t 5 6 7 0
