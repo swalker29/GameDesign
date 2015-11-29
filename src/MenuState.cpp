@@ -15,7 +15,12 @@ void MenuState::handle(GameApp& app) {
 
     // start main loop
     while(window->isOpen()) {
-        // process events
+        
+		tElapsed = clock.getElapsedTime();
+		timeElapsed += tElapsed.asMilliseconds();
+		clock.restart();
+		
+		// process events
         sf::Event event;
         
         while(window->pollEvent(event)) {
@@ -46,6 +51,7 @@ void MenuState::handle(GameApp& app) {
                 }
             }
         }
+		window->clear(sf::Color::White);
 		drawBackground();
         drawMenu();
     }
@@ -94,6 +100,7 @@ void MenuState::init(){
 	menuMusic.setLoop(true);
 	
 	//Background
+	timeElapsed = 0;
 	displacement = 0;
 	//Why can't this take game.level.tileLength?
 	if (!tileView.init(LEVEL_TILE_SHEET_FILENAME, 256, 256)) {
@@ -142,7 +149,10 @@ void MenuState::drawBackground() {
 			tileView.draw(window);
 		}
 	}
-	displacement = (displacement - 1) % 256;
+	if (timeElapsed > 1) {
+		displacement = (displacement - 1) % 256;
+		timeElapsed = 0;
+	}
 }
 
 void MenuState::drawMenu(){

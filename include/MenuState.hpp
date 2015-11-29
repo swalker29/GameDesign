@@ -19,8 +19,11 @@ class MenuState : public AppState {
 		int displacement; 
 		int i;
 		int j;
+		int timeElapsed;
 		Game game;
 		
+		sf::Clock clock;
+		sf::Time tElapsed;
         //graphics
         sf::RenderWindow* window;
         sf::View view;
