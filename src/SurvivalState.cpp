@@ -73,8 +73,8 @@ void SurvivalState::handle(GameApp& gameApp) {
             game.update(elapsed.asSeconds(), controlsConfig.input);
             draw();
 			//Changes to volume for dynamic music.
-			survivalMusicHigh.setVolume(100+game.player.health);
-			survivalMusicLow.setVolume(100-100+game.player.health);
+			survivalMusicHigh.setVolume(game.player.health);
+			survivalMusicLow.setVolume(100-game.player.health);
         } else {
             drawPause();
         }
