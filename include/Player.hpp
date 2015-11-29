@@ -22,7 +22,6 @@ class Player : public Character{
         int activeWeapon;
         std::vector<int> ammoCounts;
         
-        float health;
         Player(b2World* b2world);
 };
 #endif
