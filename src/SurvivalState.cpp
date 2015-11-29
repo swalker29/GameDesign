@@ -180,7 +180,7 @@ void SurvivalState::drawPlayer() {
     rotation = -180.0f * rotation / M_PI + 180.0f;
     
     playerView.rotation = rotation;
-    playerView.updateSprite(10);
+    playerView.updateSprite(10 + game.weapons[game.player.activeWeapon].playerSpriteIndex);
     playerView.draw(window);
 }
 
