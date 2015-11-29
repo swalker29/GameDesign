@@ -14,7 +14,7 @@ void EnemyStateFiring::handle(Game& state, Enemy& enemy) {
     //if player moves away from the enemy's node, the enemy may reengage track behavior
     PathVertexP targetNode = state.player.node;
     if (enemy.node && enemy.node != targetNode && this->outRange) {
-        enemy.state = this->outRange;
+        this->changeState(enemy, this->outRange);
         return;
     }
     //Limits enemy fire rate

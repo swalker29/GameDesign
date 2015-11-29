@@ -6,6 +6,7 @@ std::unique_ptr<Enemy> IEnemyFactory::makeEnemyAt(PathVertexP node, sf::Vector2f
     enemy->position = node->position;
     enemy->direction = direction;
     enemy->speed = speed;
+    enemy->origSpeed = speed;
     
     return enemy;
 }

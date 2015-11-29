@@ -29,10 +29,10 @@ void EnemyStateTracking::handle(Game& state, Enemy& enemy) {
         tn.direction = sf::Vector2f(0,0);
         enemy.tracking = tn;
 
-        enemy.state = this->closeRange;
+        this->changeState(enemy, this->closeRange);
         return;
     } else if (enemy.node && enemy.node != targetNode && this->outRange) {
-        enemy.state = this->outRange;
+        this->changeState(enemy, this->outRange);
         return;
     }
 

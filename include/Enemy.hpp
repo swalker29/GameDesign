@@ -25,6 +25,7 @@ class Enemy : public Character {
         sf::Vector2f position;
         sf::Vector2f direction;    
         float speed;
+        float origSpeed;
         TrackNode tracking;
         
         b2Body* b2body;

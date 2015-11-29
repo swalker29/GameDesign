@@ -4,6 +4,7 @@
 #include "Utils.hpp"
 #include "TrackingEnemyFactory.hpp"
 #include "EnemyStateFiring.hpp"
+#include "EnemyStatePouncing.hpp"
 #include <random>
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
@@ -42,7 +43,6 @@ bool Game::init() {
     
     player.position = level.startingPosition * TILE_SIZE;
 
-    const int rangedEnemies = 1;
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
     float speed = 1.5;
@@ -51,17 +51,25 @@ bool Game::init() {
 
     TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
 
-    TrackingEnemyFactory aStarEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+    TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
 
+    TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
+
+    const int rangedEnemies = 1;
     for (int i=0; i < rangedEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = aStarEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+        std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
         this->enemies.push_back(std::move(enemy));
     }
-
-    const int meleeEnemies = 4;
+    const int meleeEnemies = 0;
     for (int i=0; i < meleeEnemies; i++) {
         std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+        createEnemyBox2D(*enemy);
+        this->enemies.push_back(std::move(enemy));
+    }
+    const int pounceEnemies = 1;
+    for (int i=0; i < pounceEnemies; i++) {
+        std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
         this->enemies.push_back(std::move(enemy));
     }
