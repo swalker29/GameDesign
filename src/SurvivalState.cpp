@@ -11,7 +11,7 @@ static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static const std::string PLAYER_TILE_SHEET_FILENAME = "assets/playerSpritesheet.png";
 static const std::string HEALTH_FRAME_FILENAME = "assets/healthFrame.png";
-static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/pistolSelection.png";
+static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/weaponSelections.png";
 static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
@@ -267,7 +267,7 @@ void SurvivalState::drawUI() {
     healthBarFrame.draw(window);
 
     //set the fullness of the healthbar based on player health 
-    healthBar.setSize(sf::Vector2f(300, 40));
+    healthBar.setSize(sf::Vector2f(300 * (game.player.health/100), 40));
     
     //set color of healthbar based on player health
     if (game.player.health > 66) {
