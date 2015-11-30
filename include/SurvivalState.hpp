@@ -50,13 +50,23 @@ class SurvivalState : public AppState {
         SpriteView levelView;
         ImageView titleView;
         sf::Text pauseText;
-        sf::Vector2f pauseTextLocation;
+        sf::Vector2f relativePlayerLocation;
+        SpriteView selectedWeapon;
+        SpriteView bulletAmmo;
+        sf::Text bulletCount;
+        SpriteView shellAmmo;
+        sf::Text shellCount;
+        SpriteView missileAmmo;
+        sf::Text missileCount;
+        SpriteView healthBarFrame;
+        sf::RectangleShape healthBar;
+
         
-		//music 
-		sf::SoundBuffer lowBuffer;
-		sf::SoundBuffer highBuffer;
-		sf::Sound survivalMusicLow;
-		sf::Sound survivalMusicHigh;
+        //music 
+        sf::SoundBuffer lowBuffer;
+        sf::SoundBuffer highBuffer;
+        sf::Sound survivalMusicLow;
+        sf::Sound survivalMusicHigh;
 		
         SquareView projectileView;
         
@@ -64,6 +74,7 @@ class SurvivalState : public AppState {
         void init();
         void initViews();
         void initPauseScreen();
+        void initUI();
         
         // Drawing logic for survival/campaign
         void draw();
@@ -74,6 +85,7 @@ class SurvivalState : public AppState {
         void drawLevel();
         void drawProjectiles();
         void drawPause();
+        void drawUI();
         void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;

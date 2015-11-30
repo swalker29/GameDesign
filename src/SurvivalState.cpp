@@ -10,6 +10,8 @@
 static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static const std::string PLAYER_TILE_SHEET_FILENAME = "assets/playerSpritesheet.png";
+static const std::string HEALTH_FRAME_FILENAME = "assets/healthFrame.png";
+static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/pistolSelection.png";
 static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
@@ -26,6 +28,9 @@ void SurvivalState::handle(GameApp& gameApp) {
    
     sf::Time elapsed;
     sf::Clock clock;
+    
+    //keeps track of time elapsed for score purpose
+    sf::Clock scoreClock;
 
     init();
 
@@ -136,6 +141,7 @@ void SurvivalState::initViews() {
     }
 
     initPauseScreen();
+    initUI();
 
     enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
@@ -151,6 +157,20 @@ void SurvivalState::initPauseScreen() {
     
 }
 
+void SurvivalState::initUI(){
+
+    if (!healthBarFrame.init(HEALTH_FRAME_FILENAME, 300, 50)) {
+        fprintf(stderr, "Error: Unable to load health bar frame. Program exiting\n");
+        std::exit(-1);
+    }
+    if (!selectedWeapon.init(WEAPON_SELECT_SHEET_FILENAME, 100, 100)) {
+        fprintf(stderr, "Error: Unable to load weapon selection tilesheet. Program exiting\n");
+        std::exit(-1);
+    }
+
+
+}
+
 //handles drawing the game
 void SurvivalState::draw() {
     window->clear(sf::Color::Black);
@@ -162,6 +182,7 @@ void SurvivalState::draw() {
     drawAim();
     drawEnemies();
     drawProjectiles();
+    drawUI();
 
     window->display();
 }
@@ -229,10 +250,43 @@ void SurvivalState::drawProjectiles() {
 
 void SurvivalState::drawPause() {
     float ratio = getViewRatio();
-    pauseTextLocation = ratio * (game.player.position + 2.0f * game.player.direction);
-    pauseText.setPosition(pauseTextLocation.x - 300, pauseTextLocation.y - 200);
+    relativePlayerLocation = ratio * (game.player.position);
+    pauseText.setPosition(relativePlayerLocation.x - 300, relativePlayerLocation.y - 200);
     window->draw(pauseText);
     window->display();
+}
+
+void SurvivalState::drawUI() {
+    float ratio = getViewRatio();
+    relativePlayerLocation = ratio * (game.player.position);
+
+    /*
+    * drawing the healthbar
+    */
+    healthBarFrame.position = sf::Vector2f(relativePlayerLocation.x - 380, relativePlayerLocation.y + 240);
+    healthBarFrame.draw(window);
+
+    //set the fullness of the healthbar based on player health 
+    healthBar.setSize(sf::Vector2f(300, 40));
+    
+    //set color of healthbar based on player health
+    if (game.player.health > 66) {
+        healthBar.setFillColor(sf::Color::Green);
+    } else if (game.player.health > 33) {
+        healthBar.setFillColor(sf::Color::Yellow);
+    } else {
+        healthBar.setFillColor(sf::Color::Red);
+    }
+    healthBar.setPosition(relativePlayerLocation.x - 380, relativePlayerLocation.y + 240);
+    window->draw(healthBar);
+    //fprintf(stderr, "player health is %f", game.player.health);
+
+    /*
+    * drawing the weapon selection graphic
+    */
+    selectedWeapon.position = sf::Vector2f(relativePlayerLocation.x, relativePlayerLocation.y);
+    selectedWeapon.draw(window);
+    
 }
 
 void SurvivalState::setViewForDrawing() {
