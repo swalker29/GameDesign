@@ -5,9 +5,12 @@
 #include <memory>
 
 #include "Game.hpp"
+#include "Utils.hpp"
 
 static constexpr float EPSILON = 0.15f;
-static constexpr float CHAINSAW_DISTANCE_SQUARED = 2.0;
+static constexpr float CHAINSAW_DISTANCE_SQUARED = 2.0f;
+static constexpr float CHAINSAW_ARC = 0.86f; // 30 degrees
+static constexpr float CHAINSAW_DAMAGE = 0.75f;
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -54,7 +57,7 @@ void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* proje
 
 void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
 	for (int x = -3; x <= 3; x++) {
-	    float theta = x * M_PI / 60.0f; // 3 degree spread between each projectile
+	    float theta = x * M_PI / 90.0f; // 1.5 degree spread between each projectile
 	    sf::Vector2f direction(player.direction.x * std::cos(theta) - player.direction.y * std::sin(theta), player.direction.x * std::sin(theta) + player.direction.y * std::cos(theta));
 	    createProjectile(player, projectiles, direction, projectileInstances, b2world);
     }
@@ -64,6 +67,21 @@ void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std
 }
 
 void Weapon::fireMelee(Player& player, std::list<std::unique_ptr<Enemy>>* enemies) {
+	// We need to check all of the enemies to see if they are in.
+	// We intersect the enemy's bounding circle with an arc. Check the distance and then check the angle.
+	for (auto& enemy : *enemies) {
+	    float distanceSq = distanceSquared(player.position, enemy->position);
+	    
+	    if (distanceSq < CHAINSAW_DISTANCE_SQUARED - enemy->circle.m_radius) {
+	        sf::Vector2f direction = enemy->position - player.position;
+	        normalizeVector2f(direction);
+	        float dot = dotProductVector2f(player.direction, direction);
+	        
+	        if (dot > CHAINSAW_ARC) {
+	            enemy->health -= CHAINSAW_DAMAGE;
+            }
+        }
+    }
 	
 	//playFireSound();
 }
