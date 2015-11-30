@@ -263,12 +263,10 @@ void SurvivalState::drawUI() {
     /*
     * drawing the healthbar
     */
-    healthBarFrame.position = sf::Vector2f(relativePlayerLocation.x - 380, relativePlayerLocation.y + 240);
-    healthBarFrame.draw(window);
-
+    healthBarFrame.position = sf::Vector2f(relativePlayerLocation.x - 400, relativePlayerLocation.y + 250);
+	healthBarFrame.draw(window);
     //set the fullness of the healthbar based on player health 
-    healthBar.setSize(sf::Vector2f(300 * (game.player.health/100), 40));
-    
+    healthBar.setSize(sf::Vector2f(276 * (game.player.health/100), 36));
     //set color of healthbar based on player health
     if (game.player.health > 66) {
         healthBar.setFillColor(sf::Color::Green);
@@ -277,14 +275,14 @@ void SurvivalState::drawUI() {
     } else {
         healthBar.setFillColor(sf::Color::Red);
     }
-    healthBar.setPosition(relativePlayerLocation.x - 380, relativePlayerLocation.y + 240);
+    healthBar.setPosition(relativePlayerLocation.x - 388, relativePlayerLocation.y + 257);
     window->draw(healthBar);
     //fprintf(stderr, "player health is %f", game.player.health);
 
     /*
     * drawing the weapon selection graphic
     */
-    selectedWeapon.position = sf::Vector2f(relativePlayerLocation.x, relativePlayerLocation.y);
+    selectedWeapon.position = sf::Vector2f(relativePlayerLocation.x + 300, relativePlayerLocation.y + 200);
     selectedWeapon.draw(window);
     
 }

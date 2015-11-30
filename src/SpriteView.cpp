@@ -16,19 +16,21 @@ bool SpriteView::init(const std::string& spriteSheetPath, int newSpriteWidth, in
         spritesPerRow = texture.getSize().x / newSpriteWidth;
         spriteWidth = newSpriteWidth;
         spriteHeight = newSpriteHeight;
+		updateSprite(0);
     }
         
     return result;
 }
 
 //This is called by the animation controller, who has knowledge of where each frame is.
+//Also use this to set the sprite used in some situations (HUD)
 void SpriteView::updateSprite(int frame) {
     sprite.setTextureRect(sf::IntRect((frame % spritesPerRow) * spriteWidth, (frame / spritesPerRow) * spriteHeight, spriteWidth, spriteHeight));
 }
 
 void SpriteView::draw(sf::RenderWindow* window) {
     sprite.setPosition(position + sf::Vector2f(spriteWidth/2, spriteHeight/2));
-    sprite.setOrigin(spriteWidth / 2, spriteHeight / 2);
+	sprite.setOrigin(spriteWidth / 2, spriteHeight / 2);
     sprite.rotate(rotation);
     window->draw(sprite);
     sprite.rotate(-rotation);
