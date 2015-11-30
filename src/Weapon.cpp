@@ -7,6 +7,7 @@
 #include "Game.hpp"
 
 static constexpr float EPSILON = 0.15f;
+static constexpr float CHAINSAW_DISTANCE_SQUARED = 2.0;
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -34,14 +35,17 @@ void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
             fireLaser(player, projectiles, projectileInstances, enemies);
         break;
         case 3:
-            fireMelee(player, projectiles, projectileInstances, enemies);
+            fireMelee(player, enemies);
         break;
         default:
             fireSingleProjectile(player, projectiles, projectileInstances, b2world);
         break;
     }
     
-    playFireSound();
+    // if not chainsaw, play firing sound
+    if (behavior != 3) {
+        playFireSound();
+    }
 }
 
 void Weapon::fireSingleProjectile(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
@@ -57,11 +61,11 @@ void Weapon::fireShotgun(Player& player, std::vector<Projectile>* projectiles, s
 }
 
 void Weapon::fireLaser(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	playFireSound();
 }
 
-void Weapon::fireMelee(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies) {
-	playFireSound();
+void Weapon::fireMelee(Player& player, std::list<std::unique_ptr<Enemy>>* enemies) {
+	
+	//playFireSound();
 }
 
 void Weapon::createProjectile(Player& player, std::vector<Projectile>* projectiles, sf::Vector2f direction, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, b2World* b2world) {
