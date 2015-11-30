@@ -95,6 +95,22 @@ void Game::update(const float timeElapsed, InputData& input) {
     else if (player.activeWeapon >= weapons.size()) {
         player.activeWeapon = 0;
     }
+
+	//update the score based on time elapsed.
+	score += timeElapsed;
+	if(score >= 100) {
+		score += timeElapsed;
+	} else if (score >= 500) {
+		score += timeElapsed * 2;
+	} else if (score >= 1500) {
+		score += timeElapsed * 3;
+	} else if (score >= 3000) {
+		score += timeElapsed * 4;
+	} else if (score >= 5000) {
+		score += timeElapsed * 5;
+	} else if (score >= 10000) {
+		score += timeElapsed * 6;
+	}
     
     // all the real game logic starts here
     for (auto& enemy : enemies) {
@@ -130,6 +146,7 @@ void Game::update(const float timeElapsed, InputData& input) {
             (*iter)->b2body->DestroyFixture((*iter)->b2fixture);
             b2world.DestroyBody((*iter)->b2body);
             enemies.erase(iter--);
+			score += 10; //add 10 to score, should change.
         }
     }
     

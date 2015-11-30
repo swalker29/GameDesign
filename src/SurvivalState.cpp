@@ -30,7 +30,7 @@ void SurvivalState::handle(GameApp& gameApp) {
     sf::Clock clock;
     
     //keeps track of time elapsed for score purpose
-    sf::Clock scoreClock;
+   // sf::Clock scoreClock;
 
     init();
 
@@ -168,6 +168,11 @@ void SurvivalState::initUI(){
         std::exit(-1);
     }
 
+    scoreCount.setFont(font);
+    scoreCount.setCharacterSize(50);
+    scoreCount.setColor(sf::Color::Black);
+    scoreCount.setString("0");
+
 
 }
 
@@ -277,13 +282,19 @@ void SurvivalState::drawUI() {
     }
     healthBar.setPosition(relativePlayerLocation.x - 388, relativePlayerLocation.y + 257);
     window->draw(healthBar);
-    //fprintf(stderr, "player health is %f", game.player.health);
 
     /*
     * drawing the weapon selection graphic
     */
     selectedWeapon.position = sf::Vector2f(relativePlayerLocation.x + 300, relativePlayerLocation.y + 200);
+    selectedWeapon.updateSprite(game.player.activeWeapon);
     selectedWeapon.draw(window);
+
+    scoreCount.setPosition(relativePlayerLocation.x - 385, relativePlayerLocation.y - 295);
+    int tempScore = int(game.score + 0.5);
+    std::string tempScoreString = std::to_string(tempScore);
+    scoreCount.setString(tempScoreString);
+    window->draw(scoreCount);
     
 }
 

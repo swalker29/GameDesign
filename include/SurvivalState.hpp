@@ -60,6 +60,7 @@ class SurvivalState : public AppState {
         sf::Text missileCount;
         SpriteView healthBarFrame;
         sf::RectangleShape healthBar;
+		sf::Text scoreCount;
 
         
         //music 

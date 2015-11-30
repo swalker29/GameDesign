@@ -42,6 +42,8 @@ class Game {
         
         Game();
 
+        double score;
+
         // Default destructor
         
         bool init();
