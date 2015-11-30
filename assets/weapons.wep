@@ -1,7 +1,7 @@
 # weapon declaration: w wep# projectileIndex behavior weaponHUDIndex playerSpriteIndex rateOfFire
 
 # number of weapons used
-n 3
+n 5
 
 # pistol
 w 0 0 0 0 0 0.75 assets/pistolShot.wav
@@ -10,8 +10,13 @@ w 0 0 0 0 0 0.75 assets/pistolShot.wav
 w 1 1 1 1 1 1.25 assets/machineGunShot.wav
 
 # machine gun
-w 2 0 0 2 2 0.2 assets/machineGunShot.wav
+w 2 2 0 2 2 0.2 assets/machineGunShot.wav
 
+# rocket launcher
+w 3 3 0 3 3 2.0 assets/pistolShot.wav
+
+# chainsaw
+w 4 0 3 4 4 0.01 assets/chainsawRunning.wav
 
 # This will allow us to do some cool things like shotgun spawns a handful of projectiles. Pistol and machine gun
 # are vanilla and differ by the rate of fire. Can do chainsaw by damaging every enemy in a cone or flamethrower. 

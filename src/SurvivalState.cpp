@@ -78,8 +78,8 @@ void SurvivalState::handle(GameApp& gameApp) {
             game.update(elapsed.asSeconds(), controlsConfig.input);
             draw();
 			//Changes to volume for dynamic music.
-			survivalMusicHigh.setVolume(100+game.player.health);
-			survivalMusicLow.setVolume(100-100+game.player.health);
+			survivalMusicHigh.setVolume(game.player.health);
+			survivalMusicLow.setVolume(100-game.player.health);
         } else {
             drawPause();
         }
@@ -201,7 +201,7 @@ void SurvivalState::drawPlayer() {
     rotation = -180.0f * rotation / M_PI + 180.0f;
     
     playerView.rotation = rotation;
-    playerView.updateSprite(10);
+    playerView.updateSprite(10 + game.weapons[game.player.activeWeapon].playerSpriteIndex);
     playerView.draw(window);
 }
 

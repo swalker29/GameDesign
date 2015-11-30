@@ -34,4 +34,8 @@ inline float distanceSquared(const sf::Vector2f& a, const sf::Vector2f& b) {
     return dx*dx + dy*dy;
 }
 
+inline float dotProductVector2f(const sf::Vector2f& v1, const sf::Vector2f& v2) {
+    return v1.x*v2.x + v1.y*v2.y;
+}
+
 #endif
