@@ -132,21 +132,6 @@ void Game::update(const float timeElapsed, InputData& input) {
             enemies.erase(iter--);
         }
     }
-
-    for (auto iter = enemyProjectiles.begin(); iter != enemyProjectiles.end(); iter++) {
-        b2Vec2 position = (*iter)->b2body->GetPosition();
-        (*iter)->position.x = position.x;
-        (*iter)->position.y = position.y;
-        
-        // if collision, delete object
-        if ((*iter)->collided) {
-            (*iter)->b2body->DestroyFixture((*iter)->b2fixture);
-            b2world.DestroyBody((*iter)->b2body);
-            enemyProjectiles.erase(iter--);
-        }
-    }
-    
-    auto iter = projectileInstances.begin();
     
     for (auto iter = projectileInstances.begin(); iter != projectileInstances.end(); iter++) {        
         b2Vec2 position = (*iter)->b2body->GetPosition();

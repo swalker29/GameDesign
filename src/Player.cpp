@@ -11,7 +11,6 @@ Player::Player(b2World* b2world) : Character(PLAYER_MAX_HEALTH, Character::Team:
     bodyDef.type = b2_dynamicBody; 
     bodyDef.position.Set(position.x, position.y);
     b2body = b2world->CreateBody(&bodyDef);
-    // might need to create a fixture def later on
     b2fixture = b2body->CreateFixture(&circle, 1.0f); // player has density of 1.0. Don't think this will be important.
     b2fixture->SetUserData(this);
 }

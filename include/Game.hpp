@@ -34,7 +34,6 @@ class Game {
         Player player;
         std::list<std::unique_ptr<Enemy>> enemies;
         std::list<std::unique_ptr<ProjectileInstance>> projectileInstances;
-        std::list<std::unique_ptr<ProjectileInstance>> enemyProjectiles;
         
         std::vector<Weapon> weapons;
         std::vector<Projectile> projectiles;
