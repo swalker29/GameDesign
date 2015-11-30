@@ -27,27 +27,31 @@ Weapon::Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHU
 // Default destructor
 
 void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
-    switch(behavior) {
-        case 0:
-            fireSingleProjectile(player, projectiles, projectileInstances, b2world);
-        break;
-        case 1:
-            fireShotgun(player, projectiles, projectileInstances, b2world);
-        break;
-        case 2:
-            fireLaser(player, projectiles, projectileInstances, enemies);
-        break;
-        case 3:
-            fireMelee(player, enemies);
-        break;
-        default:
-            fireSingleProjectile(player, projectiles, projectileInstances, b2world);
-        break;
-    }
-    
-    // if not chainsaw, play firing sound
-    if (behavior != 3) {
-        playFireSound();
+    if (clock.getElapsedTime().asSeconds() > rateOfFire) {
+        clock.restart();
+        
+        // if not chainsaw, play firing sound
+        if (behavior != 3) {
+            playFireSound();
+        }
+        
+        switch(behavior) {
+            case 0:
+                fireSingleProjectile(player, projectiles, projectileInstances, b2world);
+            break;
+            case 1:
+                fireShotgun(player, projectiles, projectileInstances, b2world);
+            break;
+            case 2:
+                fireLaser(player, projectiles, projectileInstances, enemies);
+            break;
+            case 3:
+                fireMelee(player, enemies);
+            break;
+            default:
+                fireSingleProjectile(player, projectiles, projectileInstances, b2world);
+            break;
+        }
     }
 }
 

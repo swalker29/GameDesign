@@ -4,13 +4,13 @@
 n 5
 
 # pistol
-w 0 0 0 0 0 0.75 assets/pistolShot.wav
+w 0 0 0 0 0 0.4 assets/pistolShot.wav
 
 # shotgun
-w 1 1 1 1 1 1.25 assets/machineGunShot.wav
+w 1 1 1 1 1 0.65 assets/machineGunShot.wav
 
 # machine gun
-w 2 2 0 2 2 0.2 assets/machineGunShot.wav
+w 2 2 0 2 2 0.15 assets/machineGunShot.wav
 
 # rocket launcher
 w 3 3 0 3 3 2.0 assets/pistolShot.wav

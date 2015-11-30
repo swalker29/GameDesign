@@ -7,6 +7,7 @@
 
 #include <SFML/Audio.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <SFML/System/Clock.hpp>
 
 #include "Enemy.hpp"
 #include "Player.hpp"
@@ -23,6 +24,8 @@ class Weapon {
         
 		sf::SoundBuffer sBuffer;
 		sf::Sound weaponSound;
+		
+		sf::Clock clock;
 		
         Weapon();
         
