@@ -16,9 +16,13 @@ static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
 static const std::string PROJECTILES_SHEET_FILENAME = "assets/projectiles.png";
 static const std::string B_SPIDER_SHEET_FILENAME = "assets/spiderBlueSpritesheet.png";
+static const std::string O_SPIDER_SHEET_FILENAME = "assets/spiderOrangeSpritesheet.png";
+static const std::string R_SPIDER_SHEET_FILENAME = "assets/spiderRedSpritesheet.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
-static constexpr int B_SPIDER_WIDTH = 64;
+static constexpr int B_SPIDER_WIDTH = 32;
+static constexpr int O_SPIDER_WIDTH = 64;
+static constexpr int R_SPIDER_WIDTH = 128;
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
 static constexpr int PROJECTILE_SPRITE_WIDTH = 16;
 
@@ -140,8 +144,16 @@ void SurvivalState::initViews() {
         fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
         std::exit(-1);
     }
-    if (!enemyView.init(B_SPIDER_SHEET_FILENAME, B_SPIDER_WIDTH, B_SPIDER_WIDTH)) {
+    if (!bEnemyView.init(B_SPIDER_SHEET_FILENAME, B_SPIDER_WIDTH, B_SPIDER_WIDTH)) {
         fprintf(stderr, "Error: Unable to load blue spider sprite sheet. Program exiting\n");
+        std::exit(-1);
+    }
+	if (!oEnemyView.init(O_SPIDER_SHEET_FILENAME, O_SPIDER_WIDTH, O_SPIDER_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load orange spider sprite sheet. Program exiting\n");
+        std::exit(-1);
+    }
+	if (!rEnemyView.init(R_SPIDER_SHEET_FILENAME, R_SPIDER_WIDTH, R_SPIDER_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load red spider sprite sheet. Program exiting\n");
         std::exit(-1);
     }
     if (!projectileView.init(PROJECTILES_SHEET_FILENAME, PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_WIDTH)) {
@@ -227,14 +239,35 @@ void SurvivalState::drawAim() {
 void SurvivalState::drawEnemies() {
     float ratio = getViewRatio();
     for (auto& enemy : game.enemies) {
-        enemyView.position = ratio * enemy->position - sf::Vector2f(B_SPIDER_WIDTH / 2.0f, B_SPIDER_WIDTH / 2.0f);
+		if ((*enemy).attackType == 0) {
+			bEnemyView.position = ratio * enemy->position - sf::Vector2f(B_SPIDER_WIDTH / 2.0f, B_SPIDER_WIDTH / 2.0f);
         
-        float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
-        rotation = -180.0f * rotation / M_PI + 180.0f;
+			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
+			rotation = -180.0f * rotation / M_PI + 180.0f;
     
-        enemyView.rotation = rotation;
+			bEnemyView.rotation = rotation;
         
-        enemyView.draw(window);
+			bEnemyView.draw(window);
+		} else if ((*enemy).attackType == 1) {
+			oEnemyView.position = ratio * enemy->position - sf::Vector2f(O_SPIDER_WIDTH / 2.0f, O_SPIDER_WIDTH / 2.0f);
+			
+			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
+			rotation = -180.0f * rotation / M_PI + 180.0f;
+		
+			oEnemyView.rotation = rotation;
+			
+			oEnemyView.draw(window);			
+		} else {
+			rEnemyView.position = ratio * enemy->position - sf::Vector2f(R_SPIDER_WIDTH / 2.0f, R_SPIDER_WIDTH / 2.0f);
+        
+			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
+			rotation = -180.0f * rotation / M_PI + 180.0f;
+    
+			rEnemyView.rotation = rotation;
+        
+			rEnemyView.draw(window);			
+		}
+
     }
 }
 

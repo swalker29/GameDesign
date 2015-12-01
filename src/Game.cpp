@@ -71,18 +71,21 @@ bool Game::init() {
     for (int i=0; i < rangedEnemies; i++) {
         std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
+		(*enemy).attackType = 1;
         this->enemies.push_back(std::move(enemy));
     }
     const int meleeEnemies = 0;
     for (int i=0; i < meleeEnemies; i++) {
         std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
+		(*enemy).attackType = 0;
         this->enemies.push_back(std::move(enemy));
     }
     const int pounceEnemies = 1;
     for (int i=0; i < pounceEnemies; i++) {
         std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
+		(*enemy).attackType = 2;
         this->enemies.push_back(std::move(enemy));
     }
     

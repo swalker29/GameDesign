@@ -28,6 +28,8 @@ class Enemy : public Character {
         float origSpeed;
         TrackNode tracking;
         
+		int attackType;
+		
         b2Body* b2body;
         b2Fixture* b2fixture;
         b2CircleShape circle;
