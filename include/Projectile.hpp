@@ -38,7 +38,7 @@ class Projectile {
         
     private:
         void bulletImpact(Character* characterHit);
-        void explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies);
+        void explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies, Character* characterHit);
         void webImpact(Character* characterHit);
         
         static bool parseProjectiles(std::FILE* projectilesFile, std::vector<Projectile>* projectileVector);

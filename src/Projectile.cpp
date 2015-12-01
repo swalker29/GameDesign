@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "Utils.hpp"
 
-static constexpr float MAX_RADIUS_SQUARED = 1.5f * 1.5f;
+static constexpr float EXPLOSION_RADIUS_SQUARED = 2.0f * 2.0f;
 static const std::string PIMPACT1_FILENAME = "assets/personHit1.wav";
 static const std::string PIMPACT2_FILENAME = "assets/personHit2.wav";
 static const std::string PIMPACT3_FILENAME = "assets/personHit3.wav";
@@ -30,7 +30,7 @@ void Projectile::impact(ProjectileInstance& projectileInstance, Player& player, 
             bulletImpact(characterHit);
         break;
         case 1:
-            explosiveImpact(projectileInstance, player, enemies);
+            explosiveImpact(projectileInstance, player, enemies, characterHit);
         break;
         case 2:
             webImpact(characterHit);
@@ -47,10 +47,28 @@ void Projectile::bulletImpact(Character* characterHit) {
     }
 }
 
-void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies) {
-    //for (auto& enemy : enemies) {
-        //float distanceSq = distanceSquared(projectileInstance.position, enemy.position);
-    //}
+void Projectile::explosiveImpact(ProjectileInstance& projectileInstance, Player& player, std::list<std::unique_ptr<Enemy>>* enemies, Character* characterHit) {
+    // bonus for a direct hit
+    if (characterHit != nullptr) {
+        characterHit->health -= damage;
+    }
+    
+    float distanceSq;
+    
+    // check all enemies
+    for (auto& enemy : *enemies) {
+        distanceSq = distanceSquared(projectileInstance.position, enemy->position);
+        
+        if (distanceSq < EXPLOSION_RADIUS_SQUARED) {
+            enemy->health -= damage / distanceSq;
+        }
+    }
+    
+    // check player
+    distanceSq = distanceSquared(projectileInstance.position, player.position);
+    if (distanceSq < EXPLOSION_RADIUS_SQUARED) {
+        player.health -= damage / distanceSq;
+    }
 }
 
 void Projectile::webImpact(Character* characterHit) {

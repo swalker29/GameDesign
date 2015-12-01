@@ -8,9 +8,9 @@
 #include "Utils.hpp"
 
 static constexpr float EPSILON = 0.15f;
-static constexpr float CHAINSAW_DISTANCE_SQUARED = 2.0f;
+static constexpr float CHAINSAW_DISTANCE_SQUARED = 3.0f;
 static constexpr float CHAINSAW_ARC = 0.86f; // 30 degrees
-static constexpr float CHAINSAW_DAMAGE = 0.75f;
+static constexpr float CHAINSAW_DAMAGE = 1.5f;
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
