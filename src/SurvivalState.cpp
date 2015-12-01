@@ -255,6 +255,12 @@ void SurvivalState::drawProjectiles() {
     
     for (auto iter = game.projectileInstances.begin(); iter != game.projectileInstances.end(); iter++) {        
         projectileView.position = ratio * (*iter)->position - sf::Vector2f(PROJECTILE_SPRITE_WIDTH / 2.0f, PROJECTILE_SPRITE_WIDTH / 2.0f);
+        
+        float rotation = std::atan2((*iter)->direction.x, (*iter)->direction.y);
+        rotation = -180.0f * rotation / M_PI + 180.0f;
+    
+        projectileView.rotation = rotation;
+        
         projectileView.updateSprite(game.projectiles[(*iter)->projectileIndex].projectileSpriteIndex);
         projectileView.draw(window);
     }   
