@@ -227,9 +227,13 @@ void SurvivalState::drawAim() {
 void SurvivalState::drawEnemies() {
     float ratio = getViewRatio();
     for (auto& enemy : game.enemies) {
-        enemyView.position = ratio * enemy->position;
-		//fprintf(stderr, "X: %d, Y: %d\n", enemy->direction.x, enemy->direction.y);
-		//enemyView.rotation = (float)atan((*enemy).direction.y / (*enemy).direction.x);
+        enemyView.position = ratio * enemy->position - sf::Vector2f(B_SPIDER_WIDTH / 2.0f, B_SPIDER_WIDTH / 2.0f);
+        
+        float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
+        rotation = -180.0f * rotation / M_PI + 180.0f;
+    
+        enemyView.rotation = rotation;
+        
         enemyView.draw(window);
     }
 }
@@ -257,15 +261,15 @@ void SurvivalState::drawLevel() {
 void SurvivalState::drawProjectiles() {
     float ratio = getViewRatio();
     
-    for (auto iter = game.projectileInstances.begin(); iter != game.projectileInstances.end(); iter++) {        
-        projectileView.position = ratio * (*iter)->position - sf::Vector2f(PROJECTILE_SPRITE_WIDTH / 2.0f, PROJECTILE_SPRITE_WIDTH / 2.0f);
+    for (auto& projectile : game.projectileInstances) {        
+        projectileView.position = ratio * projectile->position - sf::Vector2f(PROJECTILE_SPRITE_WIDTH / 2.0f, PROJECTILE_SPRITE_WIDTH / 2.0f);
         
-        float rotation = std::atan2((*iter)->direction.x, (*iter)->direction.y);
+        float rotation = std::atan2(projectile->direction.x, projectile->direction.y);
         rotation = -180.0f * rotation / M_PI + 180.0f;
     
         projectileView.rotation = rotation;
         
-        projectileView.updateSprite(game.projectiles[(*iter)->projectileIndex].projectileSpriteIndex);
+        projectileView.updateSprite(game.projectiles[projectile->projectileIndex].projectileSpriteIndex);
         projectileView.draw(window);
     }   
 }
