@@ -141,18 +141,24 @@ void Game::update(const float timeElapsed, InputData& input) {
     //spawn a number of spiders every seven seconds, increases as score increases.
     if (curTime.asSeconds() > 7) {
         spawnClock.restart();
-        int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
+        int randEnemy = rand() % 3 + 1; //generates int between 1 and 3
         float tempScore = score / 100;
         int enemyCountModulo = int(tempScore + 0.5) + 1;
         int enemyCount = (rand() % enemyCountModulo) + 1;
         sf::Vector2f direction(0,0);
-        float speed = 1.5;
-        int pathVertexNumber = 205;
+        float speedShift = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float speed = 1.5 + speedShift;
         std::default_random_engine rgen;
         std::uniform_real_distribution<float> sVar(-0.5, 0.5);
+        int xSpawnModifier = 1;
+        int xSpawnRand = rand() % 2 + 1;
+        if (xSpawnRand == 2) { xSpawnModifier = -1; }
+        int ySpawnModifier = 1;
+        int ySpawnRand = rand() % 2 + 1;
+        if (ySpawnRand == 2) { ySpawnModifier = -1; }
+        sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
+        PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
         for(int i = 0; i < enemyCount; i++) {
-            pathVertexNumber += 1;
-            PathVertexP enemyStart = this->level.pathVertices[pathVertexNumber];
             switch(randEnemy) {
                 case 1 :
                     {
@@ -179,12 +185,19 @@ void Game::update(const float timeElapsed, InputData& input) {
         }
     }
 
-	//spawn enemies
-    while (spawnThreshold >= 20) {
+	//spawn enemies. might be a performance hit at high scores, need to test.
+    while (spawnThreshold >= 60) {
         spawnThreshold -= 20;
-        int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
-        PathVertexP enemyStart = this->level.pathVertices[205];
+        int randEnemy = rand() % 3 + 1; //generates int between 1 and 3
         sf::Vector2f direction(0,0);
+        int xSpawnModifier = 1;
+        int xSpawnRand = rand() % 2 + 1;
+        if (xSpawnRand == 2) { xSpawnModifier = -1; }
+        int ySpawnModifier = 1;
+        int ySpawnRand = rand() % 2 + 1;
+        if (ySpawnRand == 2) { ySpawnModifier = -1; }
+        sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
+        PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
         float speed = 1.5;
         std::default_random_engine rgen;
         std::uniform_real_distribution<float> sVar(-0.5, 0.5);
