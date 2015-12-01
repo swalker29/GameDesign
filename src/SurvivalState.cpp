@@ -15,8 +15,10 @@ static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/weaponSelections
 static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
 static const std::string PROJECTILES_SHEET_FILENAME = "assets/projectiles.png";
+static const std::string B_SPIDER_SHEET_FILENAME = "assets/spiderBlueSpritesheet.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
+static constexpr int B_SPIDER_WIDTH = 64;
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
 static constexpr int PROJECTILE_SPRITE_WIDTH = 16;
 
@@ -138,8 +140,8 @@ void SurvivalState::initViews() {
         fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
         std::exit(-1);
     }
-    if (!playerView.init(PLAYER_TILE_SHEET_FILENAME, PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_WIDTH)) {
-        fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
+    if (!enemyView.init(B_SPIDER_SHEET_FILENAME, B_SPIDER_WIDTH, B_SPIDER_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load blue spider sprite sheet. Program exiting\n");
         std::exit(-1);
     }
     if (!projectileView.init(PROJECTILES_SHEET_FILENAME, PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_WIDTH)) {
@@ -150,7 +152,7 @@ void SurvivalState::initViews() {
     initPauseScreen();
     initUI();
 
-    enemyView.length = 10.0f;
+    //enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
 }
 
@@ -226,6 +228,8 @@ void SurvivalState::drawEnemies() {
     float ratio = getViewRatio();
     for (auto& enemy : game.enemies) {
         enemyView.position = ratio * enemy->position;
+		//fprintf(stderr, "X: %d, Y: %d\n", enemy->direction.x, enemy->direction.y);
+		//enemyView.rotation = (float)atan((*enemy).direction.y / (*enemy).direction.x);
         enemyView.draw(window);
     }
 }

@@ -46,7 +46,7 @@ class SurvivalState : public AppState {
         sf::Font font;
         SpriteView playerView;
         SquareView playerAim;  
-        SquareView enemyView;
+        SpriteView enemyView;
         SpriteView levelView;
         SpriteView projectileView;
         ImageView titleView;
