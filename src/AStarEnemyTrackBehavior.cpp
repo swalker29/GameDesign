@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
+#include <SFML/Graphics/Transform.hpp>
+#include <random>
 
 static sf::Vector2f tempA(0.0f, 0.0f);
 static sf::Vector2f tempB(0.0f, 0.0f);
@@ -40,6 +42,13 @@ TrackNode AStarEnemyTrackBehavior::track(const Game& state, const sf::Vector2f& 
 
     //sf::Vector2f direction = myPos - next->position;
     sf::Vector2f direction = next->position - myPos;
+
+    const float pertub = 10;
+    std::uniform_real_distribution<float> rVar(-1 * pertub, pertub);
+    sf::Transform tf;
+    tf.rotate(rVar(rgen));
+    direction = tf * direction;
+
     normalizeVector2f(direction);
     tn.direction = direction;
 
