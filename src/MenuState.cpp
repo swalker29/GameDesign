@@ -65,7 +65,7 @@ void MenuState::init(){
         std::exit(-1);
     }
 
-    numButtons = 3;
+    numButtons = 2;
 
     arachineText.setFont(font);
     arachineText.setCharacterSize(70);
@@ -79,15 +79,15 @@ void MenuState::init(){
     survivalText.setColor(sf::Color::Red);
     survivalText.setString("Survival");
 
-    campaignText.setFont(font);
-    campaignText.setCharacterSize(35);
-    campaignText.setPosition(325, 250);
-    campaignText.setColor(sf::Color::Black);
-    campaignText.setString("Campaign");
+    //campaignText.setFont(font);
+    //campaignText.setCharacterSize(35);
+    //campaignText.setPosition(325, 250);
+    //campaignText.setColor(sf::Color::Black);
+    //campaignText.setString("Campaign");
 
     quitText.setFont(font);
     quitText.setCharacterSize(35);
-    quitText.setPosition(325, 350);
+    quitText.setPosition(325, 250);
     quitText.setColor(sf::Color::Black);
     quitText.setString("Quit"); 
     
@@ -127,13 +127,13 @@ void MenuState::selectButton(GameApp& app){
             app.goSurvival();
             app.run();
             break;
-        case 1:
+       // case 1:
 			//menuMusic.stop();
             //app.goCampaign();
             //app.run();
             break;
-        case 2:
-			menuMusic.stop();
+        case 1:
+	        menuMusic.stop();
             window->close();
             app.quit();
             break;
@@ -162,12 +162,12 @@ void MenuState::drawMenu(){
             campaignText.setColor(sf::Color::Black);
             quitText.setColor(sf::Color::Black);
             break;
+        //case 1:
+         //   survivalText.setColor(sf::Color::Black);
+          //  campaignText.setColor(sf::Color::Red);
+          //  quitText.setColor(sf::Color::Black);
+          //  break;
         case 1:
-            survivalText.setColor(sf::Color::Black);
-            campaignText.setColor(sf::Color::Red);
-            quitText.setColor(sf::Color::Black);
-            break;
-        case 2:
             survivalText.setColor(sf::Color::Black);
             campaignText.setColor(sf::Color::Black);
             quitText.setColor(sf::Color::Red);

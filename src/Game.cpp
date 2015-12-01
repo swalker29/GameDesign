@@ -141,15 +141,15 @@ void Game::update(const float timeElapsed, InputData& input) {
         int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
         float tempScore = score / 100;
         int enemyCountModulo = int(tempScore + 0.5) + 1;
-        printf("%d", enemyCountModulo);
         int enemyCount = (rand() % enemyCountModulo) + 1;
-        printf("hi");
-        PathVertexP enemyStart = this->level.pathVertices[205];
         sf::Vector2f direction(0,0);
         float speed = 1.5;
+        int pathVertexNumber = 205;
         std::default_random_engine rgen;
         std::uniform_real_distribution<float> sVar(-0.5, 0.5);
         for(int i = 0; i < enemyCount; i++) {
+            pathVertexNumber += 1;
+            PathVertexP enemyStart = this->level.pathVertices[pathVertexNumber];
             switch(randEnemy) {
                 case 1 :
                     {

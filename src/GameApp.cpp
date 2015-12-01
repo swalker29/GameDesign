@@ -12,7 +12,7 @@ GameApp::GameApp() : quitFlag(false) {
     // Start in the menu
     state = &mState;
     
-    window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Escape From Arachine", sf::Style::Titlebar | sf::Style::Close);
+    window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Arachine", sf::Style::Titlebar | sf::Style::Close);
 }
 
 GameApp::~GameApp() {
