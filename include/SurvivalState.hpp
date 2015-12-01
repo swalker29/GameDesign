@@ -48,6 +48,7 @@ class SurvivalState : public AppState {
         SquareView playerAim;  
         SquareView enemyView;
         SpriteView levelView;
+        SpriteView projectileView;
         ImageView titleView;
         sf::Text pauseText;
         sf::Vector2f relativePlayerLocation;
@@ -68,8 +69,6 @@ class SurvivalState : public AppState {
         sf::SoundBuffer highBuffer;
         sf::Sound survivalMusicLow;
         sf::Sound survivalMusicHigh;
-		
-        SquareView projectileView;
         
         // Initialization logic
         void init();

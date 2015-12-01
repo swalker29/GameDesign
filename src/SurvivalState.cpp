@@ -14,9 +14,11 @@ static const std::string HEALTH_FRAME_FILENAME = "assets/healthFrame.png";
 static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/weaponSelections.png";
 static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
+static const std::string PROJECTILES_SHEET_FILENAME = "assets/projectiles.png";
 static constexpr char* CONTROL_CONFIG_FILENAME = (char*)"assets/config.txt";
 
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
+static constexpr int PROJECTILE_SPRITE_WIDTH = 16;
 
 // Default constructor
 
@@ -136,13 +138,20 @@ void SurvivalState::initViews() {
         fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
         std::exit(-1);
     }
+    if (!playerView.init(PLAYER_TILE_SHEET_FILENAME, PLAYER_SPRITE_WIDTH, PLAYER_SPRITE_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load player sprite sheet. Program exiting\n");
+        std::exit(-1);
+    }
+    if (!projectileView.init(PROJECTILES_SHEET_FILENAME, PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_WIDTH)) {
+        fprintf(stderr, "Error: Unable to load projectile sprite sheet. Program exiting\n");
+        std::exit(-1);
+    }
 
     initPauseScreen();
     initUI();
 
     enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
-    projectileView.length = 2.0f; 
 }
 
 void SurvivalState::initPauseScreen() {
@@ -245,7 +254,8 @@ void SurvivalState::drawProjectiles() {
     float ratio = getViewRatio();
     
     for (auto iter = game.projectileInstances.begin(); iter != game.projectileInstances.end(); iter++) {        
-        projectileView.position = ratio * (*iter)->position - sf::Vector2f(1.0f, 1.0f);
+        projectileView.position = ratio * (*iter)->position - sf::Vector2f(PROJECTILE_SPRITE_WIDTH / 2.0f, PROJECTILE_SPRITE_WIDTH / 2.0f);
+        projectileView.updateSprite(game.projectiles[(*iter)->projectileIndex].projectileSpriteIndex);
         projectileView.draw(window);
     }   
 }
@@ -284,7 +294,7 @@ void SurvivalState::drawUI() {
     * drawing the weapon selection graphic
     */
     selectedWeapon.position = sf::Vector2f(relativePlayerLocation.x + 300, relativePlayerLocation.y + 200);
-    selectedWeapon.updateSprite(game.player.activeWeapon);
+    selectedWeapon.updateSprite(game.weapons[game.player.activeWeapon].weaponHUDIndex);
     selectedWeapon.draw(window);
 
     scoreCount.setPosition(relativePlayerLocation.x - 385, relativePlayerLocation.y - 295);
