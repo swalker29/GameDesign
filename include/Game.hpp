@@ -42,9 +42,10 @@ class Game {
         
         Game();
 
-        double score;
-        double spawnThreshold;
+        float score;
+        float spawnThreshold;
         sf::Clock spawnClock;
+        sf::Clock spawnWaveClock;
 
         // Default destructor
         

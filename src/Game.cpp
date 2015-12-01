@@ -56,6 +56,7 @@ bool Game::init() {
     std::uniform_real_distribution<float> sVar(-0.5, 0.5);
 
     spawnClock.restart();
+    spawnWaveClock.restart();
 
 //    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
 
@@ -110,55 +111,68 @@ void Game::update(const float timeElapsed, InputData& input) {
     if(score >= 100) {
         score += timeElapsed;
         spawnThreshold += timeElapsed;
-    } else if (score >= 500) {
+    } else if (score >= 250) {
         score += timeElapsed * 2;
         spawnThreshold += timeElapsed * 2;
-    } else if (score >= 1500) {
+    } else if (score >= 500) {
         score += timeElapsed * 3;
         spawnThreshold += timeElapsed * 3;
-    } else if (score >= 3000) {
+    } else if (score >= 1000) {
         score += timeElapsed * 4;
         spawnThreshold += timeElapsed * 4;
-    } else if (score >= 5000) {
+    } else if (score >= 2000) {
         score += timeElapsed * 5;
         spawnThreshold += timeElapsed * 5;
-    } else if (score >= 10000) {
+    } else if (score >= 4000) {
         score += timeElapsed * 6;
         spawnThreshold += timeElapsed * 6;
+    } else if (score >= 6000) {
+        score += timeElapsed * 7;
+        spawnThreshold += timeElapsed * 7;
+    } else if (score >= 8000) {
+        score += timeElapsed * 8;
+        spawnThreshold += timeElapsed * 8;
     }
 
     sf::Time curTime = spawnClock.getElapsedTime();
-    //spawn a static number of spiders every ten seconds
-    if (curTime.asSeconds() > 8) {
+    //spawn a number of spiders every seven seconds, increases as score increases.
+    if (curTime.asSeconds() > 7) {
         spawnClock.restart();
         int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
+        float tempScore = score / 100;
+        int enemyCountModulo = int(tempScore + 0.5) + 1;
+        printf("%d", enemyCountModulo);
+        int enemyCount = (rand() % enemyCountModulo) + 1;
+        printf("hi");
         PathVertexP enemyStart = this->level.pathVertices[205];
         sf::Vector2f direction(0,0);
         float speed = 1.5;
         std::default_random_engine rgen;
         std::uniform_real_distribution<float> sVar(-0.5, 0.5);
-        switch(randEnemy) {
-            case 1 :
-                {
-                std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
-            case 2 :
-                {
-                std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
-            case 3 :
-                {
-                std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
+        for(int i = 0; i < enemyCount; i++) {
+            switch(randEnemy) {
+                case 1 :
+                    {
+                    std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                    createEnemyBox2D(*enemy);
+                    this->enemies.push_back(std::move(enemy));
+                    break;
+                    }
+                case 2 :
+                    {
+                    std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));  
+                    createEnemyBox2D(*enemy);
+                    this->enemies.push_back(std::move(enemy));
+                    break;
+                    }
+                case 3 :
+                    {
+                    std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen)); 
+                    createEnemyBox2D(*enemy);
+                    this->enemies.push_back(std::move(enemy));
+                    break;
+                    }
+              }
         }
     }
 
