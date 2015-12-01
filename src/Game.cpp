@@ -2,10 +2,10 @@
 #include <string>
 #include <cstdio>
 #include "Utils.hpp"
+#include <random>
 #include "TrackingEnemyFactory.hpp"
 #include "EnemyStateFiring.hpp"
 #include "EnemyStatePouncing.hpp"
-#include <random>
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
 static const std::string WEAPONS_FILE_PATH = "assets/weapons.wep";
@@ -21,6 +21,12 @@ std::list<sf::Sound> Game::playingSounds;
 Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles, &enemies, player) {
 
 }
+
+    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
+
+    TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+
+    TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
 
 // Default destructor
 
@@ -49,11 +55,13 @@ bool Game::init() {
     std::default_random_engine rgen;
     std::uniform_real_distribution<float> sVar(-0.5, 0.5);
 
-    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
+    spawnClock.restart();
 
-    TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+//    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
 
-    TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
+ //   TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+
+   // TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
 
     const int rangedEnemies = 1;
     for (int i=0; i < rangedEnemies; i++) {
@@ -96,21 +104,98 @@ void Game::update(const float timeElapsed, InputData& input) {
         player.activeWeapon = 0;
     }
 
-	//update the score based on time elapsed.
-	score += timeElapsed;
-	if(score >= 100) {
-		score += timeElapsed;
-	} else if (score >= 500) {
-		score += timeElapsed * 2;
-	} else if (score >= 1500) {
-		score += timeElapsed * 3;
-	} else if (score >= 3000) {
-		score += timeElapsed * 4;
-	} else if (score >= 5000) {
-		score += timeElapsed * 5;
-	} else if (score >= 10000) {
-		score += timeElapsed * 6;
-	}
+    //update the score based on time elapsed.
+    score += timeElapsed;
+    spawnThreshold += timeElapsed;
+    if(score >= 100) {
+        score += timeElapsed;
+        spawnThreshold += timeElapsed;
+    } else if (score >= 500) {
+        score += timeElapsed * 2;
+        spawnThreshold += timeElapsed * 2;
+    } else if (score >= 1500) {
+        score += timeElapsed * 3;
+        spawnThreshold += timeElapsed * 3;
+    } else if (score >= 3000) {
+        score += timeElapsed * 4;
+        spawnThreshold += timeElapsed * 4;
+    } else if (score >= 5000) {
+        score += timeElapsed * 5;
+        spawnThreshold += timeElapsed * 5;
+    } else if (score >= 10000) {
+        score += timeElapsed * 6;
+        spawnThreshold += timeElapsed * 6;
+    }
+
+    sf::Time curTime = spawnClock.getElapsedTime();
+    //spawn a static number of spiders every ten seconds
+    if (curTime.asSeconds() > 8) {
+        spawnClock.restart();
+        int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
+        PathVertexP enemyStart = this->level.pathVertices[205];
+        sf::Vector2f direction(0,0);
+        float speed = 1.5;
+        std::default_random_engine rgen;
+        std::uniform_real_distribution<float> sVar(-0.5, 0.5);
+        switch(randEnemy) {
+            case 1 :
+                {
+                std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+            case 2 :
+                {
+                std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+            case 3 :
+                {
+                std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+        }
+    }
+
+	//spawn enemies
+    while (spawnThreshold >= 20) {
+        spawnThreshold -= 20;
+        int randEnemy = rand() % 2 + 1; //generates int between 1 and 3
+        PathVertexP enemyStart = this->level.pathVertices[205];
+        sf::Vector2f direction(0,0);
+        float speed = 1.5;
+        std::default_random_engine rgen;
+        std::uniform_real_distribution<float> sVar(-0.5, 0.5);
+        switch(randEnemy) {
+            case 1 :
+                {
+                std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+            case 2 :
+                {
+                std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+            case 3 :
+                {
+                std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
+                createEnemyBox2D(*enemy);
+                this->enemies.push_back(std::move(enemy));
+                break;
+                }
+        }
+
+    }
     
     // all the real game logic starts here
     for (auto& enemy : enemies) {

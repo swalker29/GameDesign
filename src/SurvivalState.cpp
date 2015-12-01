@@ -28,9 +28,6 @@ void SurvivalState::handle(GameApp& gameApp) {
    
     sf::Time elapsed;
     sf::Clock clock;
-    
-    //keeps track of time elapsed for score purpose
-   // sf::Clock scoreClock;
 
     init();
 

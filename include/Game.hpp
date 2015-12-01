@@ -43,6 +43,8 @@ class Game {
         Game();
 
         double score;
+        double spawnThreshold;
+        sf::Clock spawnClock;
 
         // Default destructor
         
