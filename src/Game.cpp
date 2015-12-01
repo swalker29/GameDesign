@@ -16,6 +16,9 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
+static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 8.0f) * (Game::TILE_SIZE * 8.0f); // 8 tiles away
+static constexpr int KILL_BONUS = 10;
+
 std::list<sf::Sound> Game::playingSounds;
 
 Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles, &enemies, player) {
@@ -241,12 +244,18 @@ void Game::update(const float timeElapsed, InputData& input) {
         (*iter)->position.x = position.x;
         (*iter)->position.y = position.y;
         
-        // if enemy has ran out of health, remove it
+        // if enemy is dead, add points to the score
         if ((*iter)->health <= 0.0f) {
+            score += KILL_BONUS;
+        }
+        
+        // if enemy has ran out of health or is very far away, remove it
+        float distanceSq = distanceSq = distanceSquared(player.position, (*iter)->position);
+        
+        if ((*iter)->health <= 0.0f || distanceSq > FAR_AWAY_ENEMY_THRESHOLD) {
             (*iter)->b2body->DestroyFixture((*iter)->b2fixture);
             b2world.DestroyBody((*iter)->b2body);
             enemies.erase(iter--);
-			score += 10; //add 10 to score, should change.
         }
     }
     
