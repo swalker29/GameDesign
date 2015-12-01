@@ -62,6 +62,10 @@ class Game {
         inline sf::Vector2f getTilePosition(int x, int y) const {
             return sf::Vector2f(TILE_SIZE * x, TILE_SIZE * y);
         };
+
+        inline sf::Vector2i getTileFromCoord(float x, float y) const {
+            return sf::Vector2i(int(x / TILE_SIZE), int(y / TILE_SIZE));
+        };
         b2World* getWorld() { return &this->b2world; }
         
     private:        

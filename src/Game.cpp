@@ -157,6 +157,12 @@ void Game::update(const float timeElapsed, InputData& input) {
         int ySpawnRand = rand() % 2 + 1;
         if (ySpawnRand == 2) { ySpawnModifier = -1; }
         sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
+        sf::Vector2i spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
+        while (this->level.tileVector[level.tiles[spawnTile.x][spawnTile.y].resource].hasCollision) {
+            spawnPosition.x += 1;
+            spawnPosition.y += 1;
+            spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
+        }
         PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
         for(int i = 0; i < enemyCount; i++) {
             switch(randEnemy) {
@@ -197,6 +203,12 @@ void Game::update(const float timeElapsed, InputData& input) {
         int ySpawnRand = rand() % 2 + 1;
         if (ySpawnRand == 2) { ySpawnModifier = -1; }
         sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
+        sf::Vector2i spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
+        while (this->level.tileVector[level.tiles[spawnTile.x][spawnTile.y].resource].hasCollision) {
+            spawnPosition.x += 1;
+            spawnPosition.y += 1;
+            spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
+        }
         PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
         float speed = 1.5;
         std::default_random_engine rgen;
