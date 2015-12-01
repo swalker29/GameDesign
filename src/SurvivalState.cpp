@@ -239,35 +239,36 @@ void SurvivalState::drawAim() {
 void SurvivalState::drawEnemies() {
     float ratio = getViewRatio();
     for (auto& enemy : game.enemies) {
-		if ((*enemy).attackType == 0) {
-			bEnemyView.position = ratio * enemy->position - sf::Vector2f(B_SPIDER_WIDTH / 2.0f, B_SPIDER_WIDTH / 2.0f);
+        SpriteView* enemyView = nullptr;
+        int spiderWidth = 0;
         
-			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
-			rotation = -180.0f * rotation / M_PI + 180.0f;
+        switch (enemy->attackType) {
+            case 0:
+                enemyView = &bEnemyView;
+                spiderWidth = B_SPIDER_WIDTH;
+            break;
+            case 1:
+                enemyView = &oEnemyView;
+                spiderWidth = O_SPIDER_WIDTH;
+            break;
+            case 2:
+                enemyView = &rEnemyView;
+                spiderWidth = R_SPIDER_WIDTH;
+            break;
+            default:
+                enemyView = &oEnemyView;
+                spiderWidth = O_SPIDER_WIDTH;
+            break;
+        }
+        
+        enemyView->position = ratio * enemy->position - sf::Vector2f(spiderWidth / 2.0f, spiderWidth / 2.0f);
+        
+		float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
+		rotation = -180.0f * rotation / M_PI + 180.0f;
     
-			bEnemyView.rotation = rotation;
+		enemyView->rotation = rotation;
         
-			bEnemyView.draw(window);
-		} else if ((*enemy).attackType == 1) {
-			oEnemyView.position = ratio * enemy->position - sf::Vector2f(O_SPIDER_WIDTH / 2.0f, O_SPIDER_WIDTH / 2.0f);
-			
-			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
-			rotation = -180.0f * rotation / M_PI + 180.0f;
-		
-			oEnemyView.rotation = rotation;
-			
-			oEnemyView.draw(window);			
-		} else {
-			rEnemyView.position = ratio * enemy->position - sf::Vector2f(R_SPIDER_WIDTH / 2.0f, R_SPIDER_WIDTH / 2.0f);
-        
-			float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
-			rotation = -180.0f * rotation / M_PI + 180.0f;
-    
-			rEnemyView.rotation = rotation;
-        
-			rEnemyView.draw(window);			
-		}
-
+		enemyView->draw(window);
     }
 }
 
