@@ -1,10 +1,11 @@
 #include "Level.hpp"
 
 #include <cstdio>
-#include "Utils.hpp"
+#include <iostream>
+
 #include "Game.hpp"
 #include "PathVertex.hpp"
-#include <iostream>
+#include "Utils.hpp"
 
 // Default constructor
 
@@ -84,6 +85,7 @@ bool Level::init(const std::string& levelFilePath) {
 }
 
 PathVertexP Level::findClosestNode(const sf::Vector2f& location) const {
+    #if 0
     PathVertexP closest = (this->pathVertices.empty()) ? NULL : this->pathVertices.front();
     if (!closest) return NULL;
 
@@ -105,6 +107,14 @@ PathVertexP Level::findClosestNode(const sf::Vector2f& location) const {
     //std::cout << eClosest << std::endl;
     return closest;
     //return this->pathVertices[4];
+    #endif
+    #if 1
+    int x = (int)(location.x / Game::TILE_SIZE);
+    int y = (int)(location.y / Game::TILE_SIZE);
+    
+    return pathVertices[x*width + y];
+    
+    #endif
 }
 
 bool Level::parseLevel(std::FILE* levelFile) {

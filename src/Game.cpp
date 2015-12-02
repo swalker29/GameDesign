@@ -1,11 +1,13 @@
 #include "Game.hpp"
-#include <string>
+
 #include <cstdio>
-#include "Utils.hpp"
 #include <random>
-#include "TrackingEnemyFactory.hpp"
+#include <string>
+
 #include "EnemyStateFiring.hpp"
 #include "EnemyStatePouncing.hpp"
+#include "TrackingEnemyFactory.hpp"
+#include "Utils.hpp"
 
 static const std::string LEVEL_FILE_PATH = "assets/map.level";
 static const std::string WEAPONS_FILE_PATH = "assets/weapons.wep";
@@ -16,20 +18,23 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
-static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 8.0f) * (Game::TILE_SIZE * 8.0f); // 8 tiles away
+//static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 5.0f) * (Game::TILE_SIZE * 5.0f); // 6 tiles away
+static constexpr float FAR_AWAY_ENEMY_THRESHOLD = 64.0f;
 static constexpr int KILL_BONUS = 10;
+static constexpr int MAX_ENEMIES_SPAWNED = 30;
 
 std::list<sf::Sound> Game::playingSounds;
+
+
+// TODO: find a better home for these
+static TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
+static TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
+static TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
+
 
 Game::Game() : b2world(b2Vec2(0.0f, 0.0f)), player(&b2world), contactListener(&projectiles, &enemies, player) {
 
 }
-
-    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
-
-    TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
-
-    TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
 
 // Default destructor
 
@@ -61,11 +66,6 @@ bool Game::init() {
     spawnClock.restart();
     spawnWaveClock.restart();
 
-//    TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
-
- //   TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
-
-   // TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
 
     const int rangedEnemies = 1;
     for (int i=0; i < rangedEnemies; i++) {
@@ -78,14 +78,14 @@ bool Game::init() {
     for (int i=0; i < meleeEnemies; i++) {
         std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
-		(*enemy).attackType = 0;
+		(*enemy).attackType = 2;
         this->enemies.push_back(std::move(enemy));
     }
     const int pounceEnemies = 1;
     for (int i=0; i < pounceEnemies; i++) {
         std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
         createEnemyBox2D(*enemy);
-		(*enemy).attackType = 2;
+		(*enemy).attackType = 0;
         this->enemies.push_back(std::move(enemy));
     }
     
@@ -148,98 +148,20 @@ void Game::update(const float timeElapsed, InputData& input) {
         float tempScore = score / 100;
         int enemyCountModulo = int(tempScore + 0.5) + 1;
         int enemyCount = (rand() % enemyCountModulo) + 1;
-        sf::Vector2f direction(0,0);
+
         float speedShift = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
         float speed = 1.5 + speedShift;
-        std::default_random_engine rgen;
-        std::uniform_real_distribution<float> sVar(-0.5, 0.5);
+        
         int xSpawnModifier = 1;
         int xSpawnRand = rand() % 2 + 1;
         if (xSpawnRand == 2) { xSpawnModifier = -1; }
         int ySpawnModifier = 1;
         int ySpawnRand = rand() % 2 + 1;
         if (ySpawnRand == 2) { ySpawnModifier = -1; }
-        sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
-        sf::Vector2i spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
-        while (this->level.tileVector[level.tiles[spawnTile.x][spawnTile.y].resource].hasCollision) {
-            spawnPosition.x += 1;
-            spawnPosition.y += 1;
-            spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
-        }
-        PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
+        
         for(int i = 0; i < enemyCount; i++) {
-            switch(randEnemy) {
-                case 1 :
-                    {
-                    std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                    createEnemyBox2D(*enemy);
-                    this->enemies.push_back(std::move(enemy));
-                    break;
-                    }
-                case 2 :
-                    {
-                    std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));  
-                    createEnemyBox2D(*enemy);
-                    this->enemies.push_back(std::move(enemy));
-                    break;
-                    }
-                case 3 :
-                    {
-                    std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen)); 
-                    createEnemyBox2D(*enemy);
-                    this->enemies.push_back(std::move(enemy));
-                    break;
-                    }
-              }
+            spawnEnemy(randEnemy);
         }
-    }
-
-	//spawn enemies. might be a performance hit at high scores, need to test.
-    while (spawnThreshold >= 60) {
-        spawnThreshold -= 20;
-        int randEnemy = rand() % 3 + 1; //generates int between 1 and 3
-        sf::Vector2f direction(0,0);
-        int xSpawnModifier = 1;
-        int xSpawnRand = rand() % 2 + 1;
-        if (xSpawnRand == 2) { xSpawnModifier = -1; }
-        int ySpawnModifier = 1;
-        int ySpawnRand = rand() % 2 + 1;
-        if (ySpawnRand == 2) { ySpawnModifier = -1; }
-        sf::Vector2f spawnPosition = sf::Vector2f(this->player.position.x + (xSpawnModifier * 6), this->player.position.y + (ySpawnModifier * 5));
-        sf::Vector2i spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
-        while (this->level.tileVector[level.tiles[spawnTile.x][spawnTile.y].resource].hasCollision) {
-            spawnPosition.x += 1;
-            spawnPosition.y += 1;
-            spawnTile = getTileFromCoord(spawnPosition.x, spawnPosition.y);
-        }
-        PathVertexP enemyStart = this->level.findClosestNode(spawnPosition);
-        float speed = 1.5;
-        std::default_random_engine rgen;
-        std::uniform_real_distribution<float> sVar(-0.5, 0.5);
-        switch(randEnemy) {
-            case 1 :
-                {
-                std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
-            case 2 :
-                {
-                std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
-            case 3 :
-                {
-                std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-                createEnemyBox2D(*enemy);
-                this->enemies.push_back(std::move(enemy));
-                break;
-                }
-        }
-
     }
     
     // all the real game logic starts here
@@ -332,6 +254,71 @@ void Game::initBox2D() {
     
     b2world.SetContactListener(&contactListener);
 }
+
+void Game::spawnEnemy(int attackType) {
+    // TODO: TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+    // TODO: TTTTTTTTTTTTTTTTTTT
+    
+    static std::random_device rd;
+    static std::mt19937 mt(rd());
+    static std::uniform_real_distribution<float> offsetDist(-Game::TILE_SIZE + 1.0f, Game::TILE_SIZE - 1.0f);
+    static std::uniform_int_distribution<int> tileDist(-3, 3);
+
+    if (enemies.size() >= MAX_ENEMIES_SPAWNED) {
+        return;
+    }
+
+    bool foundTile = false;
+    
+    int x = 0;
+    int y = 0;
+    
+    sf::Vector2i playerTile = getPlayerTile();
+    
+    while (!foundTile) {
+        int xOffset = tileDist(mt);
+        int yOffset = tileDist(mt);
+        
+        if (xOffset == 0 && yOffset == 0) {
+            continue;
+        }
+        
+        x = std::max(0, std::min(playerTile.x + xOffset, level.width - 1));
+        y = std::max(0, std::min(playerTile.y + yOffset, level.height - 1));
+        
+        if (!level.tileVector[level.tiles[x][y].resource].hasCollision) {
+            foundTile = true;
+        }
+    }
+    
+    sf::Vector2f spawnLocation = tileCenter(x, y, Game::TILE_SIZE);
+    sf::Vector2f direction = player.position - spawnLocation;
+    
+    PathVertexP enemyStart = level.pathVertices[x*level.width + y];
+    
+    std::unique_ptr<Enemy> enemy;
+    
+    switch(attackType) {
+        case 1:
+            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 4.0f);
+        break;
+        case 2:
+            enemy = meleeEF.makeEnemyAt(enemyStart, direction, 5.0f);
+        break;
+        case 3 :
+            enemy = pounceEF.makeEnemyAt(enemyStart, direction, 7.0f);
+        break;
+        default:
+            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 4.0f);
+        break;
+    }
+    
+    enemy->position += sf::Vector2f(offsetDist(mt), offsetDist(mt));
+    enemy->attackType = attackType;    
+    createEnemyBox2D(*enemy);
+    enemies.push_back(std::move(enemy));
+}
+    
 
 void Game::createEnemyBox2D(Enemy& enemy) {
     b2BodyDef bodyDef;

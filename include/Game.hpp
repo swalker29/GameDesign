@@ -72,6 +72,8 @@ class Game {
         ContactListener contactListener;
         
         void initBox2D();
+        
+        void spawnEnemy(int attackType);
         void createEnemyBox2D(Enemy& enemy);
         
         void giveImpulseToBody(b2Body* b2body, sf::Vector2f desiredVelocity);
