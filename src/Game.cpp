@@ -18,8 +18,7 @@ static constexpr int32 BOX2D_VELOCITY_ITERATIONS = 8; // suggested default
 static constexpr int32 BOX2D_POSITION_ITERATIONS = 3; // suggested default
 static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
-//static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 5.0f) * (Game::TILE_SIZE * 5.0f); // 6 tiles away
-static constexpr float FAR_AWAY_ENEMY_THRESHOLD = 64.0f;
+static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Game::TILE_SIZE * 6.0f); // 6 tiles away
 static constexpr int KILL_BONUS = 10;
 static constexpr int MAX_ENEMIES_SPAWNED = 30;
 
@@ -256,9 +255,6 @@ void Game::initBox2D() {
 }
 
 void Game::spawnEnemy(int attackType) {
-    // TODO: TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-    // TODO: TTTTTTTTTTTTTTTTTTT
-    
     static std::random_device rd;
     static std::mt19937 mt(rd());
     static std::uniform_real_distribution<float> offsetDist(-Game::TILE_SIZE + 1.0f, Game::TILE_SIZE - 1.0f);
@@ -300,16 +296,16 @@ void Game::spawnEnemy(int attackType) {
     
     switch(attackType) {
         case 1:
-            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 4.0f);
+            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 1.0f);
         break;
         case 2:
-            enemy = meleeEF.makeEnemyAt(enemyStart, direction, 5.0f);
+            enemy = meleeEF.makeEnemyAt(enemyStart, direction, 2.0f);
         break;
         case 3 :
-            enemy = pounceEF.makeEnemyAt(enemyStart, direction, 7.0f);
+            enemy = pounceEF.makeEnemyAt(enemyStart, direction, 2.5f);
         break;
         default:
-            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 4.0f);
+            enemy = rangedEF.makeEnemyAt(enemyStart, direction, 2.0f);
         break;
     }
     
