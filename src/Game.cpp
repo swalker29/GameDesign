@@ -20,7 +20,7 @@ static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
 static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Game::TILE_SIZE * 6.0f); // 6 tiles away
 static constexpr int KILL_BONUS = 10;
-static constexpr int MAX_ENEMIES_SPAWNED = 30;
+static constexpr int MAX_ENEMIES_SPAWNED = 1;
 
 std::list<sf::Sound> Game::playingSounds;
 
@@ -230,7 +230,7 @@ void Game::update(const float timeElapsed, InputData& input) {
         count++;
     }
         
-    
+    printf("NUM::: %d\n", enemies.size());
     // box2d creation and destroying of collision entities for nearby tiles
     // sounds wasteful but there's no better way
 }
@@ -319,6 +319,7 @@ void Game::spawnEnemy(int attackType) {
 void Game::createEnemyBox2D(Enemy& enemy) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
+    printf("POSITION::: %.2f,  %.2f\n", enemy.position.x, enemy.position.y);
     bodyDef.position.Set(enemy.position.x, enemy.position.y);
     enemy.b2body = b2world.CreateBody(&bodyDef);
     enemy.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);
