@@ -58,9 +58,9 @@ bool Game::init() {
 
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
-    float speed = 1.5;
-    std::default_random_engine rgen;
-    std::uniform_real_distribution<float> sVar(-0.5, 0.5);
+    float speed = 2.5;
+    static std::default_random_engine rgen;
+    std::uniform_real_distribution<float> sVar(-1.5, 1.5);
 
     spawnClock.restart();
     spawnWaveClock.restart();
