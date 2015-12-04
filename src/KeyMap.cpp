@@ -24,7 +24,8 @@ void KeyMap::createMap(){
             {"joystick17", 17}, {"joystick18", 18}, {"joystick19", 19}, {"joystick20", 20}, 
             {"joystick21", 21}, {"joystick22", 22}, {"joystick23", 23}, {"joystick24", 24},
             {"joystick25", 25}, {"joystick26", 26}, {"joystick27", 27}, {"joystick28", 28}, 
-            {"joystick29", 29}, {"joystick30", 30}, {"joystick31", 31}, {"joystick32", 32},   };
+            {"joystick29", 29}, {"joystick30", 30}, {"joystick31", 31}, {"joystick32", 32},
+            {",", 49}, {".", 50} };
 
 }
 
