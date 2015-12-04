@@ -20,9 +20,10 @@ static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
 static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Game::TILE_SIZE * 6.0f); // 6 tiles away
 static constexpr int KILL_BONUS = 10;
-static constexpr int MAX_ENEMIES_SPAWNED = 1;
+static constexpr int MAX_ENEMIES_SPAWNED = 35;
 static constexpr int AMMO_SCORE_INTERVAL = 250;
-static constexpr float HEALTH_REGEN_RATE = 0.01f;
+static constexpr float HEALTH_REGEN_RATE = 0.004f;
+static constexpr float SPAWN_TIME_INTERVAL = 3.0f;
 
 static constexpr float BLUE_ENEMY_RADIUS = 0.25f;
 static constexpr float ORANGE_ENEMY_RADIUS = 0.5f;
@@ -133,7 +134,7 @@ void Game::update(const float timeElapsed, InputData& input) {
 
     sf::Time curTime = spawnClock.getElapsedTime();
     //spawn a number of spiders every seven seconds, increases as score increases.
-    if (curTime.asSeconds() > 7) {
+    if (curTime.asSeconds() > SPAWN_TIME_INTERVAL) {
         spawnClock.restart();
         int randEnemy = rand() % 3 + 1; //generates int between 1 and 3
         float tempScore = score / 100;
