@@ -334,7 +334,6 @@ void Game::spawnEnemy(int attackType) {
 void Game::createEnemyBox2D(Enemy& enemy) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    printf("POSITION::: %.2f,  %.2f\n", enemy.position.x, enemy.position.y);
     bodyDef.position.Set(enemy.position.x, enemy.position.y);
     enemy.b2body = b2world.CreateBody(&bodyDef);
     enemy.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);

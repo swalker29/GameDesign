@@ -379,7 +379,7 @@ void SurvivalState::drawUI() {
         projectileView.updateSprite(game.projectiles[game.weapons[game.player.activeWeapon].projectileIndex].projectileSpriteIndex);
         projectileView.draw(window);
     
-        ammoCount.setPosition(relativePlayerLocation.x + 340, relativePlayerLocation.y + 180);
+        ammoCount.setPosition(relativePlayerLocation.x + 325, relativePlayerLocation.y + 180);
         
         ammoCount.setString("x " + std::to_string(game.player.ammoCounts[game.player.activeWeapon]));
         
