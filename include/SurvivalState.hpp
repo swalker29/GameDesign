@@ -60,6 +60,9 @@ class SurvivalState : public AppState {
         SpriteView healthBarFrame;
         sf::RectangleShape healthBar;
 		sf::Text scoreCount;
+		sf::Text finalScoreCount;
+        sf::Text deathScreenText;
+        sf::Text backToMenuText;
 
         
         //music 
@@ -73,6 +76,7 @@ class SurvivalState : public AppState {
         void initViews();
         void initPauseScreen();
         void initUI();
+        void initDeathScreen();
         
         // Drawing logic for survival/campaign
         void draw();
@@ -84,6 +88,7 @@ class SurvivalState : public AppState {
         void drawProjectiles();
         void drawPause();
         void drawUI();
+        void drawDeathScreen();
         void setViewForDrawing();
         void updateViews();
         inline float getViewRatio() const;

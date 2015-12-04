@@ -125,7 +125,6 @@ void MenuState::selectButton(GameApp& app){
         case 0:
 			menuMusic.stop();
             app.goSurvival();
-            app.run();
             break;
        // case 1:
 			//menuMusic.stop();

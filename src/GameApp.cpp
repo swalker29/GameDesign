@@ -30,10 +30,12 @@ void GameApp::run() {
 
 void GameApp::goMenu() {
     state = &mState;
+    run();
 }
 
 void GameApp::goSurvival() {
     state = &sState;
+    run();
 }
 
 void GameApp::goCampaign() {
