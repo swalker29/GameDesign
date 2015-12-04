@@ -26,6 +26,11 @@ static constexpr int R_SPIDER_WIDTH = 128;
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
 static constexpr int PROJECTILE_SPRITE_WIDTH = 16;
 
+static constexpr int NUM_ENEMY_FRAMES = 8;
+static constexpr float ENEMY_ANIMATION_DISTANCE = 0.02f;
+static constexpr int NUM_PLAYER_FRAMES = 10;
+static constexpr float PLAYER_ANIMATION_DISTANCE = 0.07;
+
 // Default constructor
 
 // Default destructor
@@ -218,12 +223,17 @@ void SurvivalState::drawPlayer() {
     playerView.position = ratio * game.player.position - sf::Vector2f(PLAYER_SPRITE_WIDTH / 2.0f, PLAYER_SPRITE_WIDTH / 2.0f);
     
     // Draw/Animate legs here
-    // TODO: do animation the legs should be drawn walking in the direction the player is moving
-    // playerView.updateSprite(current leg stuff)
+    float legRotation = std::atan2(game.player.movementDirection.y, game.player.movementDirection.x);
+    legRotation = 180.0f * legRotation / M_PI + 90.0f;
+    int currentLegFrame = (int) (game.player.distanceTraveled / PLAYER_ANIMATION_DISTANCE) % NUM_PLAYER_FRAMES;
+    
+    playerView.updateSprite(currentLegFrame);
+    playerView.rotation = legRotation;
+    playerView.draw(window);
     
     // Now draw the top
-    float rotation = std::atan2(game.player.direction.x, game.player.direction.y);
-    rotation = -180.0f * rotation / M_PI + 180.0f;
+    float rotation = std::atan2(game.player.direction.y, game.player.direction.x);
+    rotation = 180.0f * rotation / M_PI + 90.0f;
     
     playerView.rotation = rotation;
     playerView.updateSprite(10 + game.weapons[game.player.activeWeapon].playerSpriteIndex);
@@ -263,8 +273,13 @@ void SurvivalState::drawEnemies() {
         
         enemyView->position = ratio * enemy->position - sf::Vector2f(spiderWidth / 2.0f, spiderWidth / 2.0f);
         
-		float rotation = std::atan2(enemy->direction.x, enemy->direction.y);
-		rotation = -180.0f * rotation / M_PI + 180.0f;
+		float rotation = std::atan2(enemy->direction.y, enemy->direction.x);
+		rotation = 180.0f * rotation / M_PI + 90.0f;
+    
+        int currentFrame = (int) (enemy->distanceTraveled / ENEMY_ANIMATION_DISTANCE) % NUM_ENEMY_FRAMES;
+    
+        printf("%f\n", enemy->distanceTraveled);
+        enemyView->updateSprite(currentFrame);
     
 		enemyView->rotation = rotation;
         
@@ -298,8 +313,8 @@ void SurvivalState::drawProjectiles() {
     for (auto& projectile : game.projectileInstances) {        
         projectileView.position = ratio * projectile->position - sf::Vector2f(PROJECTILE_SPRITE_WIDTH / 2.0f, PROJECTILE_SPRITE_WIDTH / 2.0f);
         
-        float rotation = std::atan2(projectile->direction.x, projectile->direction.y);
-        rotation = -180.0f * rotation / M_PI + 180.0f;
+        float rotation = std::atan2(projectile->direction.y, projectile->direction.x);
+        rotation = 180.0f * rotation / M_PI + 90.0f;
     
         projectileView.rotation = rotation;
         

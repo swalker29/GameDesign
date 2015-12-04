@@ -76,29 +76,6 @@ bool Game::init() {
 
     spawnClock.restart();
     spawnWaveClock.restart();
-
-
-    const int rangedEnemies = 1;
-    for (int i=0; i < rangedEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 1;
-        this->enemies.push_back(std::move(enemy));
-    }
-    const int meleeEnemies = 0;
-    for (int i=0; i < meleeEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 2;
-        this->enemies.push_back(std::move(enemy));
-    }
-    const int pounceEnemies = 1;
-    for (int i=0; i < pounceEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 0;
-        this->enemies.push_back(std::move(enemy));
-    }
     
     initBox2D();
     
@@ -107,7 +84,6 @@ bool Game::init() {
 
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
-    player.position += 0.13f * input.movement;
     player.node = this->level.findClosestNode(player.position);
     
     if (input.aim.x != 0 || input.aim.y != 0) {
@@ -201,13 +177,22 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // update all of the positions of player, enemies, and projectiles
     b2Vec2 playerPosition = player.b2body->GetPosition();
+    player.oldPosition = player.position;
     player.position.x = playerPosition.x;
     player.position.y = playerPosition.y;
+    player.distanceTraveled += distanceSquared(player.oldPosition, player.position);
+    sf::Vector2f movementDiff = player.position - player.oldPosition;
+    
+    if (movementDiff.x != 0.0f || movementDiff.y != 0.0f) {
+        player.movementDirection = movementDiff;
+    }
     
     for (auto iter = enemies.begin(); iter != enemies.end(); iter++) {
         b2Vec2 position = (*iter)->b2body->GetPosition();
+        (*iter)->oldPosition = (*iter)->position;
         (*iter)->position.x = position.x;
         (*iter)->position.y = position.y;
+        (*iter)->distanceTraveled += distanceSquared((*iter)->oldPosition, (*iter)->position);
         
         // if enemy is dead, add points to the score
         if ((*iter)->health <= 0.0f) {

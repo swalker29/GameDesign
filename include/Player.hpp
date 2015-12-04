@@ -15,6 +15,11 @@ class Player : public Character{
         sf::Vector2f direction; 
         PathVertexP node;
         
+        // for animation
+        sf::Vector2f oldPosition;
+        float distanceTraveled;
+        sf::Vector2f movementDirection;
+        
         b2Body* b2body;
         b2Fixture* b2fixture;
         b2CircleShape circle;

@@ -28,6 +28,10 @@ class Enemy : public Character {
         float origSpeed;
         TrackNode tracking;
         
+        // for animation
+        sf::Vector2f oldPosition;
+        float distanceTraveled;
+        
 		int attackType;
 		
         b2Body* b2body;
