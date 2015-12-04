@@ -243,7 +243,7 @@ void SurvivalState::drawEnemies() {
         int spiderWidth = 0;
         
         switch (enemy->attackType) {
-            case 0:
+            case 3:
                 enemyView = &bEnemyView;
                 spiderWidth = B_SPIDER_WIDTH;
             break;

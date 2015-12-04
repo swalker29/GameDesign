@@ -23,6 +23,10 @@ static constexpr int KILL_BONUS = 10;
 static constexpr int MAX_ENEMIES_SPAWNED = 1;
 static constexpr int AMMO_SCORE_INTERVAL = 250;
 
+static constexpr float BLUE_ENEMY_RADIUS = 0.25f;
+static constexpr float ORANGE_ENEMY_RADIUS = 0.5f;
+static constexpr float RED_ENEMY_RADIUS = 1.0f;
+
 std::list<sf::Sound> Game::playingSounds;
 
 
@@ -314,15 +318,19 @@ void Game::spawnEnemy(int attackType) {
     switch(attackType) {
         case 1:
             enemy = rangedEF.makeEnemyAt(enemyStart, direction, 1.0f);
+            enemy->circle.m_radius = ORANGE_ENEMY_RADIUS;
         break;
         case 2:
             enemy = meleeEF.makeEnemyAt(enemyStart, direction, 2.0f);
+            enemy->circle.m_radius = RED_ENEMY_RADIUS;
         break;
         case 3 :
             enemy = pounceEF.makeEnemyAt(enemyStart, direction, 2.5f);
+            enemy->circle.m_radius = BLUE_ENEMY_RADIUS;
         break;
         default:
             enemy = rangedEF.makeEnemyAt(enemyStart, direction, 2.0f);
+            enemy->circle.m_radius = ORANGE_ENEMY_RADIUS;
         break;
     }
     
