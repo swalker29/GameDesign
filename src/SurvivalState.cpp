@@ -11,6 +11,7 @@ static const std::string FONT_FILENAME = "assets/DroidSans.ttf";
 static const std::string LEVEL_TILE_SHEET_FILENAME = "assets/tileset.png";
 static const std::string PLAYER_TILE_SHEET_FILENAME = "assets/playerSpritesheet.png";
 static const std::string HEALTH_FRAME_FILENAME = "assets/healthFrame.png";
+static const std::string GUN_FRAME_FILENAME = "assets/gunFrame.png";
 static const std::string WEAPON_SELECT_SHEET_FILENAME = "assets/weaponSelections.png";
 static const std::string MUSIC_HIGH_FILENAME = "assets/survivalHighMusic.wav";
 static const std::string MUSIC_LOW_FILENAME = "assets/survivalLowMusic.wav";
@@ -188,6 +189,10 @@ void SurvivalState::initUI(){
         fprintf(stderr, "Error: Unable to load health bar frame. Program exiting\n");
         std::exit(-1);
     }
+    if (!gunFrame.init(GUN_FRAME_FILENAME, 100, 132)) {
+        fprintf(stderr, "Error: Unable to load ammo frame. Program exiting\n");
+        std::exit(-1);
+    }
     if (!selectedWeapon.init(WEAPON_SELECT_SHEET_FILENAME, 100, 100)) {
         fprintf(stderr, "Error: Unable to load weapon selection tilesheet. Program exiting\n");
         std::exit(-1);
@@ -354,7 +359,9 @@ void SurvivalState::drawUI() {
     }
     healthBar.setPosition(relativePlayerLocation.x - 388, relativePlayerLocation.y + 257);
     window->draw(healthBar);
-
+    //draw the gun frame.
+	gunFrame.position = sf::Vector2f(relativePlayerLocation.x + 300, relativePlayerLocation.y + 168);
+	gunFrame.draw(window);
     /*
     * drawing the weapon selection graphic
     */
@@ -367,7 +374,7 @@ void SurvivalState::drawUI() {
     std::string tempScoreString = std::to_string(tempScore);
     scoreCount.setString(tempScoreString);
     window->draw(scoreCount);
-    
+
     // draw ammo counts
     if (game.player.activeWeapon == Game::CHAINSAW_INDEX) {
         ammoCount.setString("");
