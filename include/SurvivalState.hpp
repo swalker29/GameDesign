@@ -55,6 +55,7 @@ class SurvivalState : public AppState {
         sf::Text pauseText;
         sf::Vector2f relativePlayerLocation;
         SpriteView selectedWeapon;
+		SpriteView gunFrame;
         sf::Text ammoCount;
         SpriteView healthBarFrame;
         sf::RectangleShape healthBar;
