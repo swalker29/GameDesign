@@ -88,8 +88,11 @@ void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
     player.node = this->level.findClosestNode(player.position);
     
-    if (input.aim.x != 0 || input.aim.y != 0) {
+    if (input.aim.x != 0.0f || input.aim.y != 0.0f) {
         player.direction = input.aim;
+    }
+    if (input.movement.x != 0.0f || input.movement.y != 0.0f) {
+        player.movementDirection = input.movement;
     }
     
     player.activeWeapon += input.weaponChange;
@@ -186,11 +189,6 @@ void Game::update(const float timeElapsed, InputData& input) {
     player.position.x = playerPosition.x;
     player.position.y = playerPosition.y;
     player.distanceTraveled += distanceSquared(player.oldPosition, player.position);
-    sf::Vector2f movementDiff = player.position - player.oldPosition;
-    
-    if (movementDiff.x != 0.0f || movementDiff.y != 0.0f) {
-        player.movementDirection = movementDiff;
-    }
     
     for (auto iter = enemies.begin(); iter != enemies.end(); iter++) {
         b2Vec2 position = (*iter)->b2body->GetPosition();

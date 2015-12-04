@@ -279,7 +279,7 @@ void SurvivalState::drawPlayer() {
     
     // Draw/Animate legs here
     float legRotation = std::atan2(game.player.movementDirection.y, game.player.movementDirection.x);
-    legRotation = 180.0f * legRotation / M_PI + 90.0f;
+    legRotation = 180.0f * legRotation / M_PI - 90.0f; // drawing this backwards because it looks better
     int currentLegFrame = (int) (game.player.distanceTraveled / PLAYER_ANIMATION_DISTANCE) % NUM_PLAYER_FRAMES;
     
     playerView.updateSprite(currentLegFrame);
