@@ -28,6 +28,7 @@ class Game {
     
     public:
         static constexpr float TILE_SIZE = 4.0f; // We need to define our scale and set this to make sense for Box2D
+        static constexpr int CHAINSAW_INDEX = 4;
         static std::list<sf::Sound> playingSounds;
         
         
@@ -70,6 +71,8 @@ class Game {
         
     private:        
         ContactListener contactListener;
+        
+        int nextAmmoRefil;
         
         void initBox2D();
         

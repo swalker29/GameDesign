@@ -11,9 +11,16 @@
 
 class Player : public Character{
     public:
+        static constexpr float PLAYER_MAX_HEALTH = 100.0f;
+    
         sf::Vector2f position;
         sf::Vector2f direction; 
         PathVertexP node;
+        
+        // for animation
+        sf::Vector2f oldPosition;
+        float distanceTraveled;
+        sf::Vector2f movementDirection;
         
         b2Body* b2body;
         b2Fixture* b2fixture;
@@ -23,5 +30,7 @@ class Player : public Character{
         std::vector<int> ammoCounts;
         
         Player(b2World* b2world);
+        
+        void addAmmo();
 };
 #endif

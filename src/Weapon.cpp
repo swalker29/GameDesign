@@ -8,9 +8,9 @@
 #include "Utils.hpp"
 
 static constexpr float EPSILON = 0.15f;
-static constexpr float CHAINSAW_DISTANCE_SQUARED = 3.0f;
+static constexpr float CHAINSAW_DISTANCE_SQUARED = 4.0f;
 static constexpr float CHAINSAW_ARC = 0.86f; // 30 degrees
-static constexpr float CHAINSAW_DAMAGE = 1.5f;
+static constexpr float CHAINSAW_DAMAGE = 1.75f;
 
 #ifndef M_PI
 #define M_PI (3.14159265358979323846)
@@ -26,14 +26,11 @@ Weapon::Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHU
 
 // Default destructor
 
-void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
+bool Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
     if (clock.getElapsedTime().asSeconds() > rateOfFire) {
         clock.restart();
         
-        // if not chainsaw, play firing sound
-        if (behavior != 3) {
-            playFireSound();
-        }
+        playFireSound();
         
         switch(behavior) {
             case 0:
@@ -76,7 +73,7 @@ void Weapon::fireMelee(Player& player, std::list<std::unique_ptr<Enemy>>* enemie
 	for (auto& enemy : *enemies) {
 	    float distanceSq = distanceSquared(player.position, enemy->position);
 	    
-	    if (distanceSq < CHAINSAW_DISTANCE_SQUARED - enemy->circle.m_radius) {
+	    if (distanceSq < CHAINSAW_DISTANCE_SQUARED + enemy->circle.m_radius) {
 	        sf::Vector2f direction = enemy->position - player.position;
 	        normalizeVector2f(direction);
 	        float dot = dotProductVector2f(player.direction, direction);

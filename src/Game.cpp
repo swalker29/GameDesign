@@ -20,7 +20,14 @@ static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 
 static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Game::TILE_SIZE * 6.0f); // 6 tiles away
 static constexpr int KILL_BONUS = 10;
-static constexpr int MAX_ENEMIES_SPAWNED = 1;
+static constexpr int MAX_ENEMIES_SPAWNED = 35;
+static constexpr int AMMO_SCORE_INTERVAL = 250;
+static constexpr float HEALTH_REGEN_RATE = 0.004f;
+static constexpr float SPAWN_TIME_INTERVAL = 3.0f;
+
+static constexpr float BLUE_ENEMY_RADIUS = 0.25f;
+static constexpr float ORANGE_ENEMY_RADIUS = 0.5f;
+static constexpr float RED_ENEMY_RADIUS = 1.0f;
 
 std::list<sf::Sound> Game::playingSounds;
 
@@ -54,7 +61,14 @@ bool Game::init() {
         return false;
     }
     
+    for (int x = 0; x < weapons.size(); x++) {
+        player.ammoCounts.push_back(0);
+    }
+    
+    player.addAmmo();
     player.position = level.startingPosition * TILE_SIZE;
+    
+    nextAmmoRefil = AMMO_SCORE_INTERVAL;
 
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
@@ -64,29 +78,6 @@ bool Game::init() {
 
     spawnClock.restart();
     spawnWaveClock.restart();
-
-
-    const int rangedEnemies = 1;
-    for (int i=0; i < rangedEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = rangedEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 1;
-        this->enemies.push_back(std::move(enemy));
-    }
-    const int meleeEnemies = 0;
-    for (int i=0; i < meleeEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = meleeEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 2;
-        this->enemies.push_back(std::move(enemy));
-    }
-    const int pounceEnemies = 1;
-    for (int i=0; i < pounceEnemies; i++) {
-        std::unique_ptr<Enemy> enemy = pounceEF.makeEnemyAt(enemyStart, direction, speed + sVar(rgen));
-        createEnemyBox2D(*enemy);
-		(*enemy).attackType = 0;
-        this->enemies.push_back(std::move(enemy));
-    }
     
     initBox2D();
     
@@ -95,7 +86,6 @@ bool Game::init() {
 
 void Game::update(const float timeElapsed, InputData& input) {
     // get actions from input
-    player.position += 0.13f * input.movement;
     player.node = this->level.findClosestNode(player.position);
     
     if (input.aim.x != 0 || input.aim.y != 0) {
@@ -109,6 +99,9 @@ void Game::update(const float timeElapsed, InputData& input) {
     else if (player.activeWeapon >= weapons.size()) {
         player.activeWeapon = 0;
     }
+    
+    float playerMaxHealth = Player::PLAYER_MAX_HEALTH;
+    player.health = std::min(playerMaxHealth, player.health + HEALTH_REGEN_RATE);
 
     //update the score based on time elapsed.
     score += timeElapsed;
@@ -141,7 +134,7 @@ void Game::update(const float timeElapsed, InputData& input) {
 
     sf::Time curTime = spawnClock.getElapsedTime();
     //spawn a number of spiders every seven seconds, increases as score increases.
-    if (curTime.asSeconds() > 7) {
+    if (curTime.asSeconds() > SPAWN_TIME_INTERVAL) {
         spawnClock.restart();
         int randEnemy = rand() % 3 + 1; //generates int between 1 and 3
         float tempScore = score / 100;
@@ -173,8 +166,12 @@ void Game::update(const float timeElapsed, InputData& input) {
         giveImpulseToBody(enemy->b2body, box2dV);
     }
     
-    if (input.fireWeapon) {
-        weapons[player.activeWeapon].fire(player, &projectiles, &projectileInstances, &enemies, &b2world);
+    if (input.fireWeapon && (player.activeWeapon == Game::CHAINSAW_INDEX || player.ammoCounts[player.activeWeapon] > 0)) {
+        bool fired = weapons[player.activeWeapon].fire(player, &projectiles, &projectileInstances, &enemies, &b2world);
+        
+        if (fired) {
+            player.ammoCounts[player.activeWeapon]--;
+        }
     }
         
     // update the box2d entities based on where player and enemies want to go
@@ -185,13 +182,22 @@ void Game::update(const float timeElapsed, InputData& input) {
     
     // update all of the positions of player, enemies, and projectiles
     b2Vec2 playerPosition = player.b2body->GetPosition();
+    player.oldPosition = player.position;
     player.position.x = playerPosition.x;
     player.position.y = playerPosition.y;
+    player.distanceTraveled += distanceSquared(player.oldPosition, player.position);
+    sf::Vector2f movementDiff = player.position - player.oldPosition;
+    
+    if (movementDiff.x != 0.0f || movementDiff.y != 0.0f) {
+        player.movementDirection = movementDiff;
+    }
     
     for (auto iter = enemies.begin(); iter != enemies.end(); iter++) {
         b2Vec2 position = (*iter)->b2body->GetPosition();
+        (*iter)->oldPosition = (*iter)->position;
         (*iter)->position.x = position.x;
         (*iter)->position.y = position.y;
+        (*iter)->distanceTraveled += distanceSquared((*iter)->oldPosition, (*iter)->position);
         
         // if enemy is dead, add points to the score
         if ((*iter)->health <= 0.0f) {
@@ -229,8 +235,13 @@ void Game::update(const float timeElapsed, InputData& input) {
         }
         count++;
     }
+    
+    // add ammo if the player passed the score target
+    if (score >= nextAmmoRefil) {
+        player.addAmmo();
+        nextAmmoRefil += AMMO_SCORE_INTERVAL;
+    }
         
-    printf("NUM::: %d\n", enemies.size());
     // box2d creation and destroying of collision entities for nearby tiles
     // sounds wasteful but there's no better way
 }
@@ -297,15 +308,19 @@ void Game::spawnEnemy(int attackType) {
     switch(attackType) {
         case 1:
             enemy = rangedEF.makeEnemyAt(enemyStart, direction, 1.0f);
+            enemy->circle.m_radius = ORANGE_ENEMY_RADIUS;
         break;
         case 2:
             enemy = meleeEF.makeEnemyAt(enemyStart, direction, 2.0f);
+            enemy->circle.m_radius = RED_ENEMY_RADIUS;
         break;
         case 3 :
             enemy = pounceEF.makeEnemyAt(enemyStart, direction, 2.5f);
+            enemy->circle.m_radius = BLUE_ENEMY_RADIUS;
         break;
         default:
             enemy = rangedEF.makeEnemyAt(enemyStart, direction, 2.0f);
+            enemy->circle.m_radius = ORANGE_ENEMY_RADIUS;
         break;
     }
     
@@ -319,7 +334,6 @@ void Game::spawnEnemy(int attackType) {
 void Game::createEnemyBox2D(Enemy& enemy) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    printf("POSITION::: %.2f,  %.2f\n", enemy.position.x, enemy.position.y);
     bodyDef.position.Set(enemy.position.x, enemy.position.y);
     enemy.b2body = b2world.CreateBody(&bodyDef);
     enemy.b2fixture = enemy.b2body->CreateFixture(&enemy.circle, 1.0f);

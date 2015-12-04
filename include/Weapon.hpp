@@ -33,7 +33,7 @@ class Weapon {
         
         // Default destructor
         
-        void fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world);
+        bool fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world);
         
         static bool importWeapons(const std::string& weaponFilePath, std::vector<Weapon>* weaponVector, int numProjectiles);
         
