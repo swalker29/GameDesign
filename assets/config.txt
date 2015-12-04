@@ -16,9 +16,9 @@ right
 #fireGun (controller only, defaults to LMB for mouse/keyboard)
 LMB
 #access previous weapon
-,
+1
 #access next weapon
-.
+2
 #deadZoneMin (controller only)
 25
 #deadZoneMax (controller only)
