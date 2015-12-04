@@ -22,6 +22,7 @@ static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Ga
 static constexpr int KILL_BONUS = 10;
 static constexpr int MAX_ENEMIES_SPAWNED = 1;
 static constexpr int AMMO_SCORE_INTERVAL = 250;
+static constexpr float HEALTH_REGEN_RATE = 0.01f;
 
 static constexpr float BLUE_ENEMY_RADIUS = 0.25f;
 static constexpr float ORANGE_ENEMY_RADIUS = 0.5f;
@@ -97,6 +98,9 @@ void Game::update(const float timeElapsed, InputData& input) {
     else if (player.activeWeapon >= weapons.size()) {
         player.activeWeapon = 0;
     }
+    
+    float playerMaxHealth = Player::PLAYER_MAX_HEALTH;
+    player.health = std::min(playerMaxHealth, player.health + HEALTH_REGEN_RATE);
 
     //update the score based on time elapsed.
     score += timeElapsed;

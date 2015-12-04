@@ -1,7 +1,6 @@
 #include "Player.hpp"
 
 static constexpr float PLAYER_COLLISION_RADIUS = 0.5f; // Box2D units so in meters
-static constexpr float PLAYER_MAX_HEALTH = 100.0f;
 
 static const int AMMO_BONUS[5] = {50, 10, 75, 3, 0}; 
 

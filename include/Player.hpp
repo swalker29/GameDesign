@@ -11,6 +11,8 @@
 
 class Player : public Character{
     public:
+        static constexpr float PLAYER_MAX_HEALTH = 100.0f;
+    
         sf::Vector2f position;
         sf::Vector2f direction; 
         PathVertexP node;
