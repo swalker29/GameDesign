@@ -21,6 +21,7 @@ static constexpr float32 BOX2D_VOID_DENSITY = 0.0f;
 static constexpr float FAR_AWAY_ENEMY_THRESHOLD = (Game::TILE_SIZE * 6.0f) * (Game::TILE_SIZE * 6.0f); // 6 tiles away
 static constexpr int KILL_BONUS = 10;
 static constexpr int MAX_ENEMIES_SPAWNED = 1;
+static constexpr int AMMO_SCORE_INTERVAL = 250;
 
 std::list<sf::Sound> Game::playingSounds;
 
@@ -54,7 +55,14 @@ bool Game::init() {
         return false;
     }
     
+    for (int x = 0; x < weapons.size(); x++) {
+        player.ammoCounts.push_back(0);
+    }
+    
+    player.addAmmo();
     player.position = level.startingPosition * TILE_SIZE;
+    
+    nextAmmoRefil = AMMO_SCORE_INTERVAL;
 
     PathVertexP enemyStart = this->level.pathVertices[205];
     sf::Vector2f direction(0,0);
@@ -173,8 +181,12 @@ void Game::update(const float timeElapsed, InputData& input) {
         giveImpulseToBody(enemy->b2body, box2dV);
     }
     
-    if (input.fireWeapon) {
-        weapons[player.activeWeapon].fire(player, &projectiles, &projectileInstances, &enemies, &b2world);
+    if (input.fireWeapon && (player.activeWeapon == Game::CHAINSAW_INDEX || player.ammoCounts[player.activeWeapon] > 0)) {
+        bool fired = weapons[player.activeWeapon].fire(player, &projectiles, &projectileInstances, &enemies, &b2world);
+        
+        if (fired) {
+            player.ammoCounts[player.activeWeapon]--;
+        }
     }
         
     // update the box2d entities based on where player and enemies want to go
@@ -229,8 +241,13 @@ void Game::update(const float timeElapsed, InputData& input) {
         }
         count++;
     }
+    
+    // add ammo if the player passed the score target
+    if (score >= nextAmmoRefil) {
+        player.addAmmo();
+        nextAmmoRefil += AMMO_SCORE_INTERVAL;
+    }
         
-    printf("NUM::: %d\n", enemies.size());
     // box2d creation and destroying of collision entities for nearby tiles
     // sounds wasteful but there's no better way
 }

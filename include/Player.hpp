@@ -23,5 +23,7 @@ class Player : public Character{
         std::vector<int> ammoCounts;
         
         Player(b2World* b2world);
+        
+        void addAmmo();
 };
 #endif

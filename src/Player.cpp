@@ -3,7 +3,9 @@
 static constexpr float PLAYER_COLLISION_RADIUS = 0.5f; // Box2D units so in meters
 static constexpr float PLAYER_MAX_HEALTH = 100.0f;
 
-Player::Player(b2World* b2world) : Character(PLAYER_MAX_HEALTH, Character::Team::HUMAN), position(0.0f, 0.0f), direction(1.0f, 0.0f) {
+static const int AMMO_BONUS[5] = {50, 10, 75, 3, 0}; 
+
+Player::Player(b2World* b2world) : Character(PLAYER_MAX_HEALTH, Character::Team::HUMAN), position(0.0f, 0.0f), direction(1.0f, 0.0f) {    
     circle.m_p.Set(0.0f, 0.0f);
     circle.m_radius = PLAYER_COLLISION_RADIUS;
     
@@ -17,3 +19,8 @@ Player::Player(b2World* b2world) : Character(PLAYER_MAX_HEALTH, Character::Team:
 
 // Default destructor
 
+void Player::addAmmo() {
+    for (int x = 0; x < sizeof(AMMO_BONUS) / sizeof(int); x++) {
+        ammoCounts[x] += AMMO_BONUS[x];
+    }
+}

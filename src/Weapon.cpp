@@ -26,7 +26,7 @@ Weapon::Weapon(float rateOfFire, int projectileIndex, int behavior, int weaponHU
 
 // Default destructor
 
-void Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
+bool Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::list<std::unique_ptr<ProjectileInstance>>* projectileInstances, std::list<std::unique_ptr<Enemy>>* enemies, b2World* b2world) {
     if (clock.getElapsedTime().asSeconds() > rateOfFire) {
         clock.restart();
         
