@@ -123,7 +123,7 @@ void MenuState::selectNextButton(){
 void MenuState::selectButton(GameApp& app){
     switch(curSelected) {
         case 0:
-			menuMusic.stop();
+            menuMusic.stop();
             app.goSurvival();
             app.run();
             break;

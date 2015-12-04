@@ -60,7 +60,7 @@ void SurvivalState::handle(GameApp& gameApp) {
                     window->waitEvent(event);
                     
                     // draw in case the screen was resized or another window was placed on top before
-                    draw();
+                    drawAlive();
                 }
                 // restart the clock so we don't have an incredibly long elapsed time
                 clock.restart();
@@ -71,6 +71,15 @@ void SurvivalState::handle(GameApp& gameApp) {
                     if(isPaused == false) {
                         isPaused = true;
                     } else { isPaused = false; }
+                }
+                if(event.key.code == sf::Keyboard::Return) {
+                //if player presses return on the death screen, go to the menu
+                    if(game.player.health <= 0) {
+                        survivalMusicHigh.stop();
+                        survivalMusicLow.stop();
+                        gameApp.goMenu();
+                        gameApp.run();
+                    }
                 }
             }
         }
@@ -84,14 +93,16 @@ void SurvivalState::handle(GameApp& gameApp) {
         elapsed = clock.restart();
         
         //only update gamelogic and draw the game if the game isn't paused
-        if(isPaused == false) {
+        if((isPaused == false) && (game.player.health > 0)) {
             game.update(elapsed.asSeconds(), controlsConfig.input);
-            draw();
+            drawAlive();
 			//Changes to volume for dynamic music.
 			survivalMusicHigh.setVolume(game.player.health);
-			survivalMusicLow.setVolume(100-game.player.health);
-        } else {
+			survivalMusicLow.setVolume(100 - game.player.health);
+        } else if (game.player.health > 0) {
             drawPause();
+        } else {
+            drawDead();
         }
 		
     }
@@ -168,6 +179,7 @@ void SurvivalState::initViews() {
 
     initPauseScreen();
     initUI();
+    initDeathScreen();
 
     //enemyView.length = 10.0f;
     playerAim.length = 5.0f;    
@@ -206,8 +218,27 @@ void SurvivalState::initUI(){
     ammoCount.setString("0");
 }
 
-//handles drawing the game
-void SurvivalState::draw() {
+void SurvivalState::initDeathScreen(){
+
+    deathScreenText.setFont(font);
+    deathScreenText.setCharacterSize(100);
+    deathScreenText.setColor(sf::Color::Black);
+    deathScreenText.setString("Game Over");
+
+    finalScoreCount.setFont(font);
+    finalScoreCount.setCharacterSize(75);
+    finalScoreCount.setColor(sf::Color::Cyan);
+    finalScoreCount.setString("0");
+
+    backToMenuText.setFont(font);
+    backToMenuText.setCharacterSize(50);
+    backToMenuText.setColor(sf::Color::Black);
+    backToMenuText.setString("Press Enter to return to menu");
+
+}
+
+//handles drawing the game while player is alive
+void SurvivalState::drawAlive() {
     window->clear(sf::Color::Black);
 
     setViewForDrawing();
@@ -218,6 +249,20 @@ void SurvivalState::draw() {
     drawEnemies();
     drawProjectiles();
     drawUI();
+
+    window->display();
+}
+
+//handles drawing the game while player is dead
+void SurvivalState::drawDead() {
+    window->clear(sf::Color::Black);
+
+    setViewForDrawing();
+
+    drawLevel();
+    drawEnemies();
+    drawProjectiles();
+    drawDeathScreen();
 
     window->display();
 }
@@ -385,6 +430,23 @@ void SurvivalState::drawUI() {
         
         window->draw(ammoCount);
     } 
+}
+
+void SurvivalState::drawDeathScreen() {
+    float ratio = getViewRatio();
+    relativePlayerLocation = ratio * (game.player.position);
+
+    deathScreenText.setPosition(relativePlayerLocation.x - 250, relativePlayerLocation.y - 85);
+    window->draw(deathScreenText);
+
+    finalScoreCount.setPosition(relativePlayerLocation.x - 125, relativePlayerLocation.y);
+    int finalScore = int(game.score + 0.5);
+    finalScoreCount.setString("Score: " +  std::to_string(finalScore));
+    window->draw(finalScoreCount);
+
+    backToMenuText.setPosition(relativePlayerLocation.x - 333, relativePlayerLocation.y + 215);
+    window->draw(backToMenuText);
+    window->display();
 }
 
 void SurvivalState::setViewForDrawing() {
