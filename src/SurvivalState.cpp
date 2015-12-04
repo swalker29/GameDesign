@@ -195,10 +195,15 @@ void SurvivalState::initUI(){
 
     scoreCount.setFont(font);
     scoreCount.setCharacterSize(50);
-    scoreCount.setColor(sf::Color::Black);
+    scoreCount.setColor(sf::Color::Cyan);
+    scoreCount.setStyle(sf::Text::Bold);
     scoreCount.setString("0");
 
-
+    ammoCount.setFont(font);
+    ammoCount.setCharacterSize(25);
+    ammoCount.setColor(sf::Color::Black);
+    ammoCount.setStyle(sf::Text::Bold);
+    ammoCount.setString("0");
 }
 
 //handles drawing the game
@@ -278,11 +283,8 @@ void SurvivalState::drawEnemies() {
     
         int currentFrame = (int) (enemy->distanceTraveled / ENEMY_ANIMATION_DISTANCE) % NUM_ENEMY_FRAMES;
     
-        printf("%f\n", enemy->distanceTraveled);
         enemyView->updateSprite(currentFrame);
-    
 		enemyView->rotation = rotation;
-        
 		enemyView->draw(window);
     }
 }
@@ -366,6 +368,23 @@ void SurvivalState::drawUI() {
     scoreCount.setString(tempScoreString);
     window->draw(scoreCount);
     
+    // draw ammo counts
+    if (game.player.activeWeapon == Game::CHAINSAW_INDEX) {
+        ammoCount.setString("");
+    }
+    else {
+        projectileView.rotation = 0.0f;
+        projectileView.position = sf::Vector2f(relativePlayerLocation.x + 300, relativePlayerLocation.y + 180);
+    
+        projectileView.updateSprite(game.projectiles[game.weapons[game.player.activeWeapon].projectileIndex].projectileSpriteIndex);
+        projectileView.draw(window);
+    
+        ammoCount.setPosition(relativePlayerLocation.x + 340, relativePlayerLocation.y + 180);
+        
+        ammoCount.setString("x " + std::to_string(game.player.ammoCounts[game.player.activeWeapon]));
+        
+        window->draw(ammoCount);
+    } 
 }
 
 void SurvivalState::setViewForDrawing() {
