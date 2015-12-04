@@ -24,7 +24,7 @@ static constexpr int B_SPIDER_WIDTH = 32;
 static constexpr int O_SPIDER_WIDTH = 64;
 static constexpr int R_SPIDER_WIDTH = 128;
 static constexpr int PLAYER_SPRITE_WIDTH = 128;
-static constexpr int PROJECTILE_SPRITE_WIDTH = 16;
+static constexpr int PROJECTILE_SPRITE_WIDTH = 32;
 
 static constexpr int NUM_ENEMY_FRAMES = 8;
 static constexpr float ENEMY_ANIMATION_DISTANCE = 0.02f;
