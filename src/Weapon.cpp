@@ -49,6 +49,11 @@ bool Weapon::fire(Player& player, std::vector<Projectile>* projectiles, std::lis
                 fireSingleProjectile(player, projectiles, projectileInstances, b2world);
             break;
         }
+        
+        return true;
+    }
+    else {
+        return false;
     }
 }
 
