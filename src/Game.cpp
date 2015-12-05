@@ -33,7 +33,7 @@ std::list<sf::Sound> Game::playingSounds;
 
 
 // TODO: find a better home for these
-static TrackingEnemyFactory meleeEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
+static TrackingEnemyFactory meleeEF(TrackingEnemyFactory::LinearTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateTracking(TrackingEnemyFactory::LinearTrackBehavior)));
 static TrackingEnemyFactory rangedEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStateFiring));
 static TrackingEnemyFactory pounceEF(TrackingEnemyFactory::AStarTrackBehavior, std::shared_ptr<EnemyStateClose> (new EnemyStatePouncing));
 
