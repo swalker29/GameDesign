@@ -1,9 +1,9 @@
-Compilation and Running instructions (same as the Pong assignment). 
+Compilation and Running instructions (same as the Pong assignment):
 
 Three environment variables need to be set:
-export CMAKE_MODULE_PATH=/SFML/share/SFML/cmake/Modules
-export LIB=/SFML/lib
-export INCLUDE=/SFML/include
+export CMAKE_MODULE_PATH=/<SFML_DIRECTORY>/share/SFML/cmake/Modules
+export LIB=/<SFML_DIRECTORY>/lib
+export INCLUDE=/<SFML_DIRECTORY>/include
 
 
 No external libraries besides SFML are required. Everything else is included.
