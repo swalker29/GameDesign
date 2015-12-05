@@ -14,17 +14,17 @@ static sf::Vector2f tempB(0.0f, 0.0f);
 
 template <class T> class PriorityLocation {
     public:
-        typedef std::pair<T, float> PLElement;
+        typedef std::pair<float, T> PLElement;
         std::priority_queue<PLElement, std::vector<PLElement>,  std::greater<PLElement>> elements;
 
         bool isEmpty() { return elements.empty(); }
         void push(T node, float priority) {
-            elements.emplace(node, priority);
+            elements.emplace(priority, node);
         }
         const T pop() {
             PLElement ele = elements.top();
             elements.pop();
-            return ele.first;
+            return ele.second;
         }
 };
 
@@ -79,6 +79,7 @@ PathVertexP aStarNext(const PathVertexAdjList& adjList, PathVertexP start, PathV
 
     while (!pQueue.isEmpty()) {
         PathVertexP u = pQueue.pop();
+        steps++;
 
         if (u == dest) {
             last = u;

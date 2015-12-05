@@ -4,7 +4,7 @@
 #include "Game.hpp"
 
 EnemyStatePouncing::EnemyStatePouncing() :
-    primeSpeed(0.75),
+    primeSpeed(2),
     pounceSpeed(6) {}
 
 EnemyStatePouncing::EnemyStatePouncing(float primeSpeed, float pounceSpeed) :
@@ -20,7 +20,7 @@ void EnemyStatePouncing::handle(Game& state, Enemy& enemy) {
         return;
     }
 
-    const float primeTime = 1.5f;
+    const float primeTime = 0.75f;
     static LinearEnemyTrackBehavior ltb;
     sf::Vector2f target = state.player.position;
 

@@ -163,7 +163,7 @@ void Game::update(const float timeElapsed, InputData& input) {
     for (auto& enemy : enemies) {
         enemy->action(*this);
         TrackNode tn = enemy->tracking;
-        enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.015) ? tn.node : enemy->node;
+        enemy->node = cmpVector2f(enemy->position, tn.node->position, 0.1) ? tn.node : enemy->node;
         sf::Vector2f box2dV = enemy->speed * tn.direction;
         enemy->direction = tn.direction;
         giveImpulseToBody(enemy->b2body, box2dV);
