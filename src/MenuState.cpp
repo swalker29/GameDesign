@@ -48,6 +48,7 @@ void MenuState::handle(GameApp& app) {
                 }
                 if(event.key.code == sf::Keyboard::Return) {
                     selectButton(app);
+                    return;
                 }
             }
         }

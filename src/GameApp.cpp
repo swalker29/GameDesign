@@ -30,13 +30,11 @@ void GameApp::run() {
 void GameApp::goMenu() {
     mState = std::make_shared<MenuState>();
     state = mState;
-    run();
 }
 
 void GameApp::goSurvival() {
     sState = std::make_shared<SurvivalState>();
     state = sState;
-    run();
 }
 
 void GameApp::goCampaign() {

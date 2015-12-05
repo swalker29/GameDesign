@@ -83,6 +83,7 @@ void SurvivalState::handle(GameApp& gameApp) {
                     survivalMusicHigh.stop();
                     survivalMusicLow.stop();
                     gameApp.goMenu();
+                    return;
                 }
             }
         }
