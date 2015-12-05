@@ -4,13 +4,12 @@
 #include "CampaignState.hpp"
 #include "MenuState.hpp"
 
-MenuState GameApp::mState;
-SurvivalState GameApp::sState;
-CampaignState GameApp::cState;
-
 GameApp::GameApp() : quitFlag(false) {
+    mState = std::make_shared<MenuState>();
+    sState = std::make_shared<SurvivalState>();
+    
     // Start in the menu
-    state = &mState;
+    state = mState;
     
     window = new sf::RenderWindow(sf::VideoMode(800, 600, 32), "Arachine", sf::Style::Titlebar | sf::Style::Close);
 }
@@ -29,15 +28,17 @@ void GameApp::run() {
 }
 
 void GameApp::goMenu() {
-    state = &mState;
+    mState = std::make_shared<MenuState>();
+    state = mState;
 }
 
 void GameApp::goSurvival() {
-    state = &sState;
+    sState = std::make_shared<SurvivalState>();
+    state = sState;
 }
 
 void GameApp::goCampaign() {
-    state = &cState;
+    state = cState;
 }
 
 void GameApp::quit() {

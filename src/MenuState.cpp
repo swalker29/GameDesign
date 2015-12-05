@@ -48,6 +48,7 @@ void MenuState::handle(GameApp& app) {
                 }
                 if(event.key.code == sf::Keyboard::Return) {
                     selectButton(app);
+                    return;
                 }
             }
         }
@@ -65,6 +66,7 @@ void MenuState::init(){
         std::exit(-1);
     }
 
+    curSelected = 0;
     numButtons = 2;
 
     arachineText.setFont(font);
@@ -125,7 +127,6 @@ void MenuState::selectButton(GameApp& app){
         case 0:
 			menuMusic.stop();
             app.goSurvival();
-            app.run();
             break;
        // case 1:
 			//menuMusic.stop();

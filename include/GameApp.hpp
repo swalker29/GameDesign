@@ -1,6 +1,8 @@
 #ifndef GAMEAPP_HPP
 #define GAMEAPP_HPP
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
 
 class SurvivalState;
@@ -24,12 +26,12 @@ class GameApp{
         sf::RenderWindow* getWindow();
     
     private:
-        static SurvivalState sState;
-        static CampaignState cState;
-        static MenuState mState;
+        std::shared_ptr<SurvivalState> sState;
+        std::shared_ptr<CampaignState> cState;
+        std::shared_ptr<MenuState> mState;
 
         bool quitFlag;
-        AppState* state;
+        std::shared_ptr<AppState> state;
         sf::RenderWindow* window;
 
     
