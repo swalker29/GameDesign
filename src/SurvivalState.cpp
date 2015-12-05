@@ -300,7 +300,7 @@ void SurvivalState::drawPlayer() {
 
 void SurvivalState::drawAim() {
     float ratio = getViewRatio();
-    playerAim.position = ratio * (game.player.position + 2.0f * game.player.direction);  
+    playerAim.position = ratio * (game.player.position + 2.0f * game.player.direction) - sf::Vector2f(5.0f , 5.0f);  
     playerAim.draw(window);
 }
 

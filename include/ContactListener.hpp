@@ -25,6 +25,9 @@ class ContactListener : public b2ContactListener {
         void EndContact(b2Contact* contact);
         void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
         void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse);
+        
+    private:
+        void checkTeamsAndDamagePlayer(Character* a, Character* b);
 };
 
 #endif
