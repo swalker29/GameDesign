@@ -8,7 +8,7 @@
 static constexpr float EPSILON = 0.15f;
 static constexpr int WEB_PROJECTILE_INDEX = 4;
 
-#define DEBUGFIRING 1
+#define DEBUGFIRING 0
 EnemyStateFiring::EnemyStateFiring() : fireRate(1.5) {}
 EnemyStateFiring::EnemyStateFiring(float shotInterval) : fireRate(shotInterval) {}
 

@@ -64,7 +64,7 @@ bool Level::init(const std::string& levelFilePath) {
     //    this->pathVertices[i-1]->neighbors.push_back(this->pathVertices[i]);
     //}
 
-#if 1
+#if 0
     int index = 0;
     //print adjacency list
     for (auto& pv : this->pathVertices) {
