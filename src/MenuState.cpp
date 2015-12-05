@@ -66,6 +66,7 @@ void MenuState::init(){
         std::exit(-1);
     }
 
+    curSelected = 0;
     numButtons = 2;
 
     arachineText.setFont(font);

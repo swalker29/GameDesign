@@ -83,6 +83,9 @@ void SurvivalState::handle(GameApp& gameApp) {
                     survivalMusicHigh.stop();
                     survivalMusicLow.stop();
                     gameApp.goMenu();
+                    // return the window to back to 0,0
+                    view.setCenter(400,300);
+                    window->setView(view);
                     return;
                 }
             }
